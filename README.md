@@ -5,9 +5,9 @@ Bem vindo ao projeto final do grupo 4 do processo trainee da TITAN! Abaixo algum
 ## Bibliotecas e arquivos necessários
 Primeiramente vamos assumir que você já tem o Python e o gerenciador de pacotes pip lindamente instalados na sua máquina, vamos lá:
 
-Instale o flask com _pip install Flask_
+* Instale o flask com _pip install Flask_
 
-Instale o gspread com _pip install gspread_
+* Instale o gspread com _pip install gspread_
 
 Siga o seguinte [guia](https://gspread.readthedocs.io/en/latest/oauth2.html#for-bots-using-service-account) para a configuração do gspread, o arquivo de conexão ao servidor está no diretório root do projeto se chama _service_account.json_
 
