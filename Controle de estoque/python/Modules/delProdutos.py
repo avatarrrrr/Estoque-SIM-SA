@@ -4,9 +4,9 @@ def Remover_Produto(planilha, produto):
     remover = planilha.find(produto)
     #Verifica se encontrou o produto
     if not remover:
-        return False
+        return "P"
     #Faz a remoção do produto e avalia se a exclusão foi bem sucedida ou não
     if planilha.delete_rows(remover.row):
-        return True
+        return "S"
     else:
-        return False
+        return "D"

@@ -17,16 +17,20 @@ def main():
 #Roteamento para remover um produto
 @app.route("/remover")
 def remove():
-    if Remover_Produto(planilha, request.args.get("nome")):
+    if Remover_Produto(planilha, request.args.get("nome")) == "S":
         return "Feito!"
+    elif Remover_Produto(planilha, request.args.get("nome")) == "P":
+        return "Houve um erro na pesquisa do produto! Confira se digitou corretamente"
     else:
-        return "Houve um erro!"
+        return "Houve um Erro ao deletar o produto!"
 
 @app.route("/remover_qtd")
 def retirar():
-    if Remover_Item(planilha, request.args.get("nome"), int(request.args.get("quantidade")), 5):
+    if Remover_Item(planilha, request.args.get("nome"), int(request.args.get("quantidade")), 5) == "S":
         return "Operação feita com sucesso!"
-    else:
+    elif Remover_Item(planilha, request.args.get("nome"), int(request.args.get("quantidade")), 5) == "L":
         return "Atenção! O produto está abaixo do limite especificado"
+    else:
+        return "A quantidade que você quer retirar é maior que a quantidade disponível!Tente colocar um número menor!"
 
 app.run(debug=True, use_reloader=True)
