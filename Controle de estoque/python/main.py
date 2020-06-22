@@ -12,7 +12,14 @@ planilha = conexao.open("Nature Saboaria").sheet1
 app = Flask("Estoque-SIM-SA", root_path="c:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python\\")
 @app.route("/")
 def main():
-    pass
+    #Obtendo a planilha completa sem os valores "Nome", "Quantidade" e etc
+    planilha_completa = []
+    for produto in planilha.get_all_values():
+        if produto[0] == "Nome":
+            continue
+        planilha_completa.append(produto)
+    #Gerando um hmtl com todos os produtos da planilha com o Jinja2, dê uma olhada no arquivo listarProdutos e base na pasta templates
+    return render_template("listarProdutos.html", planilha_completa = planilha_completa)
 
 #Roteamento para remover um produto
 @app.route("/remover")
@@ -24,12 +31,13 @@ def remove():
     else:
         return "Houve um Erro ao deletar o produto!"
 
+#Roteamento para remover uma quantidade de um produto, caso a quantidade do produto fique abaixo do limite, ele dispara um alerta
 @app.route("/remover_qtd")
 def retirar():
     if Remover_Item(planilha, request.args.get("nome"), int(request.args.get("quantidade")), 5) == "S":
         return "Operação feita com sucesso!"
     elif Remover_Item(planilha, request.args.get("nome"), int(request.args.get("quantidade")), 5) == "L":
-        return "Atenção! O produto está abaixo do limite especificado"
+        return "Atenção! O produto está abaixo do limite especificado"  
     else:
         return "A quantidade que você quer retirar é maior que a quantidade disponível!Tente colocar um número menor!"
 
