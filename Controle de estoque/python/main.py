@@ -8,7 +8,7 @@ planilha = conexao.open("Nature Saboaria").sheet1
 
 #Aplicação:
 #A variável root_path você deve modificar com o caminho completo da pasta python no seu sistema, serve para o Flask achar a pasta templates corretamente ^^
-app = Flask("Estoque-SIM-SA", root_path="c:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python\\")
+app = Flask("Estoque-SIM-SA", root_path="")
 @app.route("/")
 def main():
     #Isso aqui é era só pra mostrar o poder do Jinja2, pode remover se quiser
@@ -53,5 +53,7 @@ def retirar():
         return u"""<script>alert("Atenção! O produto está abaixo do limite especificado")</script>"""
     else:
         return u"""<script>alert("Operação feita com sucesso!")</script>"""
+
+
 
 app.run(debug=True, use_reloader=True)
