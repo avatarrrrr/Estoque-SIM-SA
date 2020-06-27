@@ -1,0 +1,33 @@
+/* CLASSES */
+
+.navbar{
+    background-color: rgb(185, 185, 185)
+}
+
+.navbar-item{
+    left: 5%;
+    
+}
+
+.menu{
+    margin-left: 2%;
+}
+
+
+.navbar-end{
+    margin-right: -147%;
+    border-right: 13px;
+    position: relative;
+}
+.columns{
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.info-tiles{
+    right: -190px ;
+    top: 45px;
+    padding:10px;
+    position: relative;
+}
+/* IDS */
