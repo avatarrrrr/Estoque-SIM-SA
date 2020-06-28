@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block conteudo %}
+        <!-- INCLUIR PRODUTOS -->
+
+
+        <div class="column is-9  ">
+
+            <form id="formIncluir" action="">
+                Incluir novo produto
+                <br>
+                <!-- NOME -->
+                <div class="control">
+                    <input class="input" type="text" placeholder="Nome do Produto">
+                </div>
+                <br>
+
+                <!-- Código de barras -->
+                <div class="control">
+                    <input class="input" type="text" placeholder="Código de barras">
+                </div>
+                <br>
+
+
+                <!-- Quantidade -->
+                <div class="control">
+                    <input class="input" type="number" placeholder="Quantidade">
+                </div>
+                <br>
+
+
+                <!-- TIPO -->
+                <div class="control">
+                    <div class="select">
+                        <select>
+                            <option>Selecione o tipo do sabonete</option>
+                            <option>Anti-oleosidade</option>
+                            <option>Esfoliante</option>
+                            <option>Hidratante</option>
+                            <option>Sensivel</option>
+                        </select>
+                    </div>
+                </div>
+                <br>
+
+                <!-- Marca -->
+
+                <div class="control">
+                    <div class="select">
+                        <select>
+                            <option>Marca</option>
+                            <option>Arte dos Aromas</option>
+                            <option>Cativa Natureza</option>
+                            <option>Herbia</option>
+                            <option>Livealoe</option>
+                            <option>Terral</option>
+                        </select>
+                    </div>
+
+                </div>
+                <br>
+
+                <!-- PREÇO -->
+                <div id="preco">
+                    <div class="field has-addons">
+                        <p class="control">
+                            <span class="select">
+                                <select>
+                                    <option>R$</option>
+
+                                </select>
+                            </span>
+                        </p>
+                        <p class="control">
+                            <input class="input" type="text" placeholder="Preço">
+                        </p>
+                    </div>
+                </div>
+                <br>
+
+
+
+
+                <!-- LIQUIDO OU SOLIDO? -->
+
+                <div class="control">
+                    <div class="select">
+                        <select>
+                            <option>Selecionne </option>
+                            <option>Líquido </option>
+                            <option>Sólido </option>
+                        </select>
+                    </div>
+                </div>
+                <br>
+
+                <!-- Para a parte do corpo -->
+                <div class="control">
+                    <div class="select">
+                        <select>
+                            <option>Para qual parte do corpo?</option>
+                            <option>Corporal</option>
+                            <option>Facial</option>
+                        </select>
+                    </div>
+                </div>
+                <br>
+
+                <!-- Botão para enviar para o form -->
+                <button class="button is-dark">ENVIAR</button>
+            </form>
+
+
+        </div>
+{% endblock %}
