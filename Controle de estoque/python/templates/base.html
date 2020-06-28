@@ -11,10 +11,10 @@
         <meta name="author" content="Grupo 4">
         <meta http-equiv="imagetoolbar" content="no" />
         <!-- Icones do BULMA -->
-        <script defer src="../../js/icons.js"></script>
+        <script defer src="{{ url_for('static', filename='icons.js') }}"></script>
         <!-- LINK DO CSS EXTERNO PARA O BULMA -->
-        <link rel="stylesheet" href="../../style/bulma.min.css">
-        <link rel="stylesheet" href="../../style/home.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='bulma.min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
         <title>Controle de Estoque </title>
     </head>
     <body>
@@ -72,7 +72,7 @@
                         <ul class="menu-list">
                             <li>
                                 <a>
-                                    <img src="../../img/icons8-menu-de-usuário-feminino-24.png" alt="">
+                                    <img src="{{ url_for('static', filename='icons8-menu-de-usuário-feminino-24.png') }}" alt="">
                                     Gerenciar
                                 </a>
                                 <ul>
@@ -89,7 +89,7 @@
                         </ul>
                         <ul class="menu-list">
                             <li>
-                                <img src="../../img/transaçoes.png" alt=""> Transações
+                                <img src="{{ url_for('static', filename='transaçoes.png') }}" alt=""> Transações
                                 <ul>
                                     <li><a>Pagamentos</a></li>
                                     <li><a>Transferência</a></li>
