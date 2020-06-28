@@ -12,16 +12,7 @@ planilha = conexao.open("Nature Saboaria").sheet1
 app = Flask("Estoque-SIM-SA", template_folder="Controle de estoque/python/templates")
 @app.route("/")
 def main():
-    #Isso aqui é era só pra mostrar o poder do Jinja2, pode remover se quiser
-    #Obtendo a planilha completa sem os valores "Nome", "Quantidade" e etc
-    planilha_completa = []
-    for produto in planilha.get_all_values():
-        if produto[0] == "Nome":
-            continue
-        planilha_completa.append(produto)
-
-    #Gerando um hmtl com todos os produtos da planilha com o Jinja2, dê uma olhada no arquivo listarProdutos e base na pasta templates
-    return render_template("remover_quantidade.html")
+    return render_template("base.html")
 
 #Roteamento para remover um produto
 @app.route("/remover", methods=["POST"])
