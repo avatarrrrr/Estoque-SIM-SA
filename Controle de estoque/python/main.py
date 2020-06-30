@@ -11,7 +11,7 @@ planilha = conexao.open("Nature Saboaria").sheet1
 app = Flask("Estoque-SIM-SA", root_path="c:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python\\")
 @app.route("/")
 def main():
-    return render_template("incluirProduto.html")
+    return render_template("home.html")
 
 #Roteamento para remover um produto
 @app.route("/remover", methods=["POST"])
