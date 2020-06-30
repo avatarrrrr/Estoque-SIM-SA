@@ -9,7 +9,7 @@ planilha = conexao.open("Nature Saboaria").sheet1
 
 #Aplicação:
 #A variável root_path você deve modificar com o caminho completo da pasta python no seu sistema, serve para o Flask achar a pasta templates corretamente ^^
-app = Flask("Estoque-SIM-SA", template_folder="Controle de estoque/python/templates")
+app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
 @app.route("/")
 def main():
     return render_template("home.html")
@@ -28,7 +28,7 @@ def remove():
     if planilha.delete_rows(remover.row):
         return render_template("reposta.html", retorno = "Feito!")
     else:
-        return render_template("reposta.html", retorno = "Houve um Erro ao deletar o produto!")
+        return render_template("reposta .html", retorno = "Houve um Erro ao deletar o produto!")
 
 #Roteamento para remover uma quantidade de um produto, caso a quantidade do produto fique abaixo do limite, ele dispara um alerta
 @app.route("/remover_qtd", methods=["POST"])

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<body>
+{% block conteudo %}
+    {% for produto in planilha_completa %}
+        <form action="/remover" method="POST">
+            <ul>
+                <li>
+                <a href=""> <img src="{{produto[10]}}"> </a>
+                </li>
+                <li>{{produto[0]}}</li>
+                <li>{{produto[1]}}</li>
+                <li>{{produto[2]}}</li>
+                <li>{{produto[3]}}</li>
+                <li>{{produto[4]}}</li>
+                <li>{{produto[5]}}</li>
+                <li>{{produto[6]}}</li>
+                <li>{{produto[7]}}</li>
+                <li>{{produto[8]}}</li>
+                <li>{{produto[9]}}</li>
+                <input type="submit" value="Remover">
+            </ul>
+        </form>
+    {% endfor %}
+{% endblock %}
+</body>
+</html>
