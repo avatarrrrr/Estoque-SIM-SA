@@ -92,13 +92,14 @@ def add():
             newquant = int(linha[1]) + int(row[1])
             planilha.update_cell(pos + 1, 2, newquant)
             contsame += 1
-            break
+            return render_template('/resposta2.html', retorno = 'Quantidade do item foi atualizada com sucesso!')
         else:
             same = 0
+            
     if contsame == 0:
         index = len(planilha.get_all_values()) + 1
         planilha.insert_row(row, index)
+        return render_template('/resposta2.html', retorno = 'Novo item adicionado com sucesso!')
     
-    return render_template('/resposta2.html', retorno = 'Item adicionado com sucesso!')
 
 app.run(debug=True, use_reloader=True)
