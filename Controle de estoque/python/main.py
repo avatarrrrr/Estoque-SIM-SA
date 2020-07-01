@@ -9,10 +9,10 @@ planilha = conexao.open("Nature Saboaria").sheet1
 
 #Aplicação:
 #A variável root_path você deve modificar com o caminho completo da pasta python no seu sistema, serve para o Flask achar a pasta templates corretamente ^^
-app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
+app = Flask("Estoque-SIM-SA",  root_path="H:\\Users\\agata\\Documents\\projeto trainee\\estoque-sim-sa\\Controle de estoque\\python")
 @app.route("/")
 def main():
-    return render_template("home.html")
+    return render_template("listarProdutos2.html", planilha_completa = planilha.get_all_values())
 
 #Roteamento para remover um produto
 @app.route("/remover", methods=["POST"])
