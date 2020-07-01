@@ -1,26 +1,7 @@
-        <style>
-            #listagem {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            list-style-type: none;
-            border: double;
-            border-color: #f2a900;
-        }
-            #imagem_listas{
-        }
-            .itens{
-                font-family: "Century Gothic";
-                margin: 0.2em;
-                padding: 5px 10px;
-            }
-            #itemzão{
-                list-style-type: none;
-                border:solid thin;
-                border-radius: 1em;
-            }
-            </style>
+{% extends "base.html" %}
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+</head>
 {% block conteudo %}
 <body>
 <div id = "listagem">
@@ -28,24 +9,20 @@
         <form action="/remover" method="POST">
             <ul id = "itemzão"> 
                 <li>
-                <a id = "imagem_lista" class = "itens" href=""> <img src="{{produto[10]}}"> </a>
+                <a id = "imagem_lista" class = "itens" href=""> <img src="{{produto[6]}}"> </a>
                 </li>
                 <li class = "itens">{{produto[0]}}</li>
                 <li class = "itens">{{produto[1]}}</li>
                 <li class = "itens">{{produto[2]}}</li>
-                <li class = "itens">{{"R$: "+produto[3]}}</li>
-                <li class = "itens">{{"R$:"+produto[4]}}</li>
-                <li class = "itens">{{produto[5]}}</li>
-                <li class = "itens">{{produto[6]}}</li>
-                <li class = "itens">{{produto[7]}}</li>
-                <li class = "itens">{{produto[8]}}</li>
-                <li class = "itens">{{produto[9]}}</li>
+                <li class = "itens">{{produto[3]}}</li>
+                <li class = "itens">{{produto[4]}}</li>
+                <li class = "itens">R$: {{produto[5]}}</li>
                 <input type="submit" value="Remover" id = "botão_remover">
             </ul>
         </form>
     {% endfor %}
 </div>
-
-{% endblock %}
 </body>
+{% endblock %}
+
 </html>

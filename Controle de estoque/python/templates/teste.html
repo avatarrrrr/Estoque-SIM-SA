@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Estoque Sim SA</title>
+<link href="https://fonts.googleapis.com/css?family=Stint+Ultra+Expanded" rel="stylesheet">
+<style>
+
+html {
+ box-sizing: border-box;
+}
+* {
+ box-sizing: inherit;
+}
+
+body {
+  font-family: Georgia, serif; 
+  font-size: 100%;
+  background-color: white;
+  margin: 0;
+}
+
+#listagem {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  list-style-type: none;
+  }
+  .itens{
+      font-family: "Century Gothic";
+      margin: 0.2em;
+      padding: 5px 10px;
+  }
+  #itemzão{
+      list-style-type: none;
+      border:solid thin;
+      border-radius: 1em;
+      margin: 5px;
+  }  
+
+/* VISUAL STYLES START HERE */
+
+/* link styles */
+a:link, a:visited { color: #DC6903; }
+a:focus, a:hover, a:active { color: #F9AB33; }
+
+a {
+  text-decoration: none;
+  border-bottom: 1px dotted;
+  padding-bottom: .2em;
+}
+
+
+
+/* nav styles */
+nav, footer {
+  font-family: "Century Gothic", sans-serif;
+  background-color: #424242;
+}
+
+nav ul li a:link, nav ul li a:visited {
+  color: #F2A900;
+}
+nav ul li a:focus, nav ul li a:hover, nav ul li a:active {
+  color: #fff;
+}
+nav ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+}
+nav ul li {
+  font-size: .8em;
+  text-transform: uppercase;
+  letter-spacing: .2em;
+}
+nav ul li a {
+  display: block;
+  border: 1px solid;
+  border-radius: .5em;
+  padding: .5em 1em;
+  margin: .5em; 
+}
+
+
+/* main styles */
+main {
+  font-family: 'Stint Ultra Expanded', Georgia, serif;
+  background-color: white;
+  line-height: 1.8em;
+  color: #555;
+  padding: 1em;
+  border: double 4px #fcb813;
+  border-radius: 25px;
+}
+
+
+footer {
+  color: #F2A900;
+  text-align: center;
+  font-size: .8em;
+  padding: .5em;
+}
+
+</style>
+</head>
+
+<header>
+<div id="layout">
+
+<nav>
+  <ul>
+    <li><a href="">Home</a></li>
+    <li><a href="">Incluir Produto</a></li>
+    <li><a href="">Estoque</a></li>
+    <li><a href="">Transações</a></li>
+    <li><a href="">Sobre</a></li>
+    <li><div id="janela_pesquisa">
+    <form action="" method="">
+        <input type="text" name="produto" placeholder="Pesquisa">
+    </form> </div> </li>
+  </ul>
+</nav> 
+</div> 
+</header>
+</div>
+<main>
+  {% block conteudo %}
+  <body>
+  <div id = "listagem">
+      {% for produto in planilha_completa %}
+          <form action="/remover" method="POST">
+              <ul id = "itemzão"> 
+                  <li>
+                  <img id = "imagem_lista" class = "itens" src="{{ url_for('static', filename='{{produto[5]}}') }}"> 
+                  </li>
+                  <li class = "itens">{{produto[0]}}</li>
+                  <li class = "itens">{{produto[1]}}</li>
+                  <li class = "itens">{{produto[2]}}</li>
+                  <li class = "itens">{{produto[3]}}</li>
+                  <li class = "itens">{{produto[4]}}</li>
+                  <input type="submit" value="Remover" id = "botão_remover">
+              </ul>
+          </form>
+      {% endfor %}
+  </div>
+  </body>
+  {% endblock %}      
+</main>
+
+
+<footer>
+  <p><strong>Estoque Sim Sa</strong> | Salvador, Ba | Suporte: 9:00 até 18:00</p>
+</footer>
+
+</div>
+</body>
+</html>

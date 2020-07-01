@@ -35,4 +35,22 @@
 
 
 /* estilo da listagem */
-
+#listagem {
+display: flex;
+align-items: center;
+flex-wrap: wrap;
+justify-content: space-around;
+list-style-type: none;
+border: double;
+border-color: #f2a900;
+}
+.itens{
+    font-family: "Century Gothic";
+    margin: 0.2em;
+    padding: 5px 10px;
+}
+#itemzão{
+    list-style-type: none;
+    border:solid thin;
+    border-radius: 1em;
+}
