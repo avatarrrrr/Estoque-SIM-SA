@@ -9,7 +9,8 @@ planilha = conexao.open("Nature Saboaria").sheet1
 
 #Aplicação:
 #A variável root_path você deve modificar com o caminho completo da pasta python no seu sistema, serve para o Flask achar a pasta templates corretamente ^^
-app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
+#app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
+app = Flask("Estoque-SIM-SA", template_folder='Controle de estoque/python/templates')
 @app.route("/")
 def main():
     return render_template("home.html")
@@ -58,22 +59,14 @@ def retirar():
 def inserir():
     return render_template('inserir_produto.html')
 
-@app.route('/respinserir')
-def respinserir():
-    return render_template('resposta_inserir_produto.html')
-
 # Rota de Captura das Informações para adicionar na planilha
 @app.route('/add', methods=['POST'])
 def add():
     arr = [
         'produto', 
         'quantidade', 
-        'tiposabonete',
-        'marca',
-        'tipo',
         'preco',
         'peso',
-        'estado',
         'partecorpo'
     ]
 
@@ -87,7 +80,7 @@ def add():
     # Caso seja compatível, ele apenas irá alterar a quantidade adicionada.
     same = contsame = 0
     for pos, linha in enumerate(planilha.get_all_values()):
-        for cell in range(0, 9):
+        for cell in range(0, 5):
             if linha[cell] == linha[1]:
                 continue
             elif unidecode(linha[cell]).lower().strip() == unidecode(row[cell]).lower().strip():
@@ -95,7 +88,7 @@ def add():
         
         # Caso seja igual a 8, significa dizer que as 8 colunas de uma linha eram iguais aos dados que o usuário inseriu;
         # Então quer dizer que a linha já existe na planilha, portanto, só a quantidade será alterada.
-        if same == 8:
+        if same == 4:
             newquant = int(linha[1]) + int(row[1])
             planilha.update_cell(pos + 1, 2, newquant)
             contsame += 1
@@ -106,6 +99,6 @@ def add():
         index = len(planilha.get_all_values()) + 1
         planilha.insert_row(row, index)
     
-    return redirect('/respinserir')
+    return render_template('/resposta2.html', retorno = 'Item adicionado com sucesso!')
 
 app.run(debug=True, use_reloader=True)
