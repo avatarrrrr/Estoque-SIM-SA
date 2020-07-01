@@ -9,8 +9,8 @@ planilha = conexao.open("Nature Saboaria").sheet1
 
 #Aplicação:
 #A variável root_path você deve modificar com o caminho completo da pasta python no seu sistema, serve para o Flask achar a pasta templates corretamente ^^
-#app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
 app = Flask("Estoque-SIM-SA", template_folder='Controle de estoque/python/templates')
+
 @app.route("/")
 def main():
     return render_template("home.html")
@@ -101,5 +101,8 @@ def add():
         planilha.insert_row(row, index)
         return render_template('/resposta2.html', retorno = 'Novo item adicionado com sucesso!')
     
+@app.route('/estoque')
+def estoque():
+    return render_template('listarProdutos2.html', planilha_completa = planilha.get_all_values())
 
 app.run(debug=True, use_reloader=True)
