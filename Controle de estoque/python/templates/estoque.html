@@ -57,14 +57,15 @@
             <li class = "itens">R$: {{produto[2]}}</li>
             <li class = "itens">Volume: {{produto[3]}}</li>
             <li class = "itens">Finalidade: {{produto[4]}}</li>
-            <form action="" method="POST">
-              <input type="hidden" value="{{produto[0]}}" name="nome">
+            <form action="/remover" method="POST">
+              <input name="delete" type="hidden" value="{{produto[0]}}">
               <input id = "lixeira" type="image" src="{{url_for('static', filename= 'download.png')}}">
-              <input id = "compra" type="image" src="{{url_for('static', filename= 'compra.png')}}">
             </form>
+            <input id = "compra" type="image" src="{{url_for('static', filename= 'compra.png')}}">
           </div>
         </ul>
 {% endfor %}
   </div>
-{% endblock %}      
+{% endblock %}
+{% block resposta %} <!--Resposta do servidor--> {% endblock %}     
 
