@@ -1,90 +1,21 @@
-<!doctype html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Estoque Sim SA</title>
+{% extends "base.html" %}
+{% block conteudo %}
 <style>
 
-html {
- box-sizing: border-box;
-}
-* {
- box-sizing: inherit;
-}
-
-body {
-  font-size: 100%;
-  background-color: white;
-  margin: 0;
-}
-
-
-/* link styles */
-a:link, a:visited { color: #DC6903; }
-a:focus, a:hover, a:active { color: #F9AB33; }
-
-a {
-  text-decoration: none;
-  border-bottom: 1px dotted;
-  padding-bottom: .2em;
-}
-
-
-/* nav styles */
-nav, footer {
-  font-family: "Century Gothic", sans-serif;
-  background-color: #424242;
-}
-
-nav ul li a:link, nav ul li a:visited {
-  color: #F2A900;
-}
-nav ul li a:focus, nav ul li a:hover, nav ul li a:active {
-  color: #fff;
-}
-nav ul {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-  display: flex;
-  justify-content: center;
-}
-nav ul li {
-  font-size: .8em;
-  text-transform: uppercase;
-  letter-spacing: .2em;
-}
-nav ul li a {
-  display: block;
-  border: 1px solid;
-  border-radius: .5em;
-  padding: .5em 1em;
-  margin: .5em; 
-}
-
-
-/* main styles */
-main {
-  font-family: 'Century Gothic', serif;
-  background-color: white;
-  color: #555;
-  padding: 1em;
-  height: 80%;
-  border: double 4px #fcb813;
-  border-radius: 25px;
-}
+/*listagem styles*/
 #listagem {
   display: flex;
   flex-wrap: wrap;
   list-style-type: none;
+  justify-content: center;
   }
   
   .itens{
-      font-family: "Century Gothic";
-      margin: 0.2em;
       padding: 5px 10px;
+      font-size: 0.8em;
   }
   #itemzão{
+      display:flex;
       list-style-type: none;
       border:solid thin;
       border-radius: 1em;
@@ -96,41 +27,24 @@ main {
   height:200px;
 }
 
-
-footer {
-  color: #F2A900;
-  text-align: center;
-  font-size: .8em;
-  padding: .5em;
+#lixeira{ 
+  width: 30px;
+  height: 30px;
+  position:relative;
+  top: 1em;
 }
-
+#compra{
+  width: 30px;
+  height:30px;
+  position:relative;
+  top: 1em;
+}
+#descrição {
+  align-self: center;
+}
 </style>
-</head>
-
-<header>
-<div id="layout">
-
-<nav>
-  <ul>
-    <li><a href="">Home</a></li>
-    <li><a href="">Incluir Produto</a></li>
-    <li><a href="">Estoque</a></li>
-    <li><a href="">Transações</a></li>
-    <li><a href="">Sobre</a></li>
-
-    <div id="pesquisar">
-    <form action="" method="">
-        <input type="text" name="produto" placeholder="Pesquisa">
-    </form>
-  </div> 
-  </ul>
-</nav> 
-
-</header>
-
 <main>
-  {% block conteudo %}
-  <body>
+
   <div id = "listagem">
       {% for produto in planilha_completa %}
           <form action="/remover" method="POST">
@@ -138,25 +52,19 @@ footer {
                   <li>
                   <img id = "imagem_lista" class = "itens" src="{{ url_for('static', filename=produto[5]) }}"> 
                   </li>
+                  <div id = "descrição">
                   <li class = "itens">{{produto[0]}}</li>
                   <li class = "itens">{{produto[1]}}</li>
                   <li class = "itens">{{produto[2]}}</li>
                   <li class = "itens">{{produto[3]}}</li>
                   <li class = "itens">{{produto[4]}}</li>
-                  <input type="submit" value="Remover" id = "botão_remover">
+                  <input id = "lixeira" type="image"  src="{{url_for('static', filename= 'download.png')}}">
+                  <input id = "compra" type="image"  src="{{url_for('static', filename= 'compra.png')}}">
+                </div>
               </ul>
           </form>
       {% endfor %}
   </div>
-  </body>
-  {% endblock %}      
 </main>
+{% endblock %}      
 
-
-<footer>
-  <p><strong>Estoque Sim Sa</strong> | Salvador, Ba | Suporte: 9:00 até 18:00</p>
-</footer>
-
-</div>
-</body>
-</html>
