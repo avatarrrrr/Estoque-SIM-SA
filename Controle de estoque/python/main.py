@@ -17,6 +17,7 @@ app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Cont
 def main():
     return render_template("incluirProduto.html", planilha_completa = planilha.get_all_values())
 
+# Deletar isso
 @app.route("/delete")
 def delete():
     if request.form.get("delete"):
@@ -48,20 +49,20 @@ def retirar():
 
     #Verifica se encontrou o produto
     if not rm:
-        return render_template("resposta.html", retorno = "Houve um erro na pesquisa do produto! Confira se digitou corretamente.")
+        return render_template("respostaEstoque.html", retorno = "Houve um erro na pesquisa do produto! Confira se digitou corretamente.")
 
     #Verifica se a quantidade que vai ser retirada é maior que a quantidade disponível, se sim, retorna um erro
     if int(planilha.cell(rm.row, 2).value) < int(request.form.get("quantidade")):
-        return render_template("resposta.html", retorno = "A quantidade que você quer retirar é maior que a quantidade disponível!Tente colocar um número menor!")
+        return render_template("respostaEstoque.html", retorno = "A quantidade que você quer retirar é maior que a quantidade disponível!Tente colocar um número menor!")
 
     #Atualiza a célula com o valor da subtração do valor que já tem na célula com o valor que o usuário quer retirar
     planilha.update_cell(rm.row, 2, int(planilha.cell(rm.row, 2).value) - int(request.form.get("quantidade")))
 
     #Verifica se a quantidade atual está abaixo do valor limite definido pelo usuário (por enquanto o limite é fixo kkkkk)
     if int(planilha.cell(rm.row, 2).value) < 5:
-        return render_template("resposta.html", retorno = "Atenção! O produto está abaixo do limite especificado")
+        return render_template("respostaEstoque.html", retorno = "Atenção! O produto está abaixo do limite especificado")
     else:
-        return render_template("resposta.html", retorno = "Operação feita com sucesso!")
+        return render_template("respostaEstoque.html", retorno = "Operação feita com sucesso!")
 
 # Rotas para Inserir Produto
 @app.route('/inserir')
