@@ -46,7 +46,7 @@
   </style>
   <div id = "listagem">
       {% for produto in planilha_completa %}
-        <ul id = "itemzão"> 
+        <ul id = "itemzão">
             <li>
             <img id = "imagem_lista" class = "itens" src="{{ url_for('static', filename=produto[5]) }}"> 
             </li>
@@ -68,4 +68,4 @@
   </div>
 {% endblock %}
 {% block resposta %} <!--Resposta do servidor--> {% endblock %}     
-
+{% block script %} <script src="../static/js/popup.js"></script> {% endblock %}
