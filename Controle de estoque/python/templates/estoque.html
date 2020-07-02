@@ -7,6 +7,7 @@
       flex-wrap: wrap;
       list-style-type: none;
       justify-content: center;
+      align-content: center;
       }
       
       .itens{
@@ -18,7 +19,7 @@
           list-style-type: none;
           border:solid thin;
           border-radius: 1em;
-          margin: 5px;
+          margin: 10px;
       }  
 
     #imagem_lista {
@@ -49,12 +50,14 @@
                   <li>
                   <img id = "imagem_lista" class = "itens" src="{{ url_for('static', filename=produto[5]) }}"> 
                   </li>
+                  
                   <div id = "descrição">
                   <li class = "itens">{{produto[0]}}</li>
                   <li class = "itens">Quantidade: {{produto[1]}}</li>
                   <li class = "itens">R$: {{produto[2]}}</li>
                   <li class = "itens">Volume: {{produto[3]}}</li>
                   <li class = "itens">Finalidade: {{produto[4]}}</li>
+
                   <input id = "lixeira" type="image"  src="{{url_for('static', filename= 'download.png')}}">
                   <input id = "compra" type="image"  src="{{url_for('static', filename= 'compra.png')}}">
                 </div>

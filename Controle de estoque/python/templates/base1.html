@@ -58,17 +58,17 @@
         padding: .5em 1em;
         margin: .5em; 
       }
-      #pesquisar{
-        position: relative;
-        bottom: 10px;
-      }
+      
       #pesquisar form input[type="text"] {
-      display: block;
-      border: 1px solid;
-      border-radius: .5em;
-      padding: .5em 1em; 
-      }
-
+        display: block;
+        border: 1.5px solid;
+        border-color:#F2A900;
+        border-radius: .5em;
+        padding: .5em 1em; 
+        margin-left: .5em;
+        margin-top: .5em;
+        }
+  
       /* footer styles */
       footer {
         color: #F2A900;
@@ -99,12 +99,12 @@
             <li><a href="">Estoque</a></li>
             <li><a href="">Transações</a></li>
             <li><a href="">Sobre</a></li> 
+            <li> <div id="pesquisar">
+              <form action="" method="">
+                  <input type="text" name="produto" placeholder="Pesquisa">
+              </form>
+            </div></li>
           </ul>
-          <div id="pesquisar">
-            <form action="" method="">
-                <input type="text" name="produto" placeholder="Pesquisa">
-            </form>
-          </div>
         </nav> 
       </div>
     </header>
