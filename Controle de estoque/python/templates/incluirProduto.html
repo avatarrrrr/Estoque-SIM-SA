@@ -1,0 +1,34 @@
+{% extends "base1.html" %}
+{% block conteudo %}
+
+<style>
+  #formulario {
+    display: flex;
+    flex-direction:column;
+  }
+
+  h2{
+    color: #F2A900;
+    align-self:center;
+    font-family: "Century Gothic", sans-serif;
+  }
+
+</style>
+
+    <form id = "formulario" action="/recebendo_dados" method="post">
+        <h2>Incluir Novo Produto</h2>
+
+        <input type="text" name="nome" placeholder="Nome do Produto">
+        <input type="text" name="quantidade" placeholder="Quantidade">
+        <input type="text" name="preço" placeholder="preço unitario">
+        <input type="text" name="tamanho do produto" placeholder="tamanho únitario (ml / g)">
+        <input type="text" name="área do corpo" placeholder="corporal ou facial?">
+        <input type="file" name="imagem">
+
+        <input type="submit" value="Inserir novo produto">                                
+    </form>
+    
+
+</main>
+
+  {% endblock %}      

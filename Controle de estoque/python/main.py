@@ -9,10 +9,10 @@ planilha = conexao.open("Nature Saboaria").sheet1
 
 #Aplicação:
 #A variável root_path você deve modificar com o caminho completo da pasta python no seu sistema, serve para o Flask achar a pasta templates corretamente ^^
-app = Flask("Estoque-SIM-SA", template_folder="Controle de estoque/python/templates")
+app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
 @app.route("/")
 def main():
-    return render_template("base.html")
+    return render_template("teste_incluir_produto.html", planilha_completa = planilha.get_all_values())
 
 #Roteamento para remover um produto
 @app.route("/remover", methods=["POST"])
@@ -28,7 +28,7 @@ def remove():
     if planilha.delete_rows(remover.row):
         return render_template("reposta.html", retorno = "Feito!")
     else:
-        return render_template("reposta.html", retorno = "Houve um Erro ao deletar o produto!")
+        return render_template("reposta .html", retorno = "Houve um Erro ao deletar o produto!")
 
 #Roteamento para remover uma quantidade de um produto, caso a quantidade do produto fique abaixo do limite, ele dispara um alerta
 @app.route("/remover_qtd", methods=["POST"])
@@ -56,11 +56,7 @@ def retirar():
 # Rotas para Inserir Produto
 @app.route('/inserir')
 def inserir():
-    return render_template('inserir_produto.html')
-
-@app.route('/respinserir')
-def respinserir():
-    return render_template('resposta_inserir_produto.html')
+    return render_template("incluirProduto.html")
 
 # Rota de Captura das Informações para adicionar na planilha
 @app.route('/add', methods=['POST'])
@@ -68,12 +64,8 @@ def add():
     arr = [
         'produto', 
         'quantidade', 
-        'tiposabonete',
-        'marca',
-        'tipo',
         'preco',
         'peso',
-        'estado',
         'partecorpo'
     ]
 
@@ -87,7 +79,7 @@ def add():
     # Caso seja compatível, ele apenas irá alterar a quantidade adicionada.
     same = contsame = 0
     for pos, linha in enumerate(planilha.get_all_values()):
-        for cell in range(0, 9):
+        for cell in range(0, 5):
             if linha[cell] == linha[1]:
                 continue
             elif unidecode(linha[cell]).lower().strip() == unidecode(row[cell]).lower().strip():
@@ -95,17 +87,21 @@ def add():
         
         # Caso seja igual a 8, significa dizer que as 8 colunas de uma linha eram iguais aos dados que o usuário inseriu;
         # Então quer dizer que a linha já existe na planilha, portanto, só a quantidade será alterada.
-        if same == 8:
+        if same == 4:
             newquant = int(linha[1]) + int(row[1])
             planilha.update_cell(pos + 1, 2, newquant)
             contsame += 1
-            break
+            return render_template('/resposta2.html', retorno = 'Quantidade do item foi atualizada com sucesso!')
         else:
             same = 0
+            
     if contsame == 0:
         index = len(planilha.get_all_values()) + 1
         planilha.insert_row(row, index)
+        return render_template('/resposta2.html', retorno = 'Novo item adicionado com sucesso!')
     
-    return redirect('/respinserir')
+@app.route('/estoque')
+def estoque():
+    return render_template('estoque.html', planilha_completa = planilha.get_all_values())
 
 app.run(debug=True, use_reloader=True)

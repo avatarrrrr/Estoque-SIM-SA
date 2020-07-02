@@ -1,0 +1,70 @@
+{% extends "base1.html" %}
+{% block conteudo %}
+  <style>
+    /*listagem styles*/
+    #listagem {
+      display: flex;
+      flex-wrap: wrap;
+      list-style-type: none;
+      justify-content: center;
+      align-content: center;
+      }
+      
+      .itens{
+          padding: 5px 10px;
+          font-size: 0.8em;
+      }
+      #itemzão{
+          display:flex;
+          list-style-type: none;
+          border:solid thin;
+          border-radius: 1em;
+          margin: 10px;
+      }  
+
+    #imagem_lista {
+      width:200px;
+      height:200px;
+      border-radius: 40%;
+    }
+
+    #lixeira{ 
+      width: 30px;
+      height: 30px;
+      position:relative;
+      top: 1em;
+    }
+    #compra{
+      width: 30px;
+      height:30px;
+      position:relative;
+      top: 1em;
+    }
+    #descrição {
+      align-self: center;
+    }
+  </style>
+  <div id = "listagem">
+      {% for produto in planilha_completa %}
+        <ul id = "itemzão"> 
+            <li>
+            <img id = "imagem_lista" class = "itens" src="{{ url_for('static', filename=produto[5]) }}"> 
+            </li>
+            
+            <div id = "descrição">
+            <li class = "itens">{{produto[0]}}</li>
+            <li class = "itens">Quantidade: {{produto[1]}}</li>
+            <li class = "itens">R$: {{produto[2]}}</li>
+            <li class = "itens">Volume: {{produto[3]}}</li>
+            <li class = "itens">Finalidade: {{produto[4]}}</li>
+            <form>
+              <input type="hidden" value="{{produto[0]}}" name="nome">
+              <input id = "lixeira" type="submit"  src="{{url_for('static', filename= 'download.png')}}">
+            </form>
+            <input id = "compra" type="submit"  src="{{url_for('static', filename= 'compra.png')}}">
+          </div>
+        </ul>
+{% endfor %}
+  </div>
+{% endblock %}      
+
