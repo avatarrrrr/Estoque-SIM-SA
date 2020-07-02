@@ -1,114 +1,34 @@
-{% extends "base.html" %}
+{% extends "base1.html" %}
 {% block conteudo %}
-        <!-- INCLUIR PRODUTOS -->
 
+<style>
+  #formulario {
+    display: flex;
+    flex-direction:column;
+  }
 
-        <div class="column is-9  ">
+  h2{
+    color: #F2A900;
+    align-self:center;
+    font-family: "Century Gothic", sans-serif;
+  }
 
-            <form id="formIncluir" action="">
-                Incluir novo produto
-                <br>
-                <!-- NOME -->
-                <div class="control">
-                    <input class="input" type="text" placeholder="Nome do Produto">
-                </div>
-                <br>
+</style>
 
-                <!-- Código de barras -->
-                <div class="control">
-                    <input class="input" type="text" placeholder="Código de barras">
-                </div>
-                <br>
+    <form id = "formulario" action="/recebendo_dados" method="post">
+        <h2>Incluir Novo Produto</h2>
 
+        <input type="text" name="nome" placeholder="Nome do Produto">
+        <input type="text" name="quantidade" placeholder="Quantidade">
+        <input type="text" name="preço" placeholder="preço unitario">
+        <input type="text" name="tamanho do produto" placeholder="tamanho únitario (ml / g)">
+        <input type="text" name="área do corpo" placeholder="corporal ou facial?">
+        <input type="file" name="imagem">
 
-                <!-- Quantidade -->
-                <div class="control">
-                    <input class="input" type="number" placeholder="Quantidade">
-                </div>
-                <br>
+        <input type="submit" value="Inserir novo produto">                                
+    </form>
+    
 
+</main>
 
-                <!-- TIPO -->
-                <div class="control">
-                    <div class="select">
-                        <select>
-                            <option>Selecione o tipo do sabonete</option>
-                            <option>Anti-oleosidade</option>
-                            <option>Esfoliante</option>
-                            <option>Hidratante</option>
-                            <option>Sensivel</option>
-                        </select>
-                    </div>
-                </div>
-                <br>
-
-                <!-- Marca -->
-
-                <div class="control">
-                    <div class="select">
-                        <select>
-                            <option>Marca</option>
-                            <option>Arte dos Aromas</option>
-                            <option>Cativa Natureza</option>
-                            <option>Herbia</option>
-                            <option>Livealoe</option>
-                            <option>Terral</option>
-                        </select>
-                    </div>
-
-                </div>
-                <br>
-
-                <!-- PREÇO -->
-                <div id="preco">
-                    <div class="field has-addons">
-                        <p class="control">
-                            <span class="select">
-                                <select>
-                                    <option>R$</option>
-
-                                </select>
-                            </span>
-                        </p>
-                        <p class="control">
-                            <input class="input" type="text" placeholder="Preço">
-                        </p>
-                    </div>
-                </div>
-                <br>
-
-
-
-
-                <!-- LIQUIDO OU SOLIDO? -->
-
-                <div class="control">
-                    <div class="select">
-                        <select>
-                            <option>Selecionne </option>
-                            <option>Líquido </option>
-                            <option>Sólido </option>
-                        </select>
-                    </div>
-                </div>
-                <br>
-
-                <!-- Para a parte do corpo -->
-                <div class="control">
-                    <div class="select">
-                        <select>
-                            <option>Para qual parte do corpo?</option>
-                            <option>Corporal</option>
-                            <option>Facial</option>
-                        </select>
-                    </div>
-                </div>
-                <br>
-
-                <!-- Botão para enviar para o form -->
-                <button class="button is-dark">ENVIAR</button>
-            </form>
-
-
-        </div>
-{% endblock %}
+  {% endblock %}      

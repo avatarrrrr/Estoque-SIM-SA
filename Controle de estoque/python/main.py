@@ -9,7 +9,7 @@ planilha = conexao.open("Nature Saboaria").sheet1
 
 #Aplicação:
 #A variável root_path você deve modificar com o caminho completo da pasta python no seu sistema, serve para o Flask achar a pasta templates corretamente ^^
-app = Flask("Estoque-SIM-SA",  root_path="H:\\Users\\agata\\Documents\\projeto trainee\\estoque-sim-sa\\Controle de estoque\\python")
+app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
 @app.route("/")
 def main():
     return render_template("teste_incluir_produto.html", planilha_completa = planilha.get_all_values())
@@ -56,7 +56,7 @@ def retirar():
 # Rotas para Inserir Produto
 @app.route('/inserir')
 def inserir():
-    return render_template('inserir_produto.html')
+    return render_template("incluirProduto.html")
 
 # Rota de Captura das Informações para adicionar na planilha
 @app.route('/add', methods=['POST'])
@@ -102,6 +102,6 @@ def add():
     
 @app.route('/estoque')
 def estoque():
-    return render_template('listarProdutos2.html', planilha_completa = planilha.get_all_values())
+    return render_template('estoque.html', planilha_completa = planilha.get_all_values())
 
 app.run(debug=True, use_reloader=True)
