@@ -1,50 +1,47 @@
-{% extends "base.html" %}
+{% extends "base1.html" %}
 {% block conteudo %}
-<style>
-
-/*listagem styles*/
-#listagem {
-  display: flex;
-  flex-wrap: wrap;
-  list-style-type: none;
-  justify-content: center;
-  }
-  
-  .itens{
-      padding: 5px 10px;
-      font-size: 0.8em;
-  }
-  #itemzão{
-      display:flex;
+  <style>
+    /*listagem styles*/
+    #listagem {
+      display: flex;
+      flex-wrap: wrap;
       list-style-type: none;
-      border:solid thin;
-      border-radius: 1em;
-      margin: 5px;
-  }  
+      justify-content: center;
+      }
+      
+      .itens{
+          padding: 5px 10px;
+          font-size: 0.8em;
+      }
+      #itemzão{
+          display:flex;
+          list-style-type: none;
+          border:solid thin;
+          border-radius: 1em;
+          margin: 5px;
+      }  
 
-#imagem_lista {
-  width:200px;
-  height:200px;
-}
+    #imagem_lista {
+      width:200px;
+      height:200px;
+    }
 
-#lixeira{ 
-  width: 30px;
-  height: 30px;
-  position:relative;
-  top: 1em;
-}
-#compra{
-  width: 30px;
-  height:30px;
-  position:relative;
-  top: 1em;
-}
-#descrição {
-  align-self: center;
-}
-</style>
-<main>
-
+    #lixeira{ 
+      width: 30px;
+      height: 30px;
+      position:relative;
+      top: 1em;
+    }
+    #compra{
+      width: 30px;
+      height:30px;
+      position:relative;
+      top: 1em;
+    }
+    #descrição {
+      align-self: center;
+    }
+  </style>
   <div id = "listagem">
       {% for produto in planilha_completa %}
           <form action="/remover" method="POST">
@@ -54,10 +51,10 @@
                   </li>
                   <div id = "descrição">
                   <li class = "itens">{{produto[0]}}</li>
-                  <li class = "itens">{{produto[1]}}</li>
-                  <li class = "itens">{{produto[2]}}</li>
-                  <li class = "itens">{{produto[3]}}</li>
-                  <li class = "itens">{{produto[4]}}</li>
+                  <li class = "itens">Quantidade: {{produto[1]}}</li>
+                  <li class = "itens">R$: {{produto[2]}}</li>
+                  <li class = "itens">Volume: {{produto[3]}}</li>
+                  <li class = "itens">Finalidade: {{produto[4]}}</li>
                   <input id = "lixeira" type="image"  src="{{url_for('static', filename= 'download.png')}}">
                   <input id = "compra" type="image"  src="{{url_for('static', filename= 'compra.png')}}">
                 </div>
@@ -65,6 +62,5 @@
           </form>
       {% endfor %}
   </div>
-</main>
 {% endblock %}      
 
