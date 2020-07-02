@@ -9,7 +9,8 @@ planilha = conexao.open("Nature Saboaria").sheet1
 
 #Aplicação:
 #A variável root_path você deve modificar com o caminho completo da pasta python no seu sistema, serve para o Flask achar a pasta templates corretamente ^^
-app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
+app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
+
 @app.route("/")
 def main():
     return render_template("teste_incluir_produto.html", planilha_completa = planilha.get_all_values())
@@ -59,14 +60,15 @@ def inserir():
     return render_template("incluirProduto.html")
 
 # Rota de Captura das Informações para adicionar na planilha
-@app.route('/add', methods=['POST'])
+@app.route('/recebendo_dados', methods=['POST'])
 def add():
     arr = [
-        'produto', 
+        'nome', 
         'quantidade', 
-        'preco',
-        'peso',
-        'partecorpo'
+        'preço',
+        'tamanho do produto',
+        'área do corpo',
+        'imagem'
     ]
 
     # Laço For para adicionar os dados dentro da minha lista row.
@@ -79,7 +81,7 @@ def add():
     # Caso seja compatível, ele apenas irá alterar a quantidade adicionada.
     same = contsame = 0
     for pos, linha in enumerate(planilha.get_all_values()):
-        for cell in range(0, 5):
+        for cell in range(0, 6):
             if linha[cell] == linha[1]:
                 continue
             elif unidecode(linha[cell]).lower().strip() == unidecode(row[cell]).lower().strip():
@@ -91,14 +93,14 @@ def add():
             newquant = int(linha[1]) + int(row[1])
             planilha.update_cell(pos + 1, 2, newquant)
             contsame += 1
-            return render_template('/resposta2.html', retorno = 'Quantidade do item foi atualizada com sucesso!')
+            return render_template('/resposta.html', retorno = 'Quantidade do item foi atualizada com sucesso!')
         else:
             same = 0
             
     if contsame == 0:
         index = len(planilha.get_all_values()) + 1
         planilha.insert_row(row, index)
-        return render_template('/resposta2.html', retorno = 'Novo item adicionado com sucesso!')
+        return render_template('/resposta.html', retorno = 'Novo item adicionado com sucesso!')
     
 @app.route('/estoque')
 def estoque():
