@@ -9,8 +9,8 @@ planilha = conexao.open("Nature Saboaria").sheet1
 
 #Aplicação:
 #A variável root_path você deve modificar com o caminho completo da pasta python no seu sistema, serve para o Flask achar a pasta templates corretamente ^^
-#app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
-app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
+app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
+#app = Flask("Estoque-SIM-SA", root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
 
 
 @app.route("/")
@@ -106,9 +106,9 @@ def add():
             # Verificando se a imagem adicionada é a mesma no banco de dados, caso sejam diferentes, a imagem será atualizada
             if request.form.get('imagem') != planilha.cell(pos + 1, 6).value:
                 planilha.update_cell(pos + 1, 6, request.form.get('imagem'))
-                return render_template('/resposta.html', retorno = 'Quantidade do item e imagem foram atualizadas com sucesso!')
+                return render_template('/respostaIncluir.html', retorno = 'Quantidade do item e imagem foram atualizadas com sucesso!')
 
-            return render_template('/resposta.html', retorno = 'Quantidade do item foi atualizada com sucesso!')
+            return render_template('/respostaIncluir.html', retorno = 'Quantidade do item foi atualizada com sucesso!')
 
         else:
             same = 0
@@ -117,7 +117,7 @@ def add():
     if contsame == 0:
         index = len(planilha.get_all_values()) + 1
         planilha.insert_row(row, index)
-        return render_template('/resposta.html', retorno = 'Novo item adicionado com sucesso!')
+        return render_template('/respostaIncluir.html', retorno = 'Novo item adicionado com sucesso!')
     
 @app.route('/estoque')
 def estoque():
