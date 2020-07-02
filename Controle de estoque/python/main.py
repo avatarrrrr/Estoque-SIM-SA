@@ -84,7 +84,7 @@ def add():
     same = contsame = 0
     for pos, linha in enumerate(planilha.get_all_values()):
         for cell in range(0, 6):
-            if linha[cell] == linha[1]:
+            if linha[cell] == linha[1] or linha[cell] == linha[5]:
                 continue
             elif unidecode(linha[cell]).lower().strip() == unidecode(row[cell]).lower().strip():
                 same += 1
@@ -95,7 +95,14 @@ def add():
             newquant = int(linha[1]) + int(row[1])
             planilha.update_cell(pos + 1, 2, newquant)
             contsame += 1
+
+            # Verificando se a imagem adicionada é a mesma no banco de dados, caso sejam diferentes, a imagem será atualizada
+            if request.form.get('imagem') != planilha.cell(pos + 1, 6).value:
+                planilha.update_cell(pos + 1, 6, request.form.get('imagem'))
+                return render_template('/resposta.html', retorno = 'Quantidade do item e imagem foram atualizadas com sucesso!')
+
             return render_template('/resposta.html', retorno = 'Quantidade do item foi atualizada com sucesso!')
+
         else:
             same = 0
             
