@@ -1,121 +1,21 @@
-<!doctype html>
-<html>
-<head>
-<meta charset="UTF-8">
+{% extends "base1.html" %}
+{% block conteudo %}
 
-<title>Estoque Sim SA</title>
 <style>
+  #formulario {
+    display: flex;
+    flex-direction:column;
+  }
 
-html {
- box-sizing: border-box;
-}
-* {
- box-sizing: inherit;
-}
-
-body {
-  font-size: 100%;
-  background-color: white;
-  margin: 0;
-  width: 100%;
-  height: 100%;
-}
-
-
-/* link styles */
-a {
-  text-decoration: none;
-  border-bottom: 1px dotted;
-  padding-bottom: .2em;
-}
-
-
-/* nav styles */
-nav, footer {
-  font-family: "Century Gothic", sans-serif;
-  background-color: #424242;
-}
-
-nav ul li a:link, nav ul li a:visited {
-  color: #F2A900;
-}
-nav ul li a:focus, nav ul li a:hover, nav ul li a:active {
-  color: #fff;
-}
-nav ul {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-  display: flex;
-  justify-content: center;
-  font-size: .8em;
-  text-transform: uppercase;
-  letter-spacing: .2em;
-}
-
-nav ul li a {
-  display: block;
-  border: 1px solid;
-  border-radius: .5em;
-  padding: .5em 1em;
-  margin: .5em; 
-}
-#pesquisar{
-  position: relative;
-  bottom: 10px;
-}
-#pesquisar form input[type="text"] {
-display: block;
-border: 1px solid;
-border-radius: .5em;
-padding: .5em 1em; 
-}
-
-/* footer styles */
-footer {
-  color: #F2A900;
-  text-align: center;
-  font-size: .8em;
-  padding: .5em;
-  width: 100%;
-}
-
-/* main styles */
-main {
-  font-family: 'Century Gothic', serif;
-  background-color: #f8f8f8;
-  color: #424242;
-  height: 100vh;
-  border: double 4px #fcb813;
-  border-radius: 25px;
-}
-
-
-/*form incluir_produto styles */
+  h2{
+    color: #F2A900;
+    align-self:center;
+    font-family: "Century Gothic", sans-serif;
+  }
 
 </style>
-<header>
-    <div id="layout">
-    
-    <nav>
-      <ul>
-        <li><a href="">Home</a></li>
-        <li><a href="">Incluir Produto</a></li>
-        <li><a href="">Estoque</a></li>
-        <li><a href="">Transações</a></li>
-        <li><a href="">Sobre</a></li> 
-      </ul>
-      <div id="pesquisar">
-        <form action="" method="">
-            <input type="text" name="produto" placeholder="Pesquisa">
-        </form>
-    </nav> 
-    </div>
-    </header>
 
-<main>
-
-    <form action="/recebendo_dados" method="post">
+    <form id = "formulario" action="/recebendo_dados" method="post">
         <h2>Incluir Novo Produto</h2>
 
         <input type="text" name="nome" placeholder="Nome do Produto">
@@ -131,6 +31,4 @@ main {
 
 </main>
 
-<footer>
-    <p><strong>Estoque Sim Sa</strong> | Salvador, Ba | Suporte: 9:00 até 18:00</p>
-  </footer>
+  {% endblock %}      
