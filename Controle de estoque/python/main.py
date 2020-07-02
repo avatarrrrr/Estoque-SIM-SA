@@ -15,7 +15,7 @@ app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Cont
 
 @app.route("/")
 def main():
-    return render_template("teste_incluir_produto.html", planilha_completa = planilha.get_all_values())
+    return render_template("incluirProduto.html", planilha_completa = planilha.get_all_values())
 
 #Roteamento para remover um produto
 @app.route("/remover", methods=["POST"])
@@ -25,13 +25,13 @@ def remove():
 
     #Verifica se encontrou o produto
     if not remover:
-        return render_template("reposta.html", retorno = "Houve um erro na pesquisa do produto! Confira se digitou corretamente.")
+        return render_template("resposta.html", retorno = "Houve um erro na pesquisa do produto! Confira se digitou corretamente.")
 
     #Faz a remoção do produto e avalia se a exclusão foi bem sucedida ou não
     if planilha.delete_rows(remover.row):
-        return render_template("reposta.html", retorno = "Feito!")
+        return render_template("resposta.html", retorno = "Feito!")
     else:
-        return render_template("reposta .html", retorno = "Houve um Erro ao deletar o produto!")
+        return render_template("resposta.html", retorno = "Houve um Erro ao deletar o produto!")
 
 #Roteamento para remover uma quantidade de um produto, caso a quantidade do produto fique abaixo do limite, ele dispara um alerta
 @app.route("/remover_qtd", methods=["POST"])
@@ -41,20 +41,20 @@ def retirar():
 
     #Verifica se encontrou o produto
     if not rm:
-        return render_template("reposta.html", retorno = "Houve um erro na pesquisa do produto! Confira se digitou corretamente.")
+        return render_template("resposta.html", retorno = "Houve um erro na pesquisa do produto! Confira se digitou corretamente.")
 
     #Verifica se a quantidade que vai ser retirada é maior que a quantidade disponível, se sim, retorna um erro
     if int(planilha.cell(rm.row, 2).value) < int(request.form.get("quantidade")):
-        return render_template("reposta.html", retorno = "A quantidade que você quer retirar é maior que a quantidade disponível!Tente colocar um número menor!")
+        return render_template("resposta.html", retorno = "A quantidade que você quer retirar é maior que a quantidade disponível!Tente colocar um número menor!")
 
     #Atualiza a célula com o valor da subtração do valor que já tem na célula com o valor que o usuário quer retirar
     planilha.update_cell(rm.row, 2, int(planilha.cell(rm.row, 2).value) - int(request.form.get("quantidade")))
 
     #Verifica se a quantidade atual está abaixo do valor limite definido pelo usuário (por enquanto o limite é fixo kkkkk)
     if int(planilha.cell(rm.row, 2).value) < 5:
-        return render_template("reposta.html", retorno = "Atenção! O produto está abaixo do limite especificado")
+        return render_template("resposta.html", retorno = "Atenção! O produto está abaixo do limite especificado")
     else:
-        return render_template("reposta.html", retorno = "Operação feita com sucesso!")
+        return render_template("resposta.html", retorno = "Operação feita com sucesso!")
 
 # Rotas para Inserir Produto
 @app.route('/inserir')
