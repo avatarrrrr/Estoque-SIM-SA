@@ -18,26 +18,6 @@ body {
   margin: 0;
 }
 
-#listagem {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  list-style-type: none;
-  }
-  
-  .itens{
-      font-family: "Century Gothic";
-      margin: 0.2em;
-      padding: 5px 10px;
-  }
-  #itemzão{
-      list-style-type: none;
-      border:solid thin;
-      border-radius: 1em;
-      margin: 5px;
-  }  
-
-/* VISUAL STYLES START HERE */
 
 /* link styles */
 a:link, a:visited { color: #DC6903; }
@@ -48,7 +28,6 @@ a {
   border-bottom: 1px dotted;
   padding-bottom: .2em;
 }
-
 
 
 /* nav styles */
@@ -88,11 +67,33 @@ nav ul li a {
 main {
   font-family: 'Century Gothic', serif;
   background-color: white;
-  line-height: 2em;
   color: #555;
   padding: 1em;
+  height: 80%;
   border: double 4px #fcb813;
   border-radius: 25px;
+}
+#listagem {
+  display: flex;
+  flex-wrap: wrap;
+  list-style-type: none;
+  }
+  
+  .itens{
+      font-family: "Century Gothic";
+      margin: 0.2em;
+      padding: 5px 10px;
+  }
+  #itemzão{
+      list-style-type: none;
+      border:solid thin;
+      border-radius: 1em;
+      margin: 5px;
+  }  
+
+#imagem_lista {
+  width:200px;
+  height:200px;
 }
 
 
@@ -116,15 +117,17 @@ footer {
     <li><a href="">Estoque</a></li>
     <li><a href="">Transações</a></li>
     <li><a href="">Sobre</a></li>
-    <li><div id="janela_pesquisa">
+
+    <div id="pesquisar">
     <form action="" method="">
         <input type="text" name="produto" placeholder="Pesquisa">
-    </form> </div> </li>
+    </form>
+  </div> 
   </ul>
 </nav> 
-</div> 
+
 </header>
-</div>
+
 <main>
   {% block conteudo %}
   <body>
