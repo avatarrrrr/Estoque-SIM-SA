@@ -105,7 +105,8 @@ def add():
 
         else:
             same = 0
-            
+    
+    # contsame == 0 significa que não há nenhum item na planilha igual ao inserido pelo usuário, logo, será um novo item
     if contsame == 0:
         index = len(planilha.get_all_values()) + 1
         planilha.insert_row(row, index)

@@ -57,11 +57,11 @@
             <li class = "itens">R$: {{produto[2]}}</li>
             <li class = "itens">Volume: {{produto[3]}}</li>
             <li class = "itens">Finalidade: {{produto[4]}}</li>
-            <form>
+            <form action="" method="POST">
               <input type="hidden" value="{{produto[0]}}" name="nome">
-              <input id = "lixeira" type="submit"  src="{{url_for('static', filename= 'download.png')}}">
+              <input id = "lixeira" type="image" src="{{url_for('static', filename= 'download.png')}}">
+              <input id = "compra" type="image" src="{{url_for('static', filename= 'compra.png')}}">
             </form>
-            <input id = "compra" type="submit"  src="{{url_for('static', filename= 'compra.png')}}">
           </div>
         </ul>
 {% endfor %}
