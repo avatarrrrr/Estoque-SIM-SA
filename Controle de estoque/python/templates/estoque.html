@@ -45,25 +45,25 @@
   </style>
   <div id = "listagem">
       {% for produto in planilha_completa %}
-          <form action="/remover" method="POST">
-              <ul id = "itemzão"> 
-                  <li>
-                  <img id = "imagem_lista" class = "itens" src="{{ url_for('static', filename=produto[5]) }}"> 
-                  </li>
-                  
-                  <div id = "descrição">
-                  <li class = "itens">{{produto[0]}}</li>
-                  <li class = "itens">Quantidade: {{produto[1]}}</li>
-                  <li class = "itens">R$: {{produto[2]}}</li>
-                  <li class = "itens">Volume: {{produto[3]}}</li>
-                  <li class = "itens">Finalidade: {{produto[4]}}</li>
-
-                  <input id = "lixeira" type="image"  src="{{url_for('static', filename= 'download.png')}}">
-                  <input id = "compra" type="image"  src="{{url_for('static', filename= 'compra.png')}}">
-                </div>
-              </ul>
-          </form>
-      {% endfor %}
+        <ul id = "itemzão"> 
+            <li>
+            <img id = "imagem_lista" class = "itens" src="{{ url_for('static', filename=produto[5]) }}"> 
+            </li>
+            
+            <div id = "descrição">
+            <li class = "itens">{{produto[0]}}</li>
+            <li class = "itens">Quantidade: {{produto[1]}}</li>
+            <li class = "itens">R$: {{produto[2]}}</li>
+            <li class = "itens">Volume: {{produto[3]}}</li>
+            <li class = "itens">Finalidade: {{produto[4]}}</li>
+            <form>
+              <input type="hidden" value="{{produto[0]}}" name="nome">
+              <input id = "lixeira" type="submit"  src="{{url_for('static', filename= 'download.png')}}">
+            </form>
+            <input id = "compra" type="image"  src="{{url_for('static', filename= 'compra.png')}}">
+          </div>
+        </ul>
+{% endfor %}
   </div>
 {% endblock %}      
 
