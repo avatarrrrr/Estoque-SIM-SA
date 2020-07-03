@@ -15,7 +15,7 @@ app = Flask("Estoque-SIM-SA",  root_path="/home/rafael/Área de Trabalho/Control
 
 @app.route("/")
 def main():
-    return render_template("incluirProduto.html", planilha_completa = planilha.get_all_values())
+    return render_template("home.html", planilha_completa = planilha.get_all_values())
 
 @app.route("/delete")
 def delete():
