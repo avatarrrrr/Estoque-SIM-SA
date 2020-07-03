@@ -5,26 +5,88 @@
   #formulario {
     display: flex;
     flex-direction:column;
+
   }
 
   h2{
     color: #F2A900;
     align-self:center;
     font-family: "Century Gothic", sans-serif;
-  }
+    letter-spacing: .5em;
+  } 
 
+   #formulario input[type="text"] {
+    flex: 0 0 30px;
+    width: 400px;
+    border-radius: 10px;
+    align-self: center;
+    margin: 15px;
+    border: 1px solid;
+    border-color:#F2A900;
+    padding: 10px;
+    }
+
+    .radio{
+     display: flex;
+     justify-content: space-around;
+     margin: 10px 46%;      
+    }
+   
+    #formulario input[type="file"] {
+      align-self: center;
+      margin: 15px;
+    }
+
+    #formulario input[type="submit"] {
+      
+      margin:20px;
+      color: #F8F8F8;
+      border-radius: 5px;
+      background-color: #f2a900;
+      outline: none;
+      cursor: pointer;
+      align-self: center;
+      flex: 0 0 60px;
+
+  }
+  
+  #formulario input:hover[type="submit"] {
+      background-color: #000;
+  }
+  label{
+    margin-top: 10px;
+    font-family: "century Gothic", sans-serif;
+    font-size: 80%;
+    font-weight: bold;
+    align-self: center;
+    
+  }
+   
 </style>
 
     <form id = "formulario" action="/recebendo_dados" method="post">
         <h2>Incluir Novo Produto</h2>
+        <input  type="text" name="nome" placeholder="Nome do Produto">
+        <input  type="text" name="quantidade" placeholder="Quantidade">
+        <input  type="text" name="preço" placeholder="preço unitario">
+        
+        <label> volume em ml ou gramas? </label>
+        <div class = "radio" >
+        <input   type="radio" name="volume" value="ml">ml
+        <input   type="radio" name="volume" value="gramas">Gramas
+        </div>
 
-        <input type="text" name="nome" placeholder="Nome do Produto">
-        <input type="text" name="quantidade" placeholder="Quantidade">
-        <input type="text" name="preço" placeholder="preço unitario">
-        <input type="text" name="tamanho do produto" placeholder="tamanho únitario (ml / g)">
-        <input type="text" name="área do corpo" placeholder="corporal ou facial?">
-        <input type="file" name="imagem">
+        <input  type="text" name="volume" placeholder="volume únitario">
 
+        <label> Área do Corpo: </label>
+        <div class = "radio">      
+        <input  type="radio" name="área do corpo" value="corporal">Facial 
+        <input  type="radio" name="área do corpo" value="facial ">Corporal
+        </div>
+
+        <label> Inserir Imagem </label>
+        <input type="file"  name="imagem">
+        
         <input type="submit" value="Inserir novo produto">                                
     </form>
     
