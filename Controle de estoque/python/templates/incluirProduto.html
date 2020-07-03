@@ -66,26 +66,26 @@
 
     <form id = "formulario" action="/recebendo_dados" method="post">
         <h2>Incluir Novo Produto</h2>
-        <input  type="text" name="nome" placeholder="Nome do Produto">
-        <input  type="text" name="quantidade" placeholder="Quantidade">
-        <input  type="text" name="preço" placeholder="preço unitario">
+        <input  type="text" name="nome" placeholder="Nome do Produto" required>
+        <input  type="text" name="quantidade" placeholder="Quantidade" required>
+        <input  type="text" name="preço" placeholder="Preço unitario" required>
         
         <label> volume em ml ou gramas? </label>
         <div class = "radio" >
-        <input   type="radio" name="volume" value="ml">ml
-        <input   type="radio" name="volume" value="g">Gramas
+        <input   type="radio" name="volume" value="ml" required>ml
+        <input   type="radio" name="volume" value="g" required>Gramas
         </div>
 
-        <input  type="text" name="valor" placeholder="volume únitario">
+        <input  type="text" name="valor" placeholder="volume únitario" required>
 
         <label> Área do Corpo: </label>
         <div class = "radio">      
-        <input  type="radio" name="área do corpo" value="corporal">Facial 
-        <input  type="radio" name="área do corpo" value="facial ">Corporal
+        <input  type="radio" name="área do corpo" value="corporal" required>Facial 
+        <input  type="radio" name="área do corpo" value="facial " required>Corporal
         </div>
 
         <label> Inserir Imagem </label>
-        <input type="file"  name="imagem">
+        <input type="file"  name="imagem" required>
         
         <input type="submit" value="Inserir novo produto">                                
     </form>
