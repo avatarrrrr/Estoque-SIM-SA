@@ -3,18 +3,16 @@
 <div id="tela">
     <div id="popup">
         <form action="/remover_qtd" method="POST">
-            <header>
                 <img src="{{ url_for ('static', filename = imagem) }}" alt="item">
+
                 <h2>{{nome}}</h2>
-            </header>
-            <main>
-                <h3>Quantidade a ser retirada</h3>
-                <div id="acao">
-                    <a id = "voltar" href="/estoque">Voltar</a>
-                    <input type="number" name="quantidade" id="">
+
+                    <label> Quantidade a ser retirada: </label>
+                    <a id = "voltar" href="/estoque"> Voltar </a>
+
+                    <input type="number" name="quantidade" >
+
                     <button id='enviar' type="submit">Retirar</button>
-                </div>
-            </main>
         </form>
     </div>
 </div>

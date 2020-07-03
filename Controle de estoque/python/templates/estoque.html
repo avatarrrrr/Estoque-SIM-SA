@@ -58,7 +58,8 @@
     }
 
     /* Popup style */
-    div#tela {
+
+    #tela {
       height: 100%;
       width: 100%;
       margin: auto;
@@ -66,6 +67,7 @@
       top: 0; bottom: 0; left: 0; right: 0;
       opacity: 1;
     }
+
     #popup {
       margin: auto;
       position: fixed;
@@ -73,13 +75,21 @@
       height: 250px;
       width: 600px;
       border-radius: 50px;
-      background-color: #424242;
+      background-color: #dfdedeef;
+      border: solid thin;
+      border-color:#F2A900;
     }
-    #popup h2, h3 {
-      color: #F2A900;
+    #popup h2 {
+      position: absolute;
+      top: 20px;
+      left: 200px;
+      color: #424242;
     }
-    #popup h3 {
-      text-align: center;
+    #popup label {
+      position: absolute;
+      bottom: 100px;
+      left:200px;
+      color:#424242;
     }
     #popup img {
       height: 150px;
@@ -87,31 +97,43 @@
       padding: 10px;
       border-radius: 50%;
     }
-    #popup header {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-    #popup main {
-      height: 150px;
-      background-color: rgb(2, 2, 22);
-      border-bottom-left-radius: 50px;
-      border-bottom-right-radius: 50px;
-      margin-top: 70px;
-    }
+
+    
     #popup input {
+      position:absolute;
+      bottom: 80px;
+      left: 430px;
       height: 50px;
       width: 120px;
-      padding: 15px;
+      padding: 25px;
       font-size: 20px;
       outline: none;
       border-radius: 30px;
-      margin-left: 140px;
-      margin-right: 10px;
+      border: solid thin;
+      border-color:#F2A900;
     }
-    #enviar, #voltar {
+    #enviar {
+      position: absolute;
+      bottom: 20px;
+      left: 430px;
       cursor: pointer;
-      height: 40px;
+      height: 30px;
+      width: 120px;
+      border-radius: 10px;
+      border: none;
+      font-weight: bold;
+      font-size: 20px;
+      background-color: #424242;
+      color: #F2A900;
+    }
+
+    #voltar {
+      position: absolute;
+      bottom: 20px;
+      left: 200px;
+      cursor: pointer;
+      text-align: center;
+      height: 30px;
       width: 120px;
       border-radius: 10px;
       border: none;
@@ -135,10 +157,7 @@
       text-decoration: none;
       outline: none;
     }
-    #popup #acao {
-      margin-top: 40px;
-      margin-left: 35px;
-    }
+    
   </style>
   <div id = "listagem">
       {% for produto in planilha_completa %}
