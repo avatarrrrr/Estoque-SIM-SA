@@ -24,12 +24,6 @@ def remove():
     #Pesquisa o nome enviado na planilha
     remover = planilha.find(request.form.get("delete"))
 
-    #Verifica se encontrou o produto
-    if not remover:
-        return render_template("respostaEstoque.html", retorno = "Houve um erro na pesquisa do produto! Confira se digitou corretamente.",
-        planilha_completa = planilha.get_all_values()
-    )
-
     #Faz a remoção do produto e avalia se a exclusão foi bem sucedida ou não
     if planilha.delete_rows(remover.row):
         return render_template("respostaEstoque.html", retorno = "Feito!",
