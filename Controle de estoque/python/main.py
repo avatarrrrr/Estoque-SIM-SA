@@ -9,31 +9,21 @@ planilha = conexao.open("Nature Saboaria").sheet1
 
 #Aplicação:
 #A variável root_path você deve modificar com o caminho completo da pasta python no seu sistema, serve para o Flask achar a pasta templates corretamente ^^
-app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
+app = Flask("Estoque-SIM-SA", root_path="H:\\Users\\agata\\Documents\\projeto trainee\\estoque-sim-sa\\Controle de estoque\\python")
 #app = Flask("Estoque-SIM-SA", root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
+#app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
 
 
 @app.route("/")
 def main():
     return render_template("incluirProduto.html", planilha_completa = planilha.get_all_values())
 
-# Deletar isso
-@app.route("/delete")
-def delete():
-    if request.form.get("delete"):
-        return request.form.get("delete")
-    if request.form.get("venda"):
-        return request.form.get("venda")
 
 #Roteamento para remover um produto
 @app.route("/remover", methods=["POST"])
 def remove():
     #Pesquisa o nome enviado na planilha
     remover = planilha.find(request.form.get("delete"))
-
-    #Verifica se encontrou o produto
-    if not remover:
-        return render_template("respostaEstoque.html", retorno = "Houve um erro na pesquisa do produto! Confira se digitou corretamente.")
 
     #Faz a remoção do produto e avalia se a exclusão foi bem sucedida ou não
     if planilha.delete_rows(remover.row):
