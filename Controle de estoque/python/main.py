@@ -7,7 +7,6 @@ import gspread
 conexao = gspread.service_account()
 planilha = conexao.open("Nature Saboaria").sheet1
 transacoes = conexao.open("transacoes").sheet1
-transacoes.resize(1)
 
 #Aplicação:
 #A variável root_path você deve modificar com o caminho completo da pasta python no seu sistema, serve para o Flask achar a pasta templates corretamente ^^
