@@ -13,35 +13,48 @@
       .itens{
           padding: 5px 10px;
           font-size: 0.8em;
+          margin-left: 1em;
       }
       #itemzão{
           display:flex;
           list-style-type: none;
-          border:solid thin;
+          border:solid 3px;
           border-radius: 1em;
-          margin: 10px;
+          margin: 5px;
+          flex: 0 1 500px;
       }  
 
     #imagem_lista {
       width:200px;
       height:200px;
       border-radius: 40%;
+      margin: 0;
+      position:relative;
+      right: 2em;
     }
 
     #lixeira{ 
       width: 30px;
       height: 30px;
-      position:relative;
+      position: relative;
       top: 1em;
+      left: 3em;
     }
     #compra{
       width: 30px;
       height:30px;
-      position:relative;
-      top: 1em;
+      position: relative;
+      bottom: 1.5em;
+      left: 8em;
     }
     #descrição {
-      align-self: center;
+      font-weight: bold;
+    }
+    #titulo {
+      font-weight: bolder;
+      font-size: 110%;
+      padding: 5px 10px;
+
     }
 
     /* Popup style */
@@ -74,7 +87,7 @@
             </li>
             
             <div id = "descrição">
-            <li class = "itens">{{produto[0]}}</li>
+            <li id = "titulo">{{produto[0]}}</li>
             <li class = "itens">Quantidade: {{produto[1]}}</li>
             <li class = "itens">R$: {{produto[2]}}</li>
             <li class = "itens">Volume: {{produto[3]}}</li>
