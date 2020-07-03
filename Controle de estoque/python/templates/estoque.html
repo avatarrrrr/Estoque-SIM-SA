@@ -16,6 +16,8 @@
           margin-left: 1em;
       }
       #itemzão{
+          position:relative;
+          top: 0;
           display:flex;
           list-style-type: none;
           border:solid 3px;
@@ -36,16 +38,23 @@
     #lixeira{ 
       width: 30px;
       height: 30px;
-      position: relative;
-      top: 1em;
-      left: 3em;
+      position: absolute;
+      bottom: 10px;
+      left: 350px;
+    }
+    #editar{
+      width: 30px;
+      height: 30px;
+      position: absolute;
+      left: 400px;
+      bottom: 10px;
     }
     #compra{
       width: 30px;
       height:30px;
-      position: relative;
-      bottom: 1.5em;
-      left: 8em;
+      position: absolute;
+      bottom: 10px;
+      left: 450px;
     }
     #descrição {
       font-weight: bold;
@@ -157,7 +166,7 @@
       text-decoration: none;
       outline: none;
     }
-    
+
   </style>
   <div id = "listagem">
       {% for produto in planilha_completa %}
@@ -176,6 +185,11 @@
                 <input name="delete" type="hidden" value="{{produto[0]}}">
                 <input id = "lixeira" type="image" src="{{url_for('static', filename= 'download.png')}}">
               </form>
+
+              <form action="" method="POST">
+                <input id = "editar" type="image" src="{{url_for('static', filename= 'editar.png')}}">
+              </form>
+
               <form action="/popup" method="POST">
                 <input name="item" type="hidden" value="{{produto[0]}}">
                 <input id='compra' type='image' src="{{url_for('static', filename= 'compra.png')}}">
