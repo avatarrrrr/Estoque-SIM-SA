@@ -2,7 +2,7 @@
 {% block popup %}
 <div id="tela">
     <div id="popup">
-        <form action="/remover_qtd" method="POST">
+        <form action="/venda" method="POST">
             <header>
                 <img src="{{ url_for ('static', filename = imagem) }}" alt="item">
                 <h2>{{nome}}</h2>
@@ -10,8 +10,8 @@
             <main>
                 <h3>Quantidade a ser retirada</h3>
                 <div id="acao">
-                    <a href="/estoque"><button id='voltar'>Voltar</button></a>
-                    <input type="hidden" name="" value="{{nome}}">
+                    <a id = "voltar" href="/estoque">Voltar</a>
+                    <input type="hidden" name="nome" value="{{nome}}">
                     <input type="number" name="quantidade" id="">
                     <button id='enviar' type="submit">Retirar</button>
                 </div>
@@ -20,3 +20,4 @@
     </div>
 </div>
 {% endblock %}
+{% block resposta %} <!-- respostas do popup --> {% endblock %}
