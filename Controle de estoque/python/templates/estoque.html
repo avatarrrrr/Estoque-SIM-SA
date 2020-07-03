@@ -70,13 +70,74 @@
       margin: auto;
       position: fixed;
       top: 0; bottom: 0; left: 0; right: 0;
-      height: 300px;
-      width: 500px;
+      height: 250px;
+      width: 600px;
       border-radius: 50px;
       background-color: #424242;
     }
-    #popup h3 {
+    #popup h2, h3 {
       color: #F2A900;
+    }
+    #popup h3 {
+      text-align: center;
+    }
+    #popup img {
+      height: 150px;
+      width: 150px;
+      padding: 10px;
+      border-radius: 50%;
+    }
+    #popup header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    #popup main {
+      height: 150px;
+      background-color: rgb(2, 2, 22);
+      border-bottom-left-radius: 50px;
+      border-bottom-right-radius: 50px;
+      margin-top: 70px;
+    }
+    #popup input {
+      height: 50px;
+      width: 120px;
+      padding: 15px;
+      font-size: 20px;
+      outline: none;
+      border-radius: 30px;
+      margin-left: 140px;
+      margin-right: 10px;
+    }
+    #popup button#enviar, #popup button#voltar {
+      cursor: pointer;
+      height: 40px;
+      width: 120px;
+      border-radius: 10px;
+      border: none;
+      font-weight: bold;
+      font-size: 20px;
+      background-color: #424242;
+      color: #F2A900;
+    }
+    #popup button#enviar:hover {
+      color: #424242;
+      background-color: #F2A900;
+      transition: 300ms;
+    }
+    #popup a button#voltar:hover {
+      color: #424242;
+      background-color: #F2A900;
+      transition: 300ms;
+    }
+    #popup a button#voltar {
+      color: #F2A900;
+      text-decoration: none;
+      outline: none;
+    }
+    #popup div#acao {
+      margin-top: 40px;
+      margin-left: 35px;
     }
   </style>
   <div id = "listagem">
@@ -96,8 +157,8 @@
                 <input name="delete" type="hidden" value="{{produto[0]}}">
                 <input id = "lixeira" type="image" src="{{url_for('static', filename= 'download.png')}}">
               </form>
-              <form action="/retirada" method="POST">
-                <input name="retirar" type="hidden" value="{{produto[0]}}">
+              <form action="/popup" method="POST">
+                <input name="item" type="hidden" value="{{produto[0]}}">
                 <input id='compra' type='image' src="{{url_for('static', filename= 'compra.png')}}">
               </form>
             </div>

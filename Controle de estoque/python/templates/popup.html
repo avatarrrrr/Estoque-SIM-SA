@@ -2,9 +2,20 @@
 {% block popup %}
 <div id="tela">
     <div id="popup">
-        <img src="" alt="item">
-        <h3>{{nome}}</h3>
-        <h3></h3>
+        <form action="/remover_qtd" method="POST">
+            <header>
+                <img src="{{ url_for ('static', filename = imagem) }}" alt="item">
+                <h2>{{nome}}</h2>
+            </header>
+            <main>
+                <h3>Quantidade a ser retirada</h3>
+                <div id="acao">
+                    <a href="/estoque"><button id='voltar'>Voltar</button></a>
+                    <input type="number" name="quantidade" id="">
+                    <button id='enviar' type="submit">Retirar</button>
+                </div>
+            </main>
+        </form>
     </div>
 </div>
 {% endblock %}
