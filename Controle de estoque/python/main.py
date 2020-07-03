@@ -16,7 +16,7 @@ app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Cont
 
 @app.route("/")
 def main():
-    return render_template("incluirProduto.html", planilha_completa = planilha.get_all_values())
+    return render_template("home.html")
 
 #Roteamento para remover um produto
 @app.route("/remover", methods=["POST"])
@@ -48,22 +48,15 @@ def popup():
     return render_template('popup.html',
     planilha_completa = planilha.get_all_values(),
     nome = item.value,
-    imagem = img.value
-)
+    imagem = img.value,
+    quantidade = planilha.cell(item.row, 2).value
+    )
 
 # Roteamento para remover uma quantidade de um produto, caso a quantidade do produto fique abaixo do limite, ele dispara um alerta
 @app.route("/venda", methods=["POST"])
 def venda():
     # Procura o Produto
     rm = planilha.find(request.form.get('nome'))
-
-    # Verifica se a quantidade que vai ser retirada é maior que a quantidade disponível, se sim, retorna um erro
-    if int(planilha.cell(rm.row, 2).value) < int(request.form.get("quantidade")):
-        return render_template("respostaPopup.html", retorno = "A quantidade que você quer retirar é maior que a quantidade disponível! Tente colocar um número menor!",
-        planilha_completa = planilha.get_all_values(),
-        nome = rm.value,
-        imagem = planilha.cell(rm.row, 6).value
-    )
 
     # Atualiza a célula com o valor da subtração do valor que já tem na célula com o valor que o usuário quer retirar
     planilha.update_cell(rm.row, 2, int(planilha.cell(rm.row, 2).value) - int(request.form.get("quantidade")))
