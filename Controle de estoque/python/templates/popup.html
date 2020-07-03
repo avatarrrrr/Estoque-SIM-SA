@@ -10,8 +10,8 @@
                 <label>Quantidade a ser retirada: </label>
                     <a id = "voltar" href="/estoque">Voltar</a>
                     <input type="hidden" name="nome" value="{{nome}}">
-                    <input type="number" name="quantidade" >
-                    <button id='enviar' type="submit">Retirar</button>
+                    <input type="number" name="quantidade" min="0", max="{{quantidade}}">
+                    <button id="enviar" type="submit">Retirar</button>
         </form>
 </div>
 {% endblock %}
