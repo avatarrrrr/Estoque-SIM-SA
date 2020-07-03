@@ -6,6 +6,8 @@ import gspread
 #Conexão com a Planilha
 conexao = gspread.service_account()
 planilha = conexao.open("Nature Saboaria").sheet1
+transacoes = conexao.open("transacoes").sheet1
+transacoes.resize(1)
 
 #Aplicação:
 #A variável root_path você deve modificar com o caminho completo da pasta python no seu sistema, serve para o Flask achar a pasta templates corretamente ^^
@@ -53,6 +55,9 @@ def retirar():
     #Verifica se a quantidade que vai ser retirada é maior que a quantidade disponível, se sim, retorna um erro
     if int(planilha.cell(rm.row, 2).value) < int(request.form.get("quantidade")):
         return render_template("resposta.html", retorno = "A quantidade que você quer retirar é maior que a quantidade disponível!Tente colocar um número menor!")
+
+    #Registra uma transação na planilha transações com o valor do produto, a quantidade, e o preço
+    transacoes.append_row(request.form.get("nome"), request.form.get("quantidades"), request.form.get("preço"))
 
     #Atualiza a célula com o valor da subtração do valor que já tem na célula com o valor que o usuário quer retirar
     planilha.update_cell(rm.row, 2, int(planilha.cell(rm.row, 2).value) - int(request.form.get("quantidade")))
