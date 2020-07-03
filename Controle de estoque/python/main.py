@@ -17,14 +17,6 @@ app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Cont
 def main():
     return render_template("incluirProduto.html", planilha_completa = planilha.get_all_values())
 
-# Deletar isso
-@app.route("/delete")
-def delete():
-    if request.form.get("delete"):
-        return request.form.get("delete")
-    if request.form.get("venda"):
-        return request.form.get("venda")
-
 #Roteamento para remover um produto
 @app.route("/remover", methods=["POST"])
 def remove():
@@ -33,36 +25,56 @@ def remove():
 
     #Verifica se encontrou o produto
     if not remover:
-        return render_template("respostaEstoque.html", retorno = "Houve um erro na pesquisa do produto! Confira se digitou corretamente.")
+        return render_template("respostaEstoque.html", retorno = "Houve um erro na pesquisa do produto! Confira se digitou corretamente.",
+        planilha_completa = planilha.get_all_values()
+    )
 
     #Faz a remoção do produto e avalia se a exclusão foi bem sucedida ou não
     if planilha.delete_rows(remover.row):
-        return render_template("respostaEstoque.html", retorno = "Feito!")
+        return render_template("respostaEstoque.html", retorno = "Feito!",
+        planilha_completa = planilha.get_all_values()
+    )
     else:
-        return render_template("respostaEstoque.html", retorno = "Houve um Erro ao deletar o produto!")
+        return render_template("respostaEstoque.html", retorno = "Houve um Erro ao deletar o produto!",
+        planilha_completa = planilha.get_all_values()
+    )
 
 #Roteamento para remover uma quantidade de um produto, caso a quantidade do produto fique abaixo do limite, ele dispara um alerta
 @app.route("/remover_qtd", methods=["POST"])
 def retirar():
     #Procura o Produto
-    rm = planilha.find(request.form.get("nome"))
+    cont = 0
+    for pos, nome in enumerate(planilha.col_values(1)):
+        if unidecode(nome).lower().strip() == unidecode(request.form.get('retirar')).lower().strip():
+            linha = pos + 1
+            break
+        else:
+            cont += 1
 
     #Verifica se encontrou o produto
-    if not rm:
-        return render_template("respostaEstoque.html", retorno = "Houve um erro na pesquisa do produto! Confira se digitou corretamente.")
+    if cont == len(planilha.col_values(1)) - 1:
+        return render_template("respostaEstoque.html", retorno = "Houve um erro na pesquisa do produto! Confira se digitou corretamente.",
+        planilha_completa = planilha.get_all_values()
+    )
 
     #Verifica se a quantidade que vai ser retirada é maior que a quantidade disponível, se sim, retorna um erro
-    if int(planilha.cell(rm.row, 2).value) < int(request.form.get("quantidade")):
-        return render_template("respostaEstoque.html", retorno = "A quantidade que você quer retirar é maior que a quantidade disponível!Tente colocar um número menor!")
+    if int(planilha.cell(linha, 2).value) < int(request.form.get("quantidade")):
+        return render_template("respostaEstoque.html", retorno = "A quantidade que você quer retirar é maior que a quantidade disponível!Tente colocar um número menor!",
+        planilha_completa = planilha.get_all_values()
+    )
 
     #Atualiza a célula com o valor da subtração do valor que já tem na célula com o valor que o usuário quer retirar
-    planilha.update_cell(rm.row, 2, int(planilha.cell(rm.row, 2).value) - int(request.form.get("quantidade")))
+    planilha.update_cell(linha, 2, int(planilha.cell(linha, 2).value) - int(request.form.get("quantidade")))
 
     #Verifica se a quantidade atual está abaixo do valor limite definido pelo usuário (por enquanto o limite é fixo kkkkk)
-    if int(planilha.cell(rm.row, 2).value) < 5:
-        return render_template("respostaEstoque.html", retorno = "Atenção! O produto está abaixo do limite especificado")
+    if int(planilha.cell(linha, 2).value) < 5:
+        return render_template("respostaEstoque.html", retorno = "Atenção! O produto está abaixo do limite especificado",
+        planilha_completa = planilha.get_all_values()
+    )
     else:
-        return render_template("respostaEstoque.html", retorno = "Operação feita com sucesso!")
+        return render_template("respostaEstoque.html", retorno = "Operação feita com sucesso!",
+        planilha_completa = planilha.get_all_values()
+    )
 
 # Rotas para Inserir Produto
 @app.route('/inserir')
@@ -119,7 +131,7 @@ def add():
         index = len(planilha.get_all_values()) + 1
         planilha.insert_row(row, index)
         return render_template('/respostaIncluir.html', retorno = 'Novo item adicionado com sucesso!')
-    
+
 @app.route('/estoque')
 def estoque():
     return render_template('estoque.html', planilha_completa = planilha.get_all_values())
