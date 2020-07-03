@@ -13,11 +13,11 @@ transacoes.resize(1)
 #A variável root_path você deve modificar com o caminho completo da pasta python no seu sistema, serve para o Flask achar a pasta templates corretamente ^^
 #app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
 app = Flask("Estoque-SIM-SA",  root_path="/home/rafael/Área de Trabalho/Controle de estoque/estoque-sim-sa/Controle de estoque/python")
-
+#app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
 
 @app.route("/")
 def main():
-    return render_template("home.html", planilha_completa = planilha.get_all_values())
+    return render_template("home.html")
 
 @app.route("/delete")
 def delete():
