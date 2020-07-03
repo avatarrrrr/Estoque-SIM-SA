@@ -90,15 +90,17 @@ def add():
         'nome', 
         'quantidade', 
         'preço',
-        'tamanho do produto',
+        'valor',
         'área do corpo',
         'imagem'
     ]
 
     # Laço For para adicionar os dados dentro da minha lista row.
     row = []
-    for n in arr:
+    for pos, n in enumerate(arr):
         item = request.form.get(n)
+        if pos == 3:
+            item = request.form.get(n) + request.form.get('volume')
         row.append(item)
     
     # Laço For para verificar se os dados que o usuários inseriu é compatível com alguma linha dentro da planilha;
