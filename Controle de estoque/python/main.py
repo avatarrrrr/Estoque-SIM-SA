@@ -2,6 +2,7 @@
 from flask import Flask, request, render_template, redirect
 from unidecode import unidecode
 import gspread
+import datetime
 
 #Conexão com a Planilha
 conexao = gspread.service_account()
@@ -11,8 +12,8 @@ transacoes = conexao.open("transacoes").sheet1
 #Aplicação:
 #A variável root_path você deve modificar com o caminho completo da pasta python no seu sistema, serve para o Flask achar a pasta templates corretamente ^^
 #app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
-app = Flask("Estoque-SIM-SA",  root_path="/home/rafael/Área de Trabalho/Controle de estoque/estoque-sim-sa/Controle de estoque/python")
-#app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
+#app = Flask("Estoque-SIM-SA",  root_path="/home/rafael/Área de Trabalho/Controle de estoque/estoque-sim-sa/Controle de estoque/python")
+app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
 
 @app.route("/")
 def main():
@@ -55,8 +56,8 @@ def retirar():
     if int(planilha.cell(rm.row, 2).value) < int(request.form.get("quantidade")):
         return render_template("resposta.html", retorno = "A quantidade que você quer retirar é maior que a quantidade disponível!Tente colocar um número menor!")
 
-    #Registra uma transação na planilha transações com o valor do produto, a quantidade, e o preço
-    transacoes.append_row(request.form.get("nome"), request.form.get("quantidades"), request.form.get("preço"))
+    #Registra uma transação na planilha transações com o valor do produto, a quantidade, o preço, data e o horário
+    transacoes.append_row([request.form.get("nome"), request.form.get("quantidades"), int(request.form.get("preço")) * int(request.form.get("quantidades")), datetime.datetime.today().day + "/" + datetime.datetime.today().month + "/" + datetime.datetime.today().year, datetime.datetime.today().hour + ":" + datetime.datetime.today().minute + ":" + datetime.datetime.today().second])
 
     #Atualiza a célula com o valor da subtração do valor que já tem na célula com o valor que o usuário quer retirar
     planilha.update_cell(rm.row, 2, int(planilha.cell(rm.row, 2).value) - int(request.form.get("quantidade")))
@@ -127,4 +128,7 @@ def add():
 def estoque():
     return render_template('estoque.html', planilha_completa = planilha.get_all_values())
 
+@app.route('/transacoes')
+def transacoess():
+    return render_template("transacoes.html", transacoes = transacoes.get_all_values())
 app.run(debug=True, use_reloader=True)

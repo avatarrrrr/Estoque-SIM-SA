@@ -1,4 +1,21 @@
 {% extends "base1.html" %}
 {% block conteudo %}
-    
+    <table>
+        <tr>
+            <th>Produto</th>
+            <th>Quantidade</th>
+            <th>Preço Total</th>
+            <th>Data</th>
+            <th>Horário</th>
+        </tr>
+        <tr>
+            {% for transacao in transacoes%}
+                <td>transacao[0]</td>
+                <td>transacao[1]</td>
+                <td>transacao[2]</td>
+                <td>transacao[3]</td>
+                <td>transacao[4]</td>
+            {% endfor %}
+        </tr>
+    </table>
 {% endblock %}
