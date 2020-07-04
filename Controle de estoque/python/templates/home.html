@@ -1,21 +1,80 @@
 {% extends "base1.html" %}
 {% block conteudo %}
-    <script defer>      
+    <canvas id="myChart"></canvas>
+    <script defer src="{{ url_for('static', filename='chart.js') }}"></script>
+
+    <!-- Gráfico de produtos mais vendidos-->
+    <div>
+        <script id="graficoMaisVendidos">
+            var ctx = document.getElementById('myChart').getContext('2d');
+
+            var chart = new Chart(ctx, {
+
+                type: 'bar',
+
+                //Define os dados do chart
+                data: {
+                    labels: ['{{Argila Vermelha}}', '{{Purificante Natural}}', '{{Calêndula}}', '{{Bambu}}', '{{Mel}}', '{{Lama Negra}}',
+                    'Herbia'
+                    ],
+
+
+                    datasets: [{
+                        label: 'Gráfico de produtos mais vendidos',
+
+                        backgroundColor: ['green', 'blue', 'yellow', 'red', 'pink', 'black', 'white'],
+                        borderColor: 'rgb(255, 99, 132)', //Define as cores das bordas 
+
+                        //DADOS QUE IRÁ  INTEGRAR COM O JINJA 2
+                        data: [50, 10, 5, 30, 45, 67, 190]
+                    }]
+                },
+
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        </script>
+
+        <!-- CSS do grafico dos mais vendidos -->
+    </div>
+
+    <br>
+
+
+
+
+
+
+    <div id="graficoEntradaProdutos">
+        <!-- {{variavel}} -->
+        <script>
         var ctx = document.getElementById('myChart').getContext('2d');
 
-        var chart = new Chart(ctx, {
+        var entradaProdutos = new Chart(ctx, {
 
             type: 'bar',
 
             //Define os dados do chart
             data: {
-                labels: ['{{variavel}}', 'Purificante Natural', 'Calêndula', 'Bambu', 'Mel', 'Lama Negra', 'Herbia'],
-                
-                
+
+            //  legendas para os respectivos valores do vetor data
+            labels: ['{{Argila Vermelha}}', '{{Purificante Natural}}', '{{Calêndula}}', '{{Bambu}}', '{{Mel}}', '{{Lama Negra}}',
+                    'Herbia'
+                ],
+
+
                 datasets: [{
                     label: 'Gráfico de produtos mais vendidos',
-                    
-                    backgroundColor: ['green', 'blue', 'yellow','red','pink','black','white'],
+
+                    //propriedade para adicionar cores aos respectivos valores do vetor data
+                    backgroundColor: ['green', 'blue', 'yellow', 'red', 'pink', 'black', 'white'],
                     borderColor: 'rgb(255, 99, 132)', //Define as cores das bordas 
 
                     //DADOS QUE IRÁ  INTEGRAR COM O JINJA 2
@@ -23,7 +82,9 @@
                 }]
             },
 
+            //Objeto que define opções customizavéis do gráfico
             options: {
+                
                 scales: {
                     yAxes: [{
                         ticks: {
@@ -33,15 +94,12 @@
                 }
             }
         });
-    </script>
-    <canvas id="myChart"></canvas>
-    <script defer src="{{ url_for('static', filename='chart.js') }}"></script>
-    <script defer src="{{ url_for('static', filename='graficoMaisVendidos.js') }}"></script>
-    <style>
+        </script>
+
+        <style></style>
+    </div>
 
 
 
 
-    </style>
-    
 {% endblock %}
