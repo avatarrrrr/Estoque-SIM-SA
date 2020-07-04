@@ -103,15 +103,113 @@
 
 
 
+    <!-- Gráfico tal  -->
+    
+    <div>
+        <script defer id="">
+            var nomedaVariavel= document.getElementById('myChart2').getContext('2d');
+
+            var nomedaVariavel2 = new Chart(ctx, {
+
+                type: 'bar',
+
+                //Define os dados do chart
+                data: {
+                    labels: ['Argila Vermelha', 'Purificante Natural', 'Calêndula', 'Bambu', 'Mel', 'Lama Negra', 'Herbia'],
+
+
+                    datasets: [{
+                        label: 'Gráfico de produtos mais vendidos',
+
+                        backgroundColor: ['green', 'blue', 'yellow', 'red', 'pink', 'black', 'white'],
+                        borderColor: 'rgb(255, 99, 132)', //Define as cores das bordas 
+
+                        //DADOS QUE IRÁ  INTEGRAR COM O JINJA 2
+                        data: [50, 10, 5, 30, 45, 67, 190]
+                    }]
+                },
+
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        </script>
+        <br>
+
+        <!-- CSS do grafico dos mais vendidos -->
+        <style>
+            #graficoTal{
+                
+                
+            }
+        </style>
+    </div>
 
 
 
+    <!-- Gráfico tal  -->
+    
+    <div>
+        <script defer id="">
+            var nomedaVariave3= document.getElementById('myChart3').getContext('2d');
+
+            var nomedaVariavel4 = new Chart(ctx, {
+
+            type: 'bar',
+
+            //Define os dados do chart
+            data: {
+                labels: ['Argila Vermelha', 'Purificante Natural', 'Calêndula', 'Bambu', 'Mel', 'Lama Negra', 'Herbia'],
+
+
+                datasets: [{
+                        label: 'Gráfico de produtos mais vendidos',
+
+                        backgroundColor: ['green', 'blue', 'yellow', 'red', 'pink', 'black', 'white'],
+                        borderColor: 'rgb(255, 99, 132)', //Define as cores das bordas 
+
+                        //DADOS QUE IRÁ  INTEGRAR COM O JINJA 2
+                        data: [50, 10, 5, 30, 45, 67, 190]
+                    }]
+                },
+
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        </script>
+        <br>
+
+        <!-- CSS do grafico dos mais vendidos -->
+        <style>
+            #graficoTal{
+            
+            
+        }
+        </style>
+    </div>
+
+
+
+    <!-- Gráficos de pizza -->
 
     <div >
         <!-- {{variavel}} -->
         <script defer id="graficoEntradaProdutos">
         
-        var entrada = document.getElementById('myChart2').getContext('2d');
+        var entrada = document.getElementById('myChart4').getContext('2d');
 
         var entradaProdutos = new Chart(entrada, {
 
@@ -152,4 +250,98 @@
 
         <style></style>
     </div>
+
+    <div >
+        <!-- {{variavel}} -->
+        <script defer id="">
+        
+        var nome1 = document.getElementById('myChart5').getContext('2d');
+
+        var nome2 = new Chart(entrada, {
+
+            type: 'doughnut',
+
+            //Define os dados do chart
+            data: {
+
+            //  legendas para os respectivos valores do vetor data
+            labels: ['Argila Vermelha', 'Purificante Natural', 'Calêndula', 'Bambu', 'Mel', 'Lama Negra', 'Herbia'],
+
+
+                datasets: [{
+                    label: 'Gráfico de produtos mais vendidos',
+
+                    //propriedade para adicionar cores aos respectivos valores do vetor data
+                    backgroundColor: ['green', 'blue', 'yellow', 'red', 'pink', 'black', 'white'],
+                    borderColor: 'rgb(255, 99, 132)', //Define as cores das bordas 
+
+                    //DADOS QUE IRÁ  INTEGRAR COM O JINJA 2
+                    data: [50, 2000, 5, 30, 45, 67, 190]
+                }]
+            },
+
+            //Objeto que define opções customizavéis do gráfico
+            options: {
+                
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+        </script>
+
+        <style></style>
+    </div>
+
+    <div >
+        <!-- {{variavel}} -->
+        <script defer id="graficoEntradaProdutos">
+        
+        var nome1 = document.getElementById('myChart6').getContext('2d');
+
+        var nome2 = new Chart(entrada, {
+
+            type: 'doughnut',
+
+            //Define os dados do chart
+            data: {
+
+            //  legendas para os respectivos valores do vetor data
+            labels: ['Argila Vermelha', 'Purificante Natural', 'Calêndula', 'Bambu', 'Mel', 'Lama Negra', 'Herbia'],
+
+
+                datasets: [{
+                    label: 'Gráfico de produtos mais vendidos',
+
+                    //propriedade para adicionar cores aos respectivos valores do vetor data
+                    backgroundColor: ['green', 'blue', 'yellow', 'red', 'pink', 'black', 'white'],
+                    borderColor: 'rgb(255, 99, 132)', //Define as cores das bordas 
+
+                    //DADOS QUE IRÁ  INTEGRAR COM O JINJA 2
+                    data: [50, 2000, 5, 30, 45, 67, 190]
+                }]
+            },
+
+            //Objeto que define opções customizavéis do gráfico
+            options: {
+                
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+        </script>
+
+        <style></style>
+    </div>
+
+
 {% endblock %}
