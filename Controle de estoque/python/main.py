@@ -9,9 +9,11 @@ planilha = conexao.open("Nature Saboaria").sheet1
 
 #Aplicação:
 #A variável root_path você deve modificar com o caminho completo da pasta python no seu sistema, serve para o Flask achar a pasta templates corretamente ^^
-app = Flask("Estoque-SIM-SA", root_path="H:\\Users\\agata\\Documents\\projeto trainee\\estoque-sim-sa\\Controle de estoque\\python")
+#app = Flask("Estoque-SIM-SA", root_path="H:\\Users\\agata\\Documents\\projeto trainee\\estoque-sim-sa\\Controle de estoque\\python")
 #app = Flask("Estoque-SIM-SA", root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
-#app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
+#app = Flask("Estoque-SIM-SA", root_path="H:\\Users\\agata\\Documents\\projeto trainee\\estoque-sim-sa\\Controle de estoque\\python")
+#app = Flask("Estoque-SIM-SA", root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
+app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
 
 
 @app.route("/")
@@ -26,13 +28,9 @@ def remove():
 
     #Faz a remoção do produto e avalia se a exclusão foi bem sucedida ou não
     if planilha.delete_rows(remover.row):
-        return render_template("respostaEstoque.html", retorno = "Feito!",
-        planilha_completa = planilha.get_all_values()
-    )
+        return render_template("respostaEstoque.html", retorno = "Feito!")
     else:
-        return render_template("respostaEstoque.html", retorno = "Houve um Erro ao deletar o produto!",
-        planilha_completa = planilha.get_all_values()
-    )
+        return render_template("respostaEstoque.html", retorno = "Houve um Erro ao deletar o produto!")
 
 # Captura qual é o item que irá ser retirada uma determinada quantidade, e exibe o popup
 @app.route('/popup', methods=['POST'])
@@ -43,7 +41,8 @@ def popup():
     planilha_completa = planilha.get_all_values(),
     nome = item.value,
     imagem = img.value,
-    quantidade = planilha.cell(item.row, 2).value
+    quantidade = planilha.cell(item.row, 2).value,
+    preço = planilha.cell(item.row, 3).value
     )
 
 # Roteamento para remover uma quantidade de um produto, caso a quantidade do produto fique abaixo do limite, ele dispara um alerta
@@ -57,13 +56,9 @@ def venda():
 
     # Verifica se a quantidade atual está abaixo do valor limite definido pelo usuário (por enquanto o limite é fixo kkkkk)
     if int(planilha.cell(rm.row, 2).value) < 5:
-        return render_template("respostaEstoque.html", retorno = "Atenção! O produto está abaixo do limite especificado",
-        planilha_completa = planilha.get_all_values()
-    )
+        return render_template("respostaEstoque.html", retorno = "Atenção! O produto está abaixo do limite especificado")
     else:
-        return render_template("respostaEstoque.html", retorno = "Operação feita com sucesso!",
-        planilha_completa = planilha.get_all_values()
-    )
+        return render_template("respostaEstoque.html", retorno = "Operação feita com sucesso!")
 
 # Rotas para Inserir Produto
 @app.route('/inserir')

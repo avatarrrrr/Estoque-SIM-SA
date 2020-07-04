@@ -2,21 +2,28 @@
 {% block popup %}
 <div id="tela">
     <div id="popup">
-        <form action="/venda" method="POST">
-
+        <form action="/venda" method="POST" id='form'>
             <img src="{{ url_for ('static', filename = imagem) }}" alt="item">
-
-                <h2>{{nome}}</h2>
-                <label>Quantidade a ser retirada: </label>
-                    <a id = "voltar" href="/estoque">Voltar</a>
-                    <input type="hidden" name="nome" value="{{nome}}">
-                    <input type="number" name="quantidade" min="0", max="{{quantidade}}">
-                    <button id="enviar" type="submit">Retirar</button>
+            <h2>{{nome}}</h2>
+            <label>Quantidade a ser retirada: </label>
+            <a id = "voltar" href="/estoque">Voltar</a>
+            <input type="hidden" name="nome" value="{{nome}}">
+            <input type="hidden" name="preço" value="{{preço}}">
+            <input type="number" name="quantidade" min="1", max="{{quantidade}}" value="1">
+            <button id="enviar" type="submit" onclick="return clicar()">Retirar</button>
+            <script defer>
+                function clicar() {
+                    let env = document.querySelector('#form')
+                    if (confirm('Clique em OK para confirmar a venda')) {
+                        env.submit()
+                        return true
+                    }
+                    else {
+                        alert('Venda cancelada!')
+                        return false
+                    }
+                }
+            </script>
         </form>
 </div>
-{% endblock %}
-{% block script %} 
-    <script>
-        alert('hello world')
-    </script>
 {% endblock %}
