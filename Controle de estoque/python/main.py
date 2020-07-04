@@ -60,6 +60,12 @@ def venda():
     else:
         return render_template("respostaEstoque.html", retorno = "Operação feita com sucesso!")
 
+# Rota para editar dados da planilha
+@app.route('/editar', methods=['POST'])
+def editar():
+    return render_template('editar.html')
+
+
 # Rotas para Inserir Produto
 @app.route('/inserir')
 def inserir():

@@ -68,7 +68,7 @@
 
     /* Popup style */
 
-    #tela {
+    #tela, #telaEdition {
       height: 100%;
       width: 100%;
       margin: auto;
@@ -195,7 +195,7 @@
                 </script>
               </form>
 
-              <form action="" method="POST">
+              <form action="/editar" method="POST">
                 <input id = "editar" type="image" src="{{url_for('static', filename= 'editar1.jpg')}}">
               </form>
 
@@ -209,6 +209,7 @@
     </div>
     
     {% block popup %} <!-- Aqui ficará o popup --> {% endblock %}
+    {% block editar %} <!-- Aqui será o edição de itens --> {% endblock %}
 
 {% endblock %}
 
