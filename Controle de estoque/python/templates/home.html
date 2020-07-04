@@ -1,11 +1,11 @@
 {% extends "base1.html" %}
 {% block conteudo %}
     <canvas id="myChart"></canvas>
-    <script defer src="{{ url_for('static', filename='chart.js') }}"></script>
+    <script src="{{ url_for('static', filename='chart.js') }}"></script>
 
     <!-- Gráfico de produtos mais vendidos-->
     <div>
-        <script id="graficoMaisVendidos">
+        <script defer id="graficoMaisVendidos">
             var ctx = document.getElementById('myChart').getContext('2d');
 
             var chart = new Chart(ctx, {
@@ -14,9 +14,7 @@
 
                 //Define os dados do chart
                 data: {
-                    labels: ['{{Argila Vermelha}}', '{{Purificante Natural}}', '{{Calêndula}}', '{{Bambu}}', '{{Mel}}', '{{Lama Negra}}',
-                    'Herbia'
-                    ],
+                    labels: ['Argila Vermelha', 'Purificante Natural', 'Calêndula', 'Bambu', 'Mel', 'Lama Negra', 'Herbia'],
 
 
                     datasets: [{
@@ -54,7 +52,7 @@
 
     <div id="graficoEntradaProdutos">
         <!-- {{variavel}} -->
-        <script>
+        <script defer>
         var ctx = document.getElementById('myChart').getContext('2d');
 
         var entradaProdutos = new Chart(ctx, {
@@ -65,9 +63,7 @@
             data: {
 
             //  legendas para os respectivos valores do vetor data
-            labels: ['{{Argila Vermelha}}', '{{Purificante Natural}}', '{{Calêndula}}', '{{Bambu}}', '{{Mel}}', '{{Lama Negra}}',
-                    'Herbia'
-                ],
+            labels: ['Argila Vermelha', 'Purificante Natural', 'Calêndula', 'Bambu', 'Mel', 'Lama Negra', 'Herbia'],
 
 
                 datasets: [{
@@ -98,8 +94,4 @@
 
         <style></style>
     </div>
-
-
-
-
 {% endblock %}
