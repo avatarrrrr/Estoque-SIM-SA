@@ -1,6 +1,11 @@
 {% extends "base1.html" %}
 {% block conteudo %}
     <canvas id="myChart"></canvas>
+    <canvas id="myChart1"></canvas>
+    <canvas id="myChart2"></canvas>
+    <canvas id="myChart3"></canvas>
+    <canvas id="myChart4"></canvas>
+    <canvas id="myChart5"></canvas>
     <script src="{{ url_for('static', filename='chart.js') }}"></script>
 
     <!-- Gráfico de produtos mais vendidos-->
@@ -39,25 +44,31 @@
                 }
             });
         </script>
+        <br>
 
         <!-- CSS do grafico dos mais vendidos -->
+        <style>
+            #graficoMaisVendidos{
+                
+            }
+        </style>
     </div>
 
-    <br>
 
 
 
 
 
 
-    <div id="graficoEntradaProdutos">
+    <div >
         <!-- {{variavel}} -->
-        <script defer>
-        var ctx = document.getElementById('myChart').getContext('2d');
+        <script defer id="graficoEntradaProdutos">
+        
+        var entrada = document.getElementById('myChart1').getContext('2d');
 
-        var entradaProdutos = new Chart(ctx, {
+        var entradaProdutos = new Chart(entrada, {
 
-            type: 'bar',
+            type: 'doughnut',
 
             //Define os dados do chart
             data: {
@@ -74,7 +85,7 @@
                     borderColor: 'rgb(255, 99, 132)', //Define as cores das bordas 
 
                     //DADOS QUE IRÁ  INTEGRAR COM O JINJA 2
-                    data: [50, 10, 5, 30, 45, 67, 190]
+                    data: [50, 2000, 5, 30, 45, 67, 190]
                 }]
             },
 
