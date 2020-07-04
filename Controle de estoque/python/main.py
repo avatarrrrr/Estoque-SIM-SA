@@ -12,8 +12,8 @@ planilha = conexao.open("Nature Saboaria").sheet1
 #app = Flask("Estoque-SIM-SA", root_path="H:\\Users\\agata\\Documents\\projeto trainee\\estoque-sim-sa\\Controle de estoque\\python")
 #app = Flask("Estoque-SIM-SA", root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
 #app = Flask("Estoque-SIM-SA", root_path="H:\\Users\\agata\\Documents\\projeto trainee\\estoque-sim-sa\\Controle de estoque\\python")
-app = Flask("Estoque-SIM-SA", root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
-#app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
+#app = Flask("Estoque-SIM-SA", root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
+app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
 
 
 @app.route("/")
@@ -61,11 +61,16 @@ def venda():
         return render_template("respostaEstoque.html", retorno = "Operação concluida, o total da venda foi de R$: " + str(int(request.form.get("quantidade")) * float(request.form.get("preço")))) + "!"
 
 # Rotas para editar dados da planilha
-@app.route('/popupEdition')
+@app.route('/popupEdition', methods=['POST'])
 def popupEdition():
     item = planilha.find(request.form.get('edit'))
     return render_template('editar.html',
-    nome = item.value # LUCAS, CONTINUE DAQUI A AMANHÃ
+    planilha_completa = planilha.get_all_values(),
+    nome = item.value,
+    quantidade = planilha.cell(item.row, 2).value,
+    preço = planilha.cell(item.row, 3).value,
+    volume = planilha.cell(item.row, 4).value,
+    imagem = planilha.cell(item.row, 6).value
     )
 
 # Nessa rota ocorrerá a edição dos itens
