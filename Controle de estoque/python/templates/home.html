@@ -1,17 +1,42 @@
 {% extends "base1.html" %}
 {% block conteudo %}
-    <canvas id="myChart"></canvas>
-    <canvas id="myChart1"></canvas>
-    <canvas id="myChart2"></canvas>
-    <canvas id="myChart3"></canvas>
-    <canvas id="myChart4"></canvas>
-    <canvas id="myChart5"></canvas>
     <script src="{{ url_for('static', filename='chart.js') }}"></script>
+
+
+    <div id="aligned">
+        <div class="label">Alinhamento</div>
+        <div class="chart_container">
+            <canvas  id="myChart1" width="300px" height="200px"></canvas>
+        </div>
+    
+        <div class="chart_container">
+            <canvas  id="myChart2" width="300px" height="200px"></canvas>
+        </div>
+    
+        <div class="chart_container">
+            <canvas  id="myChart3" width="300px" height="100px"></canvas>
+        </div>
+
+        <div class="chart_container">
+            <canvas  id="myChart4" width="300px" height="100px"></canvas>
+        </div>
+
+        <div class="chart_container">
+            <canvas  id="myChart5" width="300px" height="100px"></canvas>
+        </div>
+    
+        <div class="chart_container">
+            <canvas  id="myChart6" width="300px" height="100px"></canvas>
+        </div>
+
+    </div>
+
+
 
     <!-- Gráfico de produtos mais vendidos-->
     <div>
         <script defer id="graficoMaisVendidos">
-            var ctx = document.getElementById('myChart').getContext('2d');
+            var ctx = document.getElementById('myChart1').getContext('2d');
 
             var chart = new Chart(ctx, {
 
@@ -50,6 +75,7 @@
         <style>
             #graficoMaisVendidos{
                 
+                
             }
         </style>
     </div>
@@ -64,7 +90,7 @@
         <!-- {{variavel}} -->
         <script defer id="graficoEntradaProdutos">
         
-        var entrada = document.getElementById('myChart1').getContext('2d');
+        var entrada = document.getElementById('myChart2').getContext('2d');
 
         var entradaProdutos = new Chart(entrada, {
 
