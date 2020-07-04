@@ -16,7 +16,7 @@
     
         <!-- Gráfico 2 -->
         <div class="chart_container2">
-            <canvas  id="myChart2" width="300px" height="200px"></canvas>
+            <canvas  id="myChart2" width="300px" height="100px"></canvas>
         </div>
         <br>
         <br>
@@ -65,7 +65,9 @@
             var ctx = document.getElementById('myChart1').getContext('2d');
 
             var chart = new Chart(ctx, {
-
+                //Tornando o gráfico responsivo
+                maintainAspectRatio : false,
+                responsive: true,
                 type: 'bar',
 
                 //Define os dados do chart
@@ -98,14 +100,11 @@
         <br>
 
         <!-- CSS do grafico dos mais vendidos -->
-        <style>
-            
-        </style>
     </div>
 
 
 
-    
+
     <!-- Gráfico tal  -->
     
     <div>
@@ -113,7 +112,9 @@
             var nomedaVariavel= document.getElementById('myChart2').getContext('2d');
 
             var nomedaVariavel2 = new Chart(nomedaVariavel, {
-
+                //Tornando o gráfico responsivo
+                maintainAspectRatio : false,
+                responsive: true,
                 type: 'bar',
 
                 //Define os dados do chart
@@ -146,9 +147,7 @@
         <br>
 
         <!-- CSS do grafico dos mais vendidos -->
-        <style>
-            
-        </style>
+        
     </div>
 
 
@@ -160,7 +159,9 @@
             var nomedaVariavel3= document.getElementById('myChart3').getContext('2d');
 
             var nomedaVariavel4 = new Chart(nomedaVariavel3, {
-
+            //Tornando o gráfico responsivo
+            maintainAspectRatio : false,
+            responsive: true,
             type: 'bar',
 
             //Define os dados do chart
@@ -192,10 +193,7 @@
         </script>
         <br>
 
-        <!-- CSS do grafico dos mais vendidos -->
-        <style>
         
-        </style>
     </div>
 
 
@@ -209,7 +207,9 @@
         var entrada = document.getElementById('myChart4').getContext('2d');
 
         var entradaProdutos = new Chart(entrada, {
-
+            //Tornando o gráfico responsivo
+            maintainAspectRatio : false,
+            responsive: true,
             type: 'doughnut',
 
             //Define os dados do chart
@@ -245,7 +245,7 @@
         });
         </script>
 
-        <style></style>
+        
     </div>
 
 
@@ -258,7 +258,9 @@
         var nome1 = document.getElementById('myChart5').getContext('2d');
 
         var nome2 = new Chart(nome1, {
-
+            //Tornando o gráfico responsivo
+            maintainAspectRatio : false,
+            responsive: true,
             type: 'doughnut',
 
             //Define os dados do chart
@@ -294,7 +296,7 @@
         });
         </script>
 
-        <style></style>
+        
     </div>
 
 
@@ -308,6 +310,9 @@
 
         var nome4 = new Chart(nome3, {
 
+            //Tornando o gráfico responsivo
+            maintainAspectRatio : false,
+            responsive: true,
             type: 'doughnut',
 
             //Define os dados do chart
@@ -325,7 +330,7 @@
                     borderColor: 'rgb(255, 99, 132)', //Define as cores das bordas 
 
                     //DADOS QUE IRÁ  INTEGRAR COM O JINJA 2
-                    data: [50, 2000, 5, 30, 45, 67, 190]
+                    data: [50, 20, 5, 30, 45, 67, 190]
                 }]
             },
 
@@ -343,8 +348,9 @@
         });
         </script>
 
-        <style></style>
+        
     </div>
 
+    s
 
 {% endblock %}
