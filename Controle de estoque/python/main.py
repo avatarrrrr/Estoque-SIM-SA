@@ -148,6 +148,6 @@ def estoque():
 
 @app.route('/transacoes')
 def transacoess():
-    return render_template("transacoes.html", transacoes = transacoes.get_all_values())
+    return render_template("transacoes.html", transacoes = reversed(transacoes.get_all_values()))
 
 app.run(debug=True, use_reloader=True)
