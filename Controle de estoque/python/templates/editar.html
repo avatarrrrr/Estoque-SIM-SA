@@ -4,8 +4,53 @@
         <div id="popupEdition">
             <form action="/editar" method="POST">
                 <label for="">Nome do produto</label>
-                <input type="text" name="nome" id="" placeholder='{{nome}}'>
+                <input type="text" name="nome" placeholder='{{nome}}'> <br>
+
+                <label for="">Quantidade</label>
+                <input type="number" name="quantidade" min="1" value="{{quantidade}}"> <br>
+
+                <label for="">Preço Unitário</label>
+                <input type="text" name="preço" value="{{preço}}"> <br>
+
+                <label for="">Volume em ml ou em gramas?</label>
+                <input id='ml' type="radio" name="volume" value="ml">ml
+                <input id='g' type="radio" name="volume" value="g">Gramas <br>
+
+                <label for="">Volume Unitário</label>
+                <input type="text" name="valor" placeholder="{{volume}}"> <br>
+
+                <label for="">Área do Corpo</label>
+                <input id='corporal' type="radio" name="área do corpo" value="corporal">Corporal
+                <input id='facial' type="radio" name="área do corpo" value="facial">Facial <br>
+
+                <label for="">Inserir Imagem</label>
+                <input type="file" name="imagem"> <br>
+
+                <button type="submit">Salvar</button>
             </form>
         </div>
+        <script>
+            // informação do volume
+            let vol1 = document.querySelector('#ml')
+            let vol2 = document.querySelector('#g')
+
+            if ("{{volume}}".indexOf(vol1.value) != -1) {
+                vol1.checked = true
+            }
+            else {
+                vol2.checked = true
+            }
+
+            // informação do tipo de sabonete
+            let area1 = document.querySelector('#corporal')
+            let area2 = document.querySelector('#facial')
+
+            if ("{{corpo}}".indexOf(area1.value) != -1) {
+                area1.checked = true
+            }
+            else {
+                area2.checked = true
+            }
+        </script>
     </div>
 {% endblock %}
