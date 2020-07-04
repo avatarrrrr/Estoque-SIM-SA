@@ -195,7 +195,8 @@
                 </script>
               </form>
 
-              <form action="/editar" method="POST">
+              <form action="/popupEdition" method="POST">
+                <input name="edit" type="hidden" value="{{produto[0]}}">
                 <input id = "editar" type="image" src="{{url_for('static', filename= 'editar1.jpg')}}">
               </form>
 

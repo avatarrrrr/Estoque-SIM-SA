@@ -60,10 +60,18 @@ def venda():
     else:
         return render_template("respostaEstoque.html", retorno = "Operação concluida, o total da venda foi de R$: " + str(int(request.form.get("quantidade")) * float(request.form.get("preço")))) + "!"
 
-# Rota para editar dados da planilha
+# Rotas para editar dados da planilha
+@app.route('/popupEdition')
+def popupEdition():
+    item = planilha.find(request.form.get('edit'))
+    return render_template('editar.html',
+    nome = item.value # LUCAS, CONTINUE DAQUI A AMANHÃ
+    )
+
+# Nessa rota ocorrerá a edição dos itens
 @app.route('/editar', methods=['POST'])
 def editar():
-    return render_template('editar.html')
+    return render_template('')
 
 
 # Rotas para Inserir Produto
