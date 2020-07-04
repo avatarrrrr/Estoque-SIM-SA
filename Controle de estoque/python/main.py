@@ -74,6 +74,7 @@ def popupEdition():
     quantidade = planilha.cell(item.row, 2).value,
     preço = planilha.cell(item.row, 3).value,
     volume = planilha.cell(item.row, 4).value,
+    corpo = planilha.cell(item.row, 5).value,
     imagem = planilha.cell(item.row, 6).value
     )
 
