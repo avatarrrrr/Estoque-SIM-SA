@@ -55,13 +55,9 @@ def venda():
 
     # Verifica se a quantidade atual está abaixo do valor limite definido pelo usuário (por enquanto o limite é fixo kkkkk)
     if int(planilha.cell(rm.row, 2).value) < 5:
-        return render_template("respostaEstoque.html", retorno = "Atenção! O produto está abaixo do limite especificado",
-        planilha_completa = planilha.get_all_values()
-    )
+        return render_template("respostaEstoque.html", retorno = "Atenção! O produto está abaixo do limite especificado")
     else:
-        return render_template("respostaEstoque.html", retorno = "Operação feita com sucesso!",
-        planilha_completa = planilha.get_all_values()
-    )
+        return render_template("respostaEstoque.html", retorno = "Operação feita com sucesso!")
 
 # Rotas para Inserir Produto
 @app.route('/inserir')
