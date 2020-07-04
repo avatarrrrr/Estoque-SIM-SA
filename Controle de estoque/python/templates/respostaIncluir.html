@@ -1,4 +1,7 @@
-{% extends 'incluirProduto.html' %}
+{% extends 'base1.html' %}
 {% block resposta %}
-    <script>alert('{{retorno}}')</script>
+    <script>
+        alert('{{retorno}}')
+        window.location = "/inserir"
+    </script>
 {% endblock %}

@@ -182,9 +182,17 @@
             <li class = "itens">R$: {{produto[2]}}</li>
             <li class = "itens">Volume: {{produto[3]}}</li>
             <li class = "itens">Finalidade: {{produto[4]}}</li>
-              <form action="/remover" method="POST">
+              <form action="/remover" method="POST" onsubmit="return confirmacao()">
                 <input name="delete" type="hidden" value="{{produto[0]}}">
                 <input id = "lixeira" type="image" src="{{url_for('static', filename= 'download.png')}}">
+                <script defer>
+                  function confirmacao() {
+                    if (confirm("Essa treta é realmente necessária?"))
+                      return true
+                    else
+                      return false
+                  }
+                </script>
               </form>
 
               <form action="" method="POST">

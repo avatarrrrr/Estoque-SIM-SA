@@ -10,8 +10,8 @@ planilha = conexao.open("Nature Saboaria").sheet1
 #Aplicação:
 #A variável root_path você deve modificar com o caminho completo da pasta python no seu sistema, serve para o Flask achar a pasta templates corretamente ^^
 #app = Flask("Estoque-SIM-SA", root_path="H:\\Users\\agata\\Documents\\projeto trainee\\estoque-sim-sa\\Controle de estoque\\python")
-#app = Flask("Estoque-SIM-SA", root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
-app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
+app = Flask("Estoque-SIM-SA", root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
+#app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
 
 
 @app.route("/")
@@ -26,13 +26,9 @@ def remove():
 
     #Faz a remoção do produto e avalia se a exclusão foi bem sucedida ou não
     if planilha.delete_rows(remover.row):
-        return render_template("respostaEstoque.html", retorno = "Feito!",
-        planilha_completa = planilha.get_all_values()
-    )
+        return render_template("respostaEstoque.html", retorno = "Feito!")
     else:
-        return render_template("respostaEstoque.html", retorno = "Houve um Erro ao deletar o produto!",
-        planilha_completa = planilha.get_all_values()
-    )
+        return render_template("respostaEstoque.html", retorno = "Houve um Erro ao deletar o produto!")
 
 # Captura qual é o item que irá ser retirada uma determinada quantidade, e exibe o popup
 @app.route('/popup', methods=['POST'])
