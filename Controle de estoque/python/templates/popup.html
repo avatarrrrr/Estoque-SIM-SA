@@ -2,26 +2,28 @@
 {% block popup %}
 <div id="tela">
     <div id="popup">
-        <form action="/venda" method="POST" onsubmit="return enviar()">
-
+        <form action="/venda" method="POST" id="merda">
             <img src="{{ url_for ('static', filename = imagem) }}" alt="item">
-
-                <h2>{{nome}}</h2>
-                <label>Quantidade a ser retirada: </label>
-                    <a id = "voltar" href="/estoque">Voltar</a>
-                    <input type="hidden" name="nome" value="{{nome}}">
-                    <input type="number" name="quantidade" min="1", max="{{quantidade}}">
-                    <button id="enviar" type="submit">Retirar</button>
-                    <script defer>
-                        function enviar() { 
-                            if (confirm('Clique OK para confirmar a venda')) {
-                                return true
-                            }
-                            else {
-                                return false
-                            }
-                        }
-                    </script>
+            <h2>{{nome}}</h2>
+            <label>Quantidade a ser retirada: </label>
+            <a id = "voltar" href="/estoque">Voltar</a>
+            <input type="hidden" name="nome" value="{{nome}}">
+            <input type="hidden" name="quantidade" value="{{quantidade}}">
+            <input type="hidden" name="preço" value="{{preço}}">
+            <input type="number" name="quantidade" min="1", max="{{quantidade}}" value="1">
+            <button id="enviar" type="submit">Retirar</button>
+            <script defer>
+                function enviar() { 
+                    if (confirm('Clique OK para confirmar a venda')) {
+                        return true
+                    }
+                    else {
+                        return false
+                    }
+                }
+                var desgraca = document.querySelector("#merda")
+                desgraca.onclick = enviar
+            </script>
         </form>
 </div>
 {% endblock %}

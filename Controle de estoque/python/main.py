@@ -12,8 +12,8 @@ planilha = conexao.open("Nature Saboaria").sheet1
 #app = Flask("Estoque-SIM-SA", root_path="H:\\Users\\agata\\Documents\\projeto trainee\\estoque-sim-sa\\Controle de estoque\\python")
 #app = Flask("Estoque-SIM-SA", root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
 #app = Flask("Estoque-SIM-SA", root_path="H:\\Users\\agata\\Documents\\projeto trainee\\estoque-sim-sa\\Controle de estoque\\python")
-#app = Flask("Estoque-SIM-SA", root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
-app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
+app = Flask("Estoque-SIM-SA", root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
+#app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
 
 
 @app.route("/")
@@ -41,7 +41,8 @@ def popup():
     planilha_completa = planilha.get_all_values(),
     nome = item.value,
     imagem = img.value,
-    quantidade = planilha.cell(item.row, 2).value
+    quantidade = planilha.cell(item.row, 2).value,
+    preço = planilha.cell(item.row, 3).value
     )
 
 # Roteamento para remover uma quantidade de um produto, caso a quantidade do produto fique abaixo do limite, ele dispara um alerta
