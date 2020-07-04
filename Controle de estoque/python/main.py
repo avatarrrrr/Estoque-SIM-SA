@@ -19,6 +19,17 @@ app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Cont
 
 @app.route("/")
 def main():
+    #Pegando os toda a planilha de transações
+    tudo = transacoes.get_all_values()
+
+    #Criando uma lista com todas as transações do dia
+    dia = []
+    for transacao in tudo:
+        if int(transacao[5]) == datetime.datetime.today().day:
+            dia.append([transacao[0], transacao[1], transacao[2]])
+    #Juntando transacoes repetidas em uma só
+            
+
     return render_template("home.html")
 
 #Roteamento para remover um produto
@@ -53,7 +64,7 @@ def venda():
     rm = planilha.find(request.form.get('nome'))
 
     #Registra uma transação na planilha transações com o valor do produto, a quantidade, o preço, data e o horário
-    transacoes.append_row([request.form.get("nome"), request.form.get("quantidade"), str(float(request.form.get("preço")) * int(request.form.get("quantidade"))), str(datetime.datetime.today().day) + "/" + str(datetime.datetime.today().month) + "/" + str(datetime.datetime.today().year), str(datetime.datetime.today().hour) + ":" + str(datetime.datetime.today().minute) + ":" + str(datetime.datetime.today().second)])
+    transacoes.append_row([request.form.get("nome"), request.form.get("quantidade"), str(float(request.form.get("preço")) * int(request.form.get("quantidade"))), str(datetime.datetime.today().day) + "/" + str(datetime.datetime.today().month) + "/" + str(datetime.datetime.today().year), str(datetime.datetime.today().hour) + ":" + str(datetime.datetime.today().minute) + ":" + str(datetime.datetime.today().second), str(datetime.datetime.today().day), str(datetime.datetime.today().month), str(datetime.datetime.today().year)])
 
     #Atualiza a célula com o valor da subtração do valor que já tem na célula com o valor que o usuário quer retirar
     planilha.update_cell(rm.row, 2, int(planilha.cell(rm.row, 2).value) - int(request.form.get("quantidade")))
