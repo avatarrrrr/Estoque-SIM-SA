@@ -11,10 +11,10 @@ transacoes = conexao.open("transacoes").sheet1
 
 #Aplicação:
 #A variável root_path você deve modificar com o caminho completo da pasta python no seu sistema, serve para o Flask achar a pasta templates corretamente ^^
-app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
+#app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
 #app = Flask("Estoque-SIM-SA",  root_path="/home/rafael/Área de Trabalho/Controle de estoque/estoque-sim-sa/Controle de estoque/python")
 #app = Flask("Estoque-SIM-SA",  root_path="H:\\Users\\agata\\Documents\\projeto trainee\\estoque-sim-sa\\Controle de estoque\\python")
-#app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
+app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
 
 
 @app.route("/")
@@ -36,8 +36,6 @@ def main():
                 dia.remove(transacao2)
     #Ordenando a lista pelo produto de maior quantidade:
     diaQuantidade = sorted(dia, key=lambda transacao: int(transacao[1]), reverse=True)
-    #Ordenando a lista pelo produto de maior preço:
-    diaPreco = sorted(dia, key=lambda transacao: float(transacao[2]), reverse=True)
 
     #Criando uma lista com todas as transações do MÊS
     mes = []
@@ -53,8 +51,6 @@ def main():
                 mes.remove(transacao2)
     #Ordenando a lista pelo produto de maior quantidade:
     mesQuantidade = sorted(mes, key=lambda transacao: int(transacao[1]), reverse=True)
-    #Ordenando a lista pelo produto de maior preço:
-    mesPreco = sorted(mes, key=lambda transacao: float(transacao[2]), reverse=True)
 
     #Criando uma lista com todas as transações do ANO
     ano = []
@@ -70,10 +66,8 @@ def main():
                 ano.remove(transacao2)
     #Ordenando a lista pelo produto de maior quantidade:
     anoQuantidade = sorted(ano, key=lambda transacao: int(transacao[1]), reverse=True)
-    #Ordenando a lista pelo produto de maior preço:
-    anoPreco = sorted(ano, key=lambda transacao: float(transacao[2]), reverse=True)
 
-    return render_template("home.html", diaQuantidade = diaQuantidade, diaPreco = diaPreco, mesQuantidade = mesQuantidade, mesPreco = mesPreco, anoQuantidade = anoQuantidade, anoPreco = anoPreco)
+    return render_template("home.html", diaQuantidade = diaQuantidade, mesQuantidade = mesQuantidade, anoQuantidade = anoQuantidade)
 
 #Roteamento para remover um produto
 @app.route("/remover", methods=["POST"])
