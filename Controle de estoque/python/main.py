@@ -122,12 +122,21 @@ def venda():
 @app.route('/popupEdition', methods=['POST'])
 def popupEdition():
     item = planilha.find(request.form.get('edit'))
+    volume = planilha.cell(item.row, 4).value
+
+    # Utilizando o laço for para capturar apenas o valor do volume
+    valor = ''
+    for num in volume:
+        if num.isnumeric() == True:
+            valor += num
+
     return render_template('editar.html',
     planilha_completa = planilha.get_all_values(),
     nome = item.value,
     quantidade = planilha.cell(item.row, 2).value,
     preço = planilha.cell(item.row, 3).value,
-    volume = planilha.cell(item.row, 4).value,
+    volume = volume,
+    valor = valor,
     corpo = planilha.cell(item.row, 5).value,
     imagem = planilha.cell(item.row, 6).value
     )
