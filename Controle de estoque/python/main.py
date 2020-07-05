@@ -11,9 +11,9 @@ transacoes = conexao.open("transacoes").sheet1
 
 #Aplicação:
 #A variável root_path você deve modificar com o caminho completo da pasta python no seu sistema, serve para o Flask achar a pasta templates corretamente ^^
-#app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
+app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
 #app = Flask("Estoque-SIM-SA",  root_path="/home/rafael/Área de Trabalho/Controle de estoque/estoque-sim-sa/Controle de estoque/python")
-app = Flask("Estoque-SIM-SA",  root_path="H:\\Users\\agata\\Documents\\projeto trainee\\estoque-sim-sa\\Controle de estoque\\python")
+#app = Flask("Estoque-SIM-SA",  root_path="H:\\Users\\agata\\Documents\\projeto trainee\\estoque-sim-sa\\Controle de estoque\\python")
 #app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
 
 
@@ -135,8 +135,27 @@ def popupEdition():
 # Nessa rota ocorrerá a edição dos itens
 @app.route('/editar', methods=['POST'])
 def editar():
-    return render_template('')
+    conteudo = [
+        'nome',
+        'quantidade',
+        'preço',
+        'valor',
+        'área do corpo',
+        'imagem'
+    ]
 
+    # Capturando a linha certa pelo nome do item
+    linha = planilha.find(request.form.get('edition')).row
+
+    # Atualizando a planilha com os novos valores
+    for pos, item in enumerate(conteudo):
+        if pos == 3:
+            volume = request.form.get(item) + request.form.get('volume')
+            planilha.update_cell(linha, pos + 1, volume)
+        else:
+            planilha.update_cell(linha, pos + 1, request.form.get(item))
+
+    return render_template('respostaEstoque.html', retorno = 'Item salvo com sucesso!')
 
 # Rotas para Inserir Produto
 @app.route('/inserir')
