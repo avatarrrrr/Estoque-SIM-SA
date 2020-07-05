@@ -12,7 +12,6 @@
         <br>
         <br>
         <br>
-    
         <!-- Gráfico 2 -->
         <div class="chart_container2">
             <canvas  id="myChart2" width="300px" height="100px"></canvas>
@@ -21,7 +20,6 @@
         <br>
         <br>
         <br>
-        
         <!-- Gráfico 3 -->
         <div class="chart_container3">
             <canvas  id="myChart3" width="300px" height="100px"></canvas>
@@ -30,7 +28,6 @@
         <br>
         <br>
         <br>
-        
         <!-- Gráfico 4 -->
         <div class="chart_container4">
             <canvas  id="myChart4" width="300px" height="100px"></canvas>
@@ -39,7 +36,6 @@
         <br>
         <br>
         <br>
-        
         <!-- Gráfico 5 -->
         <div class="chart_container5">
             <canvas  id="myChart5" width="300px" height="100px"></canvas>
@@ -52,39 +48,35 @@
         <div class="chart_container6">
             <canvas  id="myChart6" width="300px" height="100px"></canvas>
         </div>
-        
-    
     </div>
-
-
-
-    <!-- Gráfico de produtos mais vendidos-->
+    <!--Gráfico dos produtos vendidos organizados por quantidade do dia-->
     <div>
-        <script defer id="graficoMaisVendidos">
+        <script defer>
             var ctx = document.getElementById('myChart1').getContext('2d');
-
             var chart = new Chart(ctx, {
                 //Tornando o gráfico responsivo
                 maintainAspectRatio : false,
                 responsive: true,
                 type: 'bar',
-
                 //Define os dados do chart
                 data: {
-                    labels: ['Argila Vermelha', 'Purificante Natural', 'Calêndula', 'Bambu', 'Mel', 'Lama Negra', 'Herbia'],
-
-
+                    labels: [   
+                        {% for dado in diaQuantidade %}
+                            "{{dado[0]}}",
+                        {% endfor %}
+                    ],
                     datasets: [{
-                        label: 'Gráfico de produtos mais vendidos',
-
+                        label: 'Produtos mais vendidos do dia',
                         backgroundColor: ['green', 'blue', 'yellow', 'red', 'pink', 'black', 'white'],
                         borderColor: 'rgb(255, 99, 132)', //Define as cores das bordas 
-
                         //DADOS QUE IRÁ  INTEGRAR COM O JINJA 2
-                        data: [50, 10, 5, 30, 45, 67, 190]
+                        data: [
+                            {% for dado in diaQuantidade %}
+                                "{{dado[1]}}",
+                            {% endfor %}
+                        ]
                     }]
                 },
-
                 options: {
                     scales: {
                         yAxes: [{
@@ -97,41 +89,35 @@
             });
         </script>
         <br>
-
-        <!-- CSS do grafico dos mais vendidos -->
     </div>
-
-
-
-
-    <!-- Gráfico tal  -->
-    
+    <!--Gráfico dos produtos vendidos organizados por quantidade do mês-->
     <div>
-        <script defer id="">
+        <script defer>
             var nomedaVariavel= document.getElementById('myChart2').getContext('2d');
-
             var nomedaVariavel2 = new Chart(nomedaVariavel, {
                 //Tornando o gráfico responsivo
                 maintainAspectRatio : false,
                 responsive: true,
                 type: 'bar',
-
                 //Define os dados do chart
                 data: {
-                    labels: ['Argila Vermelha', 'Purificante Natural', 'Calêndula', 'Bambu', 'Mel', 'Lama Negra', 'Herbia'],
-
-
+                    labels: [   
+                        {% for dado in mesQuantidade %}
+                            "{{dado[0]}}",
+                        {% endfor %}
+                    ],
                     datasets: [{
-                        label: 'Gráfico de produtos mais vendidos',
-
+                        label: 'Produtos mais vendidos do mês',
                         backgroundColor: ['green', 'blue', 'yellow', 'red', 'pink', 'black', 'white'],
                         borderColor: 'rgb(255, 99, 132)', //Define as cores das bordas 
-
                         //DADOS QUE IRÁ  INTEGRAR COM O JINJA 2
-                        data: [50, 10, 5, 30, 45, 67, 190]
+                        data: [
+                            {% for dado in mesQuantidade %}
+                                "{{dado[1]}}",
+                            {% endfor %}
+                        ]
                     }]
                 },
-
                 options: {
                     scales: {
                         yAxes: [{
@@ -144,41 +130,35 @@
             });
         </script>
         <br>
-
-        <!-- CSS do grafico dos mais vendidos -->
-        
     </div>
-
-
-
-    <!-- Gráfico tal  -->
-    
+    <!--Gráfico dos produtos vendidos organizados por quantidade do ano-->
     <div>
         <script defer id="">
             var nomedaVariavel3= document.getElementById('myChart3').getContext('2d');
-
             var nomedaVariavel4 = new Chart(nomedaVariavel3, {
             //Tornando o gráfico responsivo
             maintainAspectRatio : false,
             responsive: true,
             type: 'bar',
-
             //Define os dados do chart
             data: {
-                labels: ['Argila Vermelha', 'Purificante Natural', 'Calêndula', 'Bambu', 'Mel', 'Lama Negra', 'Herbia'],
-
-
+                labels: [   
+                        {% for dado in anoQuantidade %}
+                            "{{dado[0]}}",
+                        {% endfor %}
+                    ],
                 datasets: [{
-                        label: 'Gráfico de produtos mais vendidos',
-
+                        label: 'Produtos mais vendidos do Ano',
                         backgroundColor: ['green', 'blue', 'yellow', 'red', 'pink', 'black', 'white'],
                         borderColor: 'rgb(255, 99, 132)', //Define as cores das bordas 
-
                         //DADOS QUE IRÁ  INTEGRAR COM O JINJA 2
-                        data: [50, 10, 5, 30, 45, 67, 190]
+                        data: [
+                            {% for dado in anoQuantidade %}
+                                "{{dado[1]}}",
+                            {% endfor %}
+                        ]
                     }]
                 },
-
                 options: {
                     scales: {
                         yAxes: [{
@@ -191,165 +171,136 @@
             });
         </script>
         <br>
-
-        
     </div>
-
-
-
-    <!-- Gráficos de pizza -->
-
+    <!--Gráfico dos produtos vendidos organizados por preço do dia-->
     <div >
-        <!-- {{variavel}} -->
-        <script defer id="graficoEntradaProdutos">
-        
-        var entrada = document.getElementById('myChart4').getContext('2d');
-
-        var entradaProdutos = new Chart(entrada, {
-            //Tornando o gráfico responsivo
-            maintainAspectRatio : false,
-            responsive: true,
-            type: 'doughnut',
-
-            //Define os dados do chart
-            data: {
-
-            //  legendas para os respectivos valores do vetor data
-            labels: ['Argila Vermelha', 'Purificante Natural', 'Calêndula', 'Bambu', 'Mel', 'Lama Negra', 'Herbia'],
-
-
-                datasets: [{
-                    label: 'Gráfico de produtos mais vendidos',
-
-                    //propriedade para adicionar cores aos respectivos valores do vetor data
-                    backgroundColor: ['green', 'blue', 'yellow', 'red', 'pink', 'black', 'white'],
-                    borderColor: 'rgb(255, 99, 132)', //Define as cores das bordas 
-
-                    //DADOS QUE IRÁ  INTEGRAR COM O JINJA 2
-                    data: [50, 2000, 5, 30, 45, 67, 190]
-                }]
-            },
-
-            //Objeto que define opções customizavéis do gráfico
-            options: {
-                
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
+        <script defer> 
+            var entrada = document.getElementById('myChart4').getContext('2d');
+            var entradaProdutos = new Chart(entrada, {
+                //Tornando o gráfico responsivo
+                maintainAspectRatio : false,
+                responsive: true,
+                type: 'doughnut',
+                //Define os dados do chart
+                data: {
+                //  legendas para os respectivos valores do vetor data
+                labels: [   
+                            {% for dado in diaPreco %}
+                                "{{dado[0]}}",
+                            {% endfor %}
+                        ],
+                    datasets: [{
+                        label: 'Produtos que mais lucraram do Dia',
+                        //propriedade para adicionar cores aos respectivos valores do vetor data
+                        backgroundColor: ['green', 'blue', 'yellow', 'red', 'pink', 'black', 'white'],
+                        borderColor: 'rgb(255, 99, 132)', //Define as cores das bordas 
+                        //DADOS QUE IRÁ  INTEGRAR COM O JINJA 2
+                        data: [
+                                {% for dado in diaPreco %}
+                                    "{{dado[2]}}",
+                                {% endfor %}
+                            ]
                     }]
+                },
+                //Objeto que define opções customizavéis do gráfico
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
                 }
-            }
-        });
+            });
         </script>
-
-        
     </div>
-
-
-
-
+    <!--Gráfico dos produtos vendidos organizados por preço do mês-->
     <div >
-        <!-- {{variavel}} -->
-        <script defer id="">
-        
-        var nome1 = document.getElementById('myChart5').getContext('2d');
-
-        var nome2 = new Chart(nome1, {
-            //Tornando o gráfico responsivo
-            maintainAspectRatio : false,
-            responsive: true,
-            type: 'doughnut',
-
-            //Define os dados do chart
-            data: {
-
-            //  legendas para os respectivos valores do vetor data
-            labels: ['Argila Vermelha', 'Purificante Natural', 'Calêndula', 'Bambu', 'Mel', 'Lama Negra', 'Herbia'],
-
-
-                datasets: [{
-                    label: 'Gráfico de produtos mais vendidos',
-
-                    //propriedade para adicionar cores aos respectivos valores do vetor data
-                    backgroundColor: ['green', 'blue', 'yellow', 'red', 'pink', 'black', 'white'],
-                    borderColor: 'rgb(255, 99, 132)', //Define as cores das bordas 
-
-                    //DADOS QUE IRÁ  INTEGRAR COM O JINJA 2
-                    data: [50, 2000, 5, 30, 45, 67, 190]
-                }]
-            },
-
-            //Objeto que define opções customizavéis do gráfico
-            options: {
-                
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
+        <script defer>
+            var nome1 = document.getElementById('myChart5').getContext('2d');
+            var nome2 = new Chart(nome1, {
+                //Tornando o gráfico responsivo
+                maintainAspectRatio : false,
+                responsive: true,
+                type: 'doughnut',
+                //Define os dados do chart
+                data: {
+                //  legendas para os respectivos valores do vetor data
+                labels: [   
+                            {% for dado in mesPreco %}
+                                "{{dado[0]}}",
+                            {% endfor %}
+                        ],
+                    datasets: [{
+                        label: 'Produtos que mais lucraram do mês',
+                        //propriedade para adicionar cores aos respectivos valores do vetor data
+                        backgroundColor: ['green', 'blue', 'yellow', 'red', 'pink', 'black', 'white'],
+                        borderColor: 'rgb(255, 99, 132)', //Define as cores das bordas 
+                        //DADOS QUE IRÁ  INTEGRAR COM O JINJA 2
+                        data: [
+                                {% for dado in mesPreco %}
+                                    "{{dado[2]}}",
+                                {% endfor %}
+                            ]
                     }]
+                },
+                //Objeto que define opções customizavéis do gráfico
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
                 }
-            }
-        });
+            });
         </script>
-
-        
     </div>
+    <!--Gráfico dos produtos vendidos organizados por preço do ano-->
+    <div>
+        <script defer>
+            var nome3 = document.getElementById('myChart6').getContext('2d');
+            var nome4 = new Chart(nome3, {
+                //Tornando o gráfico responsivo
+                maintainAspectRatio : false,
+                responsive: true,
+                type: 'doughnut',
+                //Define os dados do chart
+                data: {
+                //  legendas para os respectivos valores do vetor data
+                    labels: [   
+                            {% for dado in anoPreco %}
+                                "{{dado[0]}}",
+                            {% endfor %}
+                        ],
+                    datasets: [{
+                        label: 'Produtos que mais lucraram do Ano',
 
+                        //propriedade para adicionar cores aos respectivos valores do vetor data
+                        backgroundColor: ['green', 'blue', 'yellow', 'red', 'pink', 'black', 'white'],
+                        borderColor: 'rgb(255, 99, 132)', //Define as cores das bordas 
 
-
-
-    <div >
-        <!-- {{variavel}} -->
-        <script defer id="">
-        
-        var nome3 = document.getElementById('myChart6').getContext('2d');
-
-        var nome4 = new Chart(nome3, {
-
-            //Tornando o gráfico responsivo
-            maintainAspectRatio : false,
-            responsive: true,
-            type: 'doughnut',
-
-            //Define os dados do chart
-            data: {
-
-            //  legendas para os respectivos valores do vetor data
-            labels: ['Argila Vermelha', 'Purificante Natural', 'Calêndula', 'Bambu', 'Mel', 'Lama Negra', 'Herbia'],
-
-
-                datasets: [{
-                    label: 'Gráfico de produtos mais vendidos',
-
-                    //propriedade para adicionar cores aos respectivos valores do vetor data
-                    backgroundColor: ['green', 'blue', 'yellow', 'red', 'pink', 'black', 'white'],
-                    borderColor: 'rgb(255, 99, 132)', //Define as cores das bordas 
-
-                    //DADOS QUE IRÁ  INTEGRAR COM O JINJA 2
-                    data: [50, 20, 5, 30, 45, 67, 190]
-                }]
-            },
-
-            //Objeto que define opções customizavéis do gráfico
-            options: {
-                
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
+                        //DADOS QUE IRÁ  INTEGRAR COM O JINJA 2
+                        data: [
+                                {% for dado in anoPreco %}
+                                    "{{dado[2]}}",
+                                {% endfor %}
+                            ]
                     }]
+                },
+                //Objeto que define opções customizavéis do gráfico
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
                 }
-            }
-        });
-        </script>
-
-        
+            });
+        </script> 
     </div>
-
-    s
-
 {% endblock %}
