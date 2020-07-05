@@ -69,7 +69,7 @@
 
     }
   </style>
-  
+
   <div id = "listagem">
       {% for produto in planilha_completa %}
         <ul id = "itemzão">
@@ -85,7 +85,7 @@
             <li class = "itens">Finalidade: {{produto[4]}}</li>
               <form action="/remover" method="POST" onsubmit="return confirmacao()">
                 <input name="delete" type="hidden" value="{{produto[0]}}">
-                <input id = "lixeira" type="image" src="{{url_for('static', filename= 'download.png')}}">
+                <input id = "lixeira" type="image" src="{{url_for('static', filename= 'lixeira3.jpg')}}">
                 <script defer>
                   function confirmacao() {
                     if (confirm("Essa treta é realmente necessária?"))
