@@ -1,8 +1,9 @@
 #Importações Necessárias
-from flask import Flask, request, render_template, redirect
+from flask import Flask, request, render_template
 from unidecode import unidecode
 import gspread
 import datetime
+import base64
 
 #Conexão com a Planilha
 conexao = gspread.service_account()
@@ -11,11 +12,10 @@ transacoes = conexao.open("transacoes").sheet1
 
 #Aplicação:
 #A variável root_path você deve modificar com o caminho completo da pasta python no seu sistema, serve para o Flask achar a pasta templates corretamente ^^
-app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
+#app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
 #app = Flask("Estoque-SIM-SA",  root_path="/home/rafael/Área de Trabalho/Controle de estoque/estoque-sim-sa/Controle de estoque/python")
 #app = Flask("Estoque-SIM-SA",  root_path="H:\\Users\\agata\\Documents\\projeto trainee\\estoque-sim-sa\\Controle de estoque\\python")
-#app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
-
+app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
 
 @app.route("/")
 def main():
@@ -176,13 +176,14 @@ def add():
         'área do corpo',
         'imagem'
     ]
-
     # Laço For para adicionar os dados dentro da minha lista row.
     row = []
     for pos, n in enumerate(arr):
         item = request.form.get(n)
         if pos == 3:
             item = request.form.get(n) + request.form.get('volume')
+        if pos == 5 and request.files["arquivo"].filename != "":
+            item = "data:image/" + request.files["arquivo"].filename.rsplit('.', 1)[1].lower() + ";base64," + base64.b64encode(request.files["arquivo"].read()).decode("utf-8")
         row.append(item)
     
     # Laço For para verificar se os dados que o usuários inseriu é compatível com alguma linha dentro da planilha;
@@ -217,6 +218,7 @@ def add():
         index = len(planilha.get_all_values()) + 1
         planilha.insert_row(row, index)
         return render_template('/respostaIncluir.html', retorno = 'Novo item adicionado com sucesso!')
+    
 
 @app.route('/estoque')
 def estoque():
