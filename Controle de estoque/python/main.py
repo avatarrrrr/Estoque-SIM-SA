@@ -195,7 +195,7 @@ def add():
             elif unidecode(linha[cell]).lower().strip() == unidecode(row[cell]).lower().strip():
                 same += 1
         
-        # Caso seja igual a 8, significa dizer que as 8 colunas de uma linha eram iguais aos dados que o usuário inseriu;
+        # Caso seja igual a 4, significa dizer que as 4 colunas de uma linha eram iguais aos dados que o usuário inseriu;
         # Então quer dizer que a linha já existe na planilha, portanto, só a quantidade será alterada.
         if same == 4:
             newquant = int(linha[1]) + int(row[1])
