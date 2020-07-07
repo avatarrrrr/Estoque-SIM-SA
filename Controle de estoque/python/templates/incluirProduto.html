@@ -67,8 +67,8 @@
     <form id = "formulario" action="/recebendo_dados" method="post" enctype="multipart/form-data">
         <h2>Incluir Novo Produto</h2>
         <input  type="text" name="nome" placeholder="Nome do Produto" required>
-        <input  type="text" name="quantidade" placeholder="Quantidade" required>
-        <input  type="text" name="preço" placeholder="Preço unitario" required>
+        <input  id="quant" type="number" name="quantidade" placeholder="Quantidade" min="1" required>
+        <input  id="preco" type="text" name="preço" placeholder="Preço unitario" required>
         
         <label> volume em ml ou gramas? </label>
         <div class = "radio" >
@@ -76,7 +76,7 @@
         <input   type="radio" name="volume" value="g" required>Gramas
         </div>
 
-        <input  type="text" name="valor" placeholder="volume unitário" required>
+        <input  id="volume" type="text" name="valor" placeholder="volume unitário" required>
 
         <label> Área do Corpo: </label>
         <div class = "radio">      
@@ -88,9 +88,35 @@
         <input type="url" name="imagem">
         <input type="file" name="arquivo">
         
-        <input type="submit" value="Inserir novo produto">                                
+        <input type="submit" value="Inserir novo produto" onclick="return clicar()">                                
     </form>
     
+    <script>
+      let form = document.querySelector('#formulario')
+
+      // Validação de dados
+      function clicar() {
+        let preco = document.querySelector('#preco')
+        let volume = document.querySelector('#volume')
+
+        if (preco.value != '' && volume.value != '') {
+          if (isNaN(preco.value)) {
+            alert('Por favor, insira valores numéricos no campo do preço')
+            return false
+          }
+          else {
+            if (isNaN(volume.value)) {
+              alert('Por favor, insira valores numéricos no campo do volume')
+              return false
+            }
+            else {
+              form.submit()
+              return true
+            }
+          }
+        }
+      }
+    </script>
 
 </main>
 

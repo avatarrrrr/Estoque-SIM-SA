@@ -78,17 +78,17 @@
                 <input class = "item" type="text" name="nome" value='{{nome}}' required> <br>
 
                 <label class = "item" for="">Quantidade:</label>
-                <input class = "item" type="number" name="quantidade" min="1" value="{{quantidade}}" required> <br>
+                <input id="quant" class = "item" type="number" name="quantidade" min="1" value="{{quantidade}}" required> <br>
 
                 <label class = "item" for="">Preço Unitário:</label>
-                <input class = "item" type="text" name="preço" value="{{preço}}" required> <br>
+                <input id="preco" class = "item" type="text" name="preço" value="{{preço}}" required> <br>
 
                 <label class = "item" for="">Volume em ml ou em gramas?</label>
                 <input class = "item" id='ml' type="radio" name="volume" value="ml" required>ml
                 <input class = "item" id='g' type="radio" name="volume" value="g" required>Gramas <br>
 
                 <label class = "item" for="">Volume Unitário:</label>
-                <input class = "item" type="text" name="valor" value="{{valor}}" required> <br>
+                <input id="volume" class = "item" type="text" name="valor" value="{{valor}}" required> <br>
 
                 <label class = "item" for="">Área do Corpo:</label>
                 <input class = "item" id='corporal' type="radio" name="área do corpo" value="corporal" required>Corporal
@@ -99,7 +99,7 @@
                 <input class = "item" type="file" name="arquivo">
 
                 <input type="hidden" name="edition" value="{{nome}}">
-                <button type="submit">Salvar</button>
+                <button type="submit" onclick="return clicar()">Salvar</button>
             </form>
         </div>
         <script>
@@ -123,6 +123,31 @@
             }
             else {
                 area2.checked = true
+            }
+
+            // Validação de dados
+            let form = document.querySelector('#formulario')
+
+            function clicar() {
+                let preco = document.querySelector('#preco')
+                let volume = document.querySelector('#volume')
+
+                if (preco.value != '' && volume.value != '') {
+                    if (isNaN(preco.value)) {
+                        alert('Por favor, insira valores numéricos no campo do preço')
+                        return false
+                    }
+                    else {
+                        if (isNaN(volume.value)) {
+                            alert('Por favor, insira valores numéricos no campo do volume')
+                            return false
+                        }
+                        else {
+                            form.submit()
+                            return true
+                        }
+                    }
+                }
             }
         </script>
     </div>
