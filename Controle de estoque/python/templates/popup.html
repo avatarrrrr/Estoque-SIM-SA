@@ -111,20 +111,27 @@
             <a id = "voltar" href="/estoque">Voltar</a>
             <input type="hidden" name="nome" value="{{nome}}">
             <input type="hidden" name="preço" value="{{preço}}">
-            <input type="number" name="quantidade" min="1", max="{{quantidade}}" value="1" required>
+            <input id="quant" type="number" name="quantidade" min="1", max="{{quantidade}}" value="1">
             <button id="enviar" type="submit" onclick="return clicar()">Retirar</button>
             <script defer>
                 function clicar() {
                     let env = document.querySelector('#form')
                     if (confirm('Clique em OK para confirmar a venda')) {
-                        env.submit()
-                        return true
-                    }
-                    else {
+                        let quant = document.querySelector('#quant')
+                        if (quant.value != '') {
+                            env.submit()
+                            return true
+                        }
+                        else {
+                            alert('Por favor, preencha o campo abaixo para concluir a venda')
+                            return false
+                        }
+                      }
+                      else {
                         alert('Venda cancelada!')
                         return false
-                    }
-                }
+                      }
+                  }
             </script>
         </form>
 </div>
