@@ -100,12 +100,12 @@
         let volume = document.querySelector('#volume')
 
         if (preco.value != '' && volume.value != '') {
-          if (!Number(preco.value)) {
+          if (isNaN(preco.value)) {
             alert('Por favor, insira valores numéricos no campo do preço')
             return false
           }
           else {
-            if (!Number(volume.value)) {
+            if (isNaN(volume.value)) {
               alert('Por favor, insira valores numéricos no campo do volume')
               return false
             }
