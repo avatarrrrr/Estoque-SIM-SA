@@ -111,7 +111,7 @@
             <a id = "voltar" href="/estoque">Voltar</a>
             <input type="hidden" name="nome" value="{{nome}}">
             <input type="hidden" name="preço" value="{{preço}}">
-            <input type="number" name="quantidade" min="1", max="{{quantidade}}" value="1">
+            <input type="number" name="quantidade" min="1", max="{{quantidade}}" value="1" required>
             <button id="enviar" type="submit" onclick="return clicar()">Retirar</button>
             <script defer>
                 function clicar() {
