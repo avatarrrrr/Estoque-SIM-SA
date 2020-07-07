@@ -32,7 +32,7 @@ def main():
     #Juntando transacoes repetidas em uma só, somando a quantidade e o preço total
     for transacao in dia:
         for transacao2 in dia:
-            if transacao[0] == transacao2[0] and transacao != transacao2:
+            if transacao[0] == transacao2[0] and transacao is not transacao2:
                 transacao[1] = int(transacao[1]) + int(transacao2[1])
                 transacao[2] = round(float(transacao[2]) + float(transacao2[2]), 1)
                 dia.remove(transacao2)
@@ -47,7 +47,7 @@ def main():
     #Juntando transacoes repetidas em uma só, somando a quantidade e o preço total
     for transacao in mes:
         for transacao2 in mes:
-            if transacao[0] == transacao2[0] and transacao != transacao2:
+            if transacao[0] == transacao2[0] and transacao is not transacao2:
                 transacao[1] = int(transacao[1]) + int(transacao2[1])
                 transacao[2] = round(float(transacao[2]) + float(transacao2[2]), 1)
                 mes.remove(transacao2)
@@ -62,18 +62,18 @@ def main():
     #Juntando transacoes repetidas em uma só, somando a quantidade e o preço total
     for transacao in ano:
         for transacao2 in ano:
-            if transacao[0] == transacao2[0] and transacao != transacao2:
+            if transacao[0] == transacao2[0] and transacao is not transacao2:
                 transacao[1] = int(transacao[1]) + int(transacao2[1])
                 transacao[2] = round(float(transacao[2]) + float(transacao2[2]), 1)
                 ano.remove(transacao2)
     #Ordenando a lista pelo produto de maior quantidade:
     anoQuantidade = sorted(ano, key=lambda transacao: int(transacao[1]), reverse=True)
-
+    print(diaQuantidade)
     return render_template("home.html", diaQuantidade = diaQuantidade, mesQuantidade = mesQuantidade, anoQuantidade = anoQuantidade)
 
 #Roteamento para remover um produto
 @app.route("/remover", methods=["POST"])
-def remove():
+def deleteProduto():
     #Pesquisa o nome enviado na planilha
     remover = planilha.find(request.form.get("delete"))
 
@@ -92,6 +92,29 @@ def remove():
                     window.location = "/estoque"
                 </script>
             """
+
+#Roteamento para remover uma transação
+@app.route("/deleteTransacao", methods=["POST"])
+def deleteTransacao():
+    #Pesquisa o nome enviado na planilha
+    remover = transacoes.find(request.form.get("transacao"))
+
+    #Faz a remoção da transação e avalia se a exclusão foi bem sucedida ou não
+    if transacoes.delete_rows(remover.row):
+        return u"""
+                <script>
+                    alert("Feito!")
+                    window.location = "/transacoes"
+                </script>
+            """
+    else:
+        return u"""
+                <script>
+                    alert("Houve um Erro ao deletar a transacao!")
+                    window.location = "/transacoes"
+                </script>
+            """
+
 
 # Captura qual é o item que irá ser retirada uma determinada quantidade, e exibe o popup
 @app.route('/popup', methods=['POST'])
