@@ -79,9 +79,19 @@ def remove():
 
     #Faz a remoção do produto e avalia se a exclusão foi bem sucedida ou não
     if planilha.delete_rows(remover.row):
-        return render_template("respostaEstoque.html", retorno = "Feito!")
+        return u"""
+                <script>
+                    alert("Feito!")
+                    window.location = "/estoque"
+                </script>
+            """
     else:
-        return render_template("respostaEstoque.html", retorno = "Houve um Erro ao deletar o produto!")
+        return u"""
+                <script>
+                    alert("Houve um Erro ao deletar o produto!")
+                    window.location = "/estoque"
+                </script>
+            """
 
 # Captura qual é o item que irá ser retirada uma determinada quantidade, e exibe o popup
 @app.route('/popup', methods=['POST'])
@@ -113,10 +123,10 @@ def venda():
 
         # Verifica se a quantidade atual está abaixo do valor limite definido pelo usuário (por enquanto o limite é fixo kkkkk)
         if int(planilha.cell(rm.row, 2).value) < 5:
-            return render_template("respostaEstoque.html", retorno = "Operação concluida, o total da venda foi de R$: " + str(int(request.form.get("quantidade")) * float(request.form.get("preço"))) + "! Atenção! O produto está abaixo do limite especificado")
+            return render_template("respostaEstoque.html", retorno = "Operação concluida, o total da venda foi de R$: " + str(round(int(request.form.get("quantidade")) * float(request.form.get("preço")), 1)) + "! Atenção! O produto está abaixo do limite especificado")
 
         else:
-            return render_template("respostaEstoque.html", retorno = "Operação concluida, o total da venda foi de R$: " + str(int(request.form.get("quantidade")) * float(request.form.get("preço")))) + "!"
+            return render_template("respostaEstoque.html", retorno = "Operação concluida, o total da venda foi de R$: " + str(round(int(request.form.get("quantidade")) * float(request.form.get("preço")), 1)) + "!")
 
 # Rotas para editar dados da planilha
 @app.route('/popupEdition', methods=['POST'])
@@ -216,8 +226,12 @@ def add():
         # Então quer dizer que a linha já existe na planilha, portanto, o produto não será adicionado.
         if same == 3:
             contsame += 1
-            return render_template('/respostaIncluir.html', retorno = 'O produto já existe no banco de dados!')
-
+            return u"""
+                <script>
+                    alert("O produto já existe no banco de dados!")
+                    window.location = "/inserir"
+                </script>
+            """
         else:
             same = 0
     
@@ -225,8 +239,12 @@ def add():
     if contsame == 0:
         index = len(planilha.get_all_values()) + 1
         planilha.insert_row(row, index)
-        return render_template('/respostaIncluir.html', retorno = 'Novo item adicionado com sucesso!')
-    
+        return u"""
+                <script>
+                    alert("Novo item adicionado com sucesso!")
+                    window.location = "/inserir"
+                </script>
+            """
 
 @app.route('/estoque')
 def estoque():
