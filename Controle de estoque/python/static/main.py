@@ -101,8 +101,9 @@ def venda():
     # Procura o Produto
     rm = planilha.find(request.form.get('nome'))
 
+    dateToday = datetime.datetime.today()
     #Registra uma transação na planilha transações com o valor do produto, a quantidade, o preço, data e o horário
-    transacoes.append_row([request.form.get("nome"), request.form.get("quantidade"), str(float(request.form.get("preço")) * int(request.form.get("quantidade"))), str(datetime.datetime.today().day) + "/" + str(datetime.datetime.today().month) + "/" + str(datetime.datetime.today().year), str(datetime.datetime.today().hour) + ":" + str(datetime.datetime.today().minute) + ":" + str(datetime.datetime.today().second), str(datetime.datetime.today().day), str(datetime.datetime.today().month), str(datetime.datetime.today().year)])
+    transacoes.append_row([request.form.get("nome"), request.form.get("quantidade"), str(float(request.form.get("preço")) * int(request.form.get("quantidade"))), str(dateToday.day) + "/" + str(dateToday.month) + "/" + str(dateToday.year), str(dateToday.hour) + ":" + str(dateToday.minute) + ":" + str(dateToday.second), str(dateToday.day), str(dateToday.month), str(dateToday.year)])
 
     #Atualiza a célula com o valor da subtração do valor que já tem na célula com o valor que o usuário quer retirar
     planilha.update_cell(rm.row, 2, int(planilha.cell(rm.row, 2).value) - int(request.form.get("quantidade")))
