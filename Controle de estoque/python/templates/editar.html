@@ -129,29 +129,22 @@
             let form = document.querySelector('#formulario')
 
             function clicar() {
-                let quant = document.querySelector('#quant')
                 let preco = document.querySelector('#preco')
                 let volume = document.querySelector('#volume')
 
-                if (quant.value != '' && preco.value != '' && volume.value != '') {
-                    if (!Number(quant.value)) {
-                        alert('Por favor, insira valores numéricos no campo de quantidade')
+                if (preco.value != '' && volume.value != '') {
+                    if (!Number(preco.value)) {
+                        alert('Por favor, insira valores numéricos no campo do preço')
                         return false
                     }
                     else {
-                        if (!Number(preco.value)) {
-                            alert('Por favor, insira valores numéricos no campo do preço')
+                        if (!Number(volume.value)) {
+                            alert('Por favor, insira valores numéricos no campo do volume')
                             return false
                         }
                         else {
-                            if (!Number(volume.value)) {
-                                alert('Por favor, insira valores numéricos no campo do volume')
-                                return false
-                            }
-                            else {
-                                form.submit()
-                                return true
-                            }
+                            form.submit()
+                            return true
                         }
                     }
                 }
