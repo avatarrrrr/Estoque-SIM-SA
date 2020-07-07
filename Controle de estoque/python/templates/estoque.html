@@ -75,11 +75,9 @@
         <ul id = "itemzão">
             <li>
               {% if 'http' in produto[5][:4] %}
-              <img id="imagem_lista" class="itens" src="{{produto[5]}}">
-
+                <img id="imagem_lista" class="itens" src="{{produto[5]}}">
               {% else %}
-              <img id="imagem_lista" class="itens" src="{{ url_for('static', filename = produto[5]) }}">
-
+                <img id="imagem_lista" class="itens" src="{{ url_for('static', filename = produto[5]) }}">
               {% endif %}
             </li>
             <div id = "descrição">
