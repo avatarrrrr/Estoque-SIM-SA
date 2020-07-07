@@ -3,7 +3,7 @@ from flask import Flask, request, render_template
 from unidecode import unidecode
 import gspread
 import datetime
-import base64
+import os
 
 #Conexão com a Planilha
 conexao = gspread.service_account()
@@ -12,10 +12,11 @@ transacoes = conexao.open("transacoes").sheet1
 
 #Aplicação:
 #A variável root_path você deve modificar com o caminho completo da pasta python no seu sistema, serve para o Flask achar a pasta templates corretamente ^^
-app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
+#app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
 #app = Flask("Estoque-SIM-SA",  root_path="/home/rafael/Área de Trabalho/Controle de estoque/estoque-sim-sa/Controle de estoque/python")
 #app = Flask("Estoque-SIM-SA",  root_path="H:\\Users\\agata\\Documents\\projeto trainee\\estoque-sim-sa\\Controle de estoque\\python")
-#app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
+app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
+app.config["UPLOAD_FOLDER"] = "C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python"
 
 @app.route("/")
 def main():
@@ -183,18 +184,8 @@ def add():
         if pos == 3:
             item = request.form.get(n) + request.form.get('volume')
         if pos == 5 and request.files["arquivo"].filename != "":
-            item = "data:image/" + request.files["arquivo"].filename.rsplit('.', 1)[1].lower() + ";base64," + base64.b64encode(request.files["arquivo"].read()).decode("utf-8")
-
-            l = 0
-            b64list = ''
-            for letter in item:
-                b64list += letter
-                l += 1
-                if l == 50000:
-                    row.append(b64list)
-                    b64list = ''
-                    l = 0
-            continue
+            item = request.files["arquivo"].filename
+            request.files["arquivo"].save(os.path.join(app.config["UPLOAD_FOLDER"], request.files["arquivo"].filename))
         row.append(item)
     
     # Laço For para verificar se os dados que o usuários inseriu é compatível com alguma linha dentro da planilha;
