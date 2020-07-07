@@ -58,18 +58,19 @@
         }
     </style>
     <h1> Historico </h1>
-
         <ul id = "historico" >
-
             {% for transacao in transacoes%}
                 <div id = "transação">
-                <li id = "titulo_transação"> Venda cadastrada </li>
-                <li id = "nome_produto" >{{transacao[0]}}</li>
-                <li id = "quantidade"> {{transacao[1]}} Unidade(s) </li>
-                <li id = "preço_total" >R$ {{transacao[2]}}</li>
-                <li id = "data" > {{transacao[3]}}</li>
+                    <li id = "titulo_transação"> Venda cadastrada </li>
+                    <li id = "nome_produto" >{{transacao[0]}}</li>
+                    <li id = "quantidade"> {{transacao[1]}} Unidade(s) </li>
+                    <li id = "preço_total" >R$ {{transacao[2]}}</li>
+                    <li id = "data" > {{transacao[3]}}</li>
+                    <form action="/deleteTransacao" method="POST">
+                        <input type="hidden" name="transacao" value="{{transacao[0]}}">
+                        <input type="submit" value="Excluir">
+                    </form>
                 </div>
             {% endfor %}
-
         </ul>
 {% endblock %}
