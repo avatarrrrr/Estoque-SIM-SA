@@ -74,7 +74,13 @@
       {% for produto in planilha_completa %}
         <ul id = "itemzão">
             <li>
-              <img id="imagem_lista" class="itens" src="{{produto[5:]}}">
+              {% if 'http' in produto[5][:4] %}
+              <img id="imagem_lista" class="itens" src="{{produto[5]}}">
+
+              {% else %}
+              <img id="imagem_lista" class="itens" src="{{ url_for('static', filename = produto[5]) }}">
+
+              {% endif %}
             </li>
             <div id = "descrição">
             <li id = "titulo">{{produto[0]}}</li>

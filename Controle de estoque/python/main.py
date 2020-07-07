@@ -12,11 +12,12 @@ transacoes = conexao.open("transacoes").sheet1
 
 #Aplicação:
 #A variável root_path você deve modificar com o caminho completo da pasta python no seu sistema, serve para o Flask achar a pasta templates corretamente ^^
-#app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
+app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
+app.config['UPLOAD_FOLDER'] = '/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python/static'
 #app = Flask("Estoque-SIM-SA",  root_path="/home/rafael/Área de Trabalho/Controle de estoque/estoque-sim-sa/Controle de estoque/python")
 #app = Flask("Estoque-SIM-SA",  root_path="H:\\Users\\agata\\Documents\\projeto trainee\\estoque-sim-sa\\Controle de estoque\\python")
-app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
-app.config["UPLOAD_FOLDER"] = "C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python\\static"
+#app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
+#app.config["UPLOAD_FOLDER"] = "C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python\\static"
 
 @app.route("/")
 def main():
@@ -157,6 +158,12 @@ def editar():
         if pos == 3:
             volume = request.form.get(item) + request.form.get('volume')
             planilha.update_cell(linha, pos + 1, volume)
+        elif pos == 5:
+            if request.files['arquivo'].filename != '':
+                request.files['arquivo'].save(os.path.join(app.config['UPLOAD_FOLDER'], request.files['arquivo'].filename))
+                planilha.update_cell(linha, pos + 1, request.files['arquivo'].filename)
+            else:
+                planilha.update_cell(linha, pos + 1, request.form.get('imagem'))
         else:
             planilha.update_cell(linha, pos + 1, request.form.get(item))
 
@@ -184,9 +191,12 @@ def add():
         item = request.form.get(n)
         if pos == 3:
             item = request.form.get(n) + request.form.get('volume')
-        if pos == 5 and request.files["arquivo"].filename != "":
-            item = request.files["arquivo"].filename
-            request.files["arquivo"].save(os.path.join(app.config["UPLOAD_FOLDER"], request.files["arquivo"].filename))
+        if pos == 5:
+            if request.files["arquivo"].filename != "":
+                request.files["arquivo"].save(os.path.join(app.config["UPLOAD_FOLDER"], request.files["arquivo"].filename))
+                item = request.files["arquivo"].filename
+            else:
+                item = request.form.get('imagem')
         row.append(item)
     
     # Laço For para verificar se os dados que o usuários inseriu é compatível com alguma linha dentro da planilha;
@@ -194,24 +204,16 @@ def add():
     same = contsame = 0
     for pos, linha in enumerate(planilha.get_all_values()):
         for cell in range(0, 6):
-            if linha[cell] == linha[1] or linha[cell] == linha[5]:
+            if linha[cell] == linha[1] or linha[cell] == linha[2] or linha[cell] == linha[5]:
                 continue
             elif unidecode(linha[cell]).lower().strip() == unidecode(row[cell]).lower().strip():
                 same += 1
         
         # Caso seja igual a 4, significa dizer que as 4 colunas de uma linha eram iguais aos dados que o usuário inseriu;
-        # Então quer dizer que a linha já existe na planilha, portanto, só a quantidade será alterada.
-        if same == 4:
-            newquant = int(linha[1]) + int(row[1])
-            planilha.update_cell(pos + 1, 2, newquant)
+        # Então quer dizer que a linha já existe na planilha, portanto, o produto não será adicionado.
+        if same == 3:
             contsame += 1
-
-            # Verificando se a imagem adicionada é a mesma no banco de dados, caso sejam diferentes, a imagem será atualizada
-            if request.form.get('imagem') != planilha.cell(pos + 1, 6).value:
-                planilha.update_cell(pos + 1, 6, request.form.get('imagem'))
-                return render_template('/respostaIncluir.html', retorno = 'Quantidade do item e imagem foram atualizadas com sucesso!')
-
-            return render_template('/respostaIncluir.html', retorno = 'Quantidade do item foi atualizada com sucesso!')
+            return render_template('/respostaIncluir.html', retorno = 'O produto já existe no banco de dados!')
 
         else:
             same = 0
