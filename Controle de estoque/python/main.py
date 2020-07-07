@@ -231,4 +231,8 @@ def estoque():
 def transacoess():
     return render_template("transacoes.html", transacoes = reversed(transacoes.get_all_values()))
 
+@app.route("/pesquisa", methods=['POST'])
+def pesquisa():
+    return render_template("estoque.html", planilha_completa = [planilha.row_values(planilha.find(request.form.get("produto")).row)])
+
 app.run(debug=True, use_reloader=True)
