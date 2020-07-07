@@ -158,6 +158,12 @@ def editar():
         if pos == 3:
             volume = request.form.get(item) + request.form.get('volume')
             planilha.update_cell(linha, pos + 1, volume)
+        elif pos == 5:
+            if request.files['arquivo'].filename != '':
+                request.files['arquivo'].save(os.path.join(app.config['UPLOAD_FOLDER'], request.files['arquivo'].filename))
+                planilha.update_cell(linha, pos + 1, request.files['arquivo'].filename)
+            else:
+                planilha.update_cell(linha, pos + 1, request.form.get('imagem'))
         else:
             planilha.update_cell(linha, pos + 1, request.form.get(item))
 

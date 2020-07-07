@@ -73,7 +73,7 @@
     <div id="telaEdition">
         <div id="popupEdition">
             <h1> Editar Produto </h1>
-            <form id = "formulario" action="/editar" method="POST">
+            <form id = "formulario" action="/editar" method="POST" enctype="multipart/form-data">
                 <label class = "item" for="">Nome do produto:</label>
                 <input class = "item" type="text" name="nome" value='{{nome}}' required> <br>
 
@@ -95,7 +95,8 @@
                 <input class = "item" id='facial' type="radio" name="área do corpo" value="facial" required>Facial <br>
 
                 <label class = "item" id = "img_titulo" for="">Inserir Imagem</label>
-                <input class = "item" type="file" name="imagem" required> <br>
+                <input class = "item" type="url" name="imagem">
+                <input class = "item" type="file" name="arquivo">
 
                 <input type="hidden" name="edition" value="{{nome}}">
                 <button type="submit">Salvar</button>
