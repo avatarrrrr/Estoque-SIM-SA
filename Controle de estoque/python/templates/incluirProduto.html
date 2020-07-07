@@ -94,15 +94,13 @@
     <script>
       let form = document.querySelector('#formulario')
 
+      // Validação de dados
       function clicar() {
         let quant = document.querySelector('#quant')
         let preco = document.querySelector('#preco')
         let volume = document.querySelector('#volume')
 
-        if (quant.value == '' || preco.value == '' || volume.value == '') {
-          alert('Por favor, preencha todos os campos!')
-        }
-        else {
+        if (quant.value != '' && preco.value != '' && volume.value != '') {
           if (!Number(quant.value)) {
             alert('Por favor, insira valores numéricos no campo de quantidade')
             return false
