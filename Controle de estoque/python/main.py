@@ -12,12 +12,12 @@ transacoes = conexao.open("transacoes").sheet1
 
 #Aplicação:
 #A variável root_path você deve modificar com o caminho completo da pasta python no seu sistema, serve para o Flask achar a pasta templates corretamente ^^
-app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
-app.config['UPLOAD_FOLDER'] = '/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python/static'
+#app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
+#app.config['UPLOAD_FOLDER'] = '/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python/static'
 #app = Flask("Estoque-SIM-SA",  root_path="/home/rafael/Área de Trabalho/Controle de estoque/estoque-sim-sa/Controle de estoque/python")
 #app = Flask("Estoque-SIM-SA",  root_path="H:\\Users\\agata\\Documents\\projeto trainee\\estoque-sim-sa\\Controle de estoque\\python")
-#app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
-#app.config["UPLOAD_FOLDER"] = "C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python\\static"
+app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
+app.config["UPLOAD_FOLDER"] = "C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python\\static"
 
 @app.route("/")
 def main():
@@ -238,6 +238,18 @@ def transacoess():
 
 @app.route("/pesquisa", methods=['POST'])
 def pesquisa():
-    return render_template("estoque.html", planilha_completa = [planilha.row_values(planilha.find(request.form.get("produto")).row)])
+    try:
+        pesq = planilha.row_values(planilha.find(request.form.get("produto")).row)
+    except:
+        return u"""
+                    <script>
+                        alert("Não achamos nada, tente procurar novamente!")
+                        window.location = "/estoque"
+                    </script>
+            """
+           
+    return render_template("estoque.html", planilha_completa = [pesq])
+
+        
 
 app.run(debug=True, use_reloader=True)
