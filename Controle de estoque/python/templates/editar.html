@@ -5,8 +5,8 @@
         margin: auto;
         position: fixed;
         top: 0; bottom: 0; left: 0; right: 0;
-        height: 70%;
-        width: 30%;
+        height: 550px;
+        width: 450px;
         border-radius: 50px;
         background-color: #dfdedeef;
         border: solid thin;
@@ -67,6 +67,14 @@
     #facial {
         margin-bottom: 30px;
     }
+
+    #voltar {
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        left: 30px;
+        bottom: 30px;
+    }
     
   
 </style>
@@ -95,8 +103,9 @@
                 <input class = "item" id='facial' type="radio" name="área do corpo" value="facial" required>Facial <br>
 
                 <label class = "item" id = "img_titulo" for="">Inserir Imagem</label>
-                <input class = "item" type="url" name="imagem">
                 <input class = "item" type="file" name="arquivo">
+
+                <input id = "voltar" type="image" src="{{url_for('static', filename= 'voltar.png')}}">
 
                 <input type="hidden" name="edition" value="{{nome}}">
                 <button type="submit" onclick="return clicar()">Salvar</button>
