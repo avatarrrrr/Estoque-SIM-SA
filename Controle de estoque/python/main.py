@@ -12,12 +12,12 @@ transacoes = conexao.open("transacoes").sheet1
 
 #Aplicação:
 #A variável root_path você deve modificar com o caminho completo da pasta python no seu sistema, serve para o Flask achar a pasta templates corretamente ^^
-app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
-app.config['UPLOAD_FOLDER'] = '/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python/static'
+#app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
+#app.config['UPLOAD_FOLDER'] = '/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python/static'
 #app = Flask("Estoque-SIM-SA",  root_path="/home/rafael/Área de Trabalho/Controle de estoque/estoque-sim-sa/Controle de estoque/python")
-#app = Flask("Estoque-SIM-SA",  root_path="H:\\Users\\agata\\Documents\\projeto trainee\\estoque-sim-sa\\Controle de estoque\\python")
+app = Flask("Estoque-SIM-SA",  root_path="H:\\Users\\agata\\Documents\\projeto trainee\\estoque-sim-sa\\Controle de estoque\\python")
 #app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
-#app.config["UPLOAD_FOLDER"] = "C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python\\static"
+app.config["UPLOAD_FOLDER"] = "C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python\\static"
 
 @app.route("/")
 def main():
@@ -30,6 +30,13 @@ def main():
         if int(transacao[5]) == datetime.datetime.today().day:
             dia.append([transacao[0], transacao[1], transacao[2]])
     #Juntando transacoes repetidas em uma só, somando a quantidade e o preço total
+    dia = sorted(dia, key=lambda transacao: int(transacao[1]), reverse=True)
+    for transacao in dia:
+        for transacao2 in dia:
+            if transacao[0] == transacao2[0] and transacao is not transacao2:
+                transacao[1] = int(transacao[1]) + int(transacao2[1])
+                transacao[2] = round(float(transacao[2]) + float(transacao2[2]), 1)
+                dia.remove(transacao2)
     for transacao in dia:
         for transacao2 in dia:
             if transacao[0] == transacao2[0] and transacao is not transacao2:
@@ -45,6 +52,13 @@ def main():
         if int(transacao[6]) == datetime.datetime.today().month:
             mes.append([transacao[0], transacao[1], transacao[2]])
     #Juntando transacoes repetidas em uma só, somando a quantidade e o preço total
+    mes = sorted(mes, key=lambda transacao: int(transacao[1]), reverse=True)
+    for transacao in mes:
+        for transacao2 in mes:
+            if transacao[0] == transacao2[0] and transacao is not transacao2:
+                transacao[1] = int(transacao[1]) + int(transacao2[1])
+                transacao[2] = round(float(transacao[2]) + float(transacao2[2]), 1)
+                mes.remove(transacao2)
     for transacao in mes:
         for transacao2 in mes:
             if transacao[0] == transacao2[0] and transacao is not transacao2:
@@ -60,6 +74,13 @@ def main():
         if int(transacao[7]) == datetime.datetime.today().year:
             ano.append([transacao[0], transacao[1], transacao[2]])
     #Juntando transacoes repetidas em uma só, somando a quantidade e o preço total
+    ano = sorted(ano, key=lambda transacao: int(transacao[1]), reverse=True)
+    for transacao in ano:
+        for transacao2 in ano:
+            if transacao[0] == transacao2[0] and transacao is not transacao2:
+                transacao[1] = int(transacao[1]) + int(transacao2[1])
+                transacao[2] = round(float(transacao[2]) + float(transacao2[2]), 1)
+                ano.remove(transacao2)
     for transacao in ano:
         for transacao2 in ano:
             if transacao[0] == transacao2[0] and transacao is not transacao2:
@@ -68,7 +89,7 @@ def main():
                 ano.remove(transacao2)
     #Ordenando a lista pelo produto de maior quantidade:
     anoQuantidade = sorted(ano, key=lambda transacao: int(transacao[1]), reverse=True)
-    print(diaQuantidade)
+
     return render_template("home.html", diaQuantidade = diaQuantidade, mesQuantidade = mesQuantidade, anoQuantidade = anoQuantidade)
 
 #Roteamento para remover um produto
@@ -280,17 +301,28 @@ def transacoess():
 @app.route("/pesquisa", methods=['POST'])
 def pesquisa():
     try:
-        pesq = planilha.row_values(planilha.find(request.form.get("produto")).row)
+        pesq = planilha.find(request.form.get("produto"))
     except:
         return u"""
                     <script>
                         alert("Não achamos nada, tente procurar novamente!")
                         window.location = "/estoque"
                     </script>
+            """  
+    else:
+        if pesq.value == '':
+            return u"""
+                    <script>
+                        alert("Você não colou nada para pesquisar, tá doido é?")
+                        window.location = "/estoque"
+                    </script>
             """
-           
-    return render_template("estoque.html", planilha_completa = [pesq])
+        else:
+            return render_template("estoque.html", planilha_completa = [pesq])
 
+@app.route("/sobre")
+def sobre():
+    return render_template("sobre.html")
         
 
 app.run(debug=True, use_reloader=True)
