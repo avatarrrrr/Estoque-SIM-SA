@@ -320,6 +320,9 @@ def pesquisa():
         else:
             return render_template("estoque.html", planilha_completa = [pesq])
 
+@app.route("/sobre")
+def sobre():
+    return render_template("sobre.html")
         
 
 app.run(debug=True, use_reloader=True)
