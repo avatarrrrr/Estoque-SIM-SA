@@ -101,18 +101,18 @@ def deleteProduto():
     #Faz a remoção do produto e avalia se a exclusão foi bem sucedida ou não
     if planilha.delete_rows(remover.row):
         return u"""
-                <script>
-                    alert("Feito!")
-                    window.location = "/estoque"
-                </script>
-            """
+                    <script>
+                        alert("Feito!")
+                        window.location = "/estoque"
+                    </script>
+                """
     else:
         return u"""
-                <script>
-                    alert("Houve um Erro ao deletar o produto!")
-                    window.location = "/estoque"
-                </script>
-            """
+                    <script>
+                        alert("Houve um Erro ao deletar o produto!")
+                        window.location = "/estoque"
+                    </script>
+                """
 
 #Roteamento para remover uma transação
 @app.route("/deleteTransacao", methods=["POST"])
@@ -123,18 +123,18 @@ def deleteTransacao():
     #Faz a remoção da transação e avalia se a exclusão foi bem sucedida ou não
     if transacoes.delete_rows(remover.row):
         return u"""
-                <script>
-                    alert("Feito!")
-                    window.location = "/transacoes"
-                </script>
-            """
+                    <script>
+                        alert("Feito!")
+                        window.location = "/transacoes"
+                    </script>
+                """
     else:
         return u"""
-                <script>
-                    alert("Houve um Erro ao deletar a transacao!")
-                    window.location = "/transacoes"
-                </script>
-            """
+                    <script>
+                        alert("Houve um Erro ao deletar a transacao!")
+                        window.location = "/transacoes"
+                    </script>
+                """
 
 
 # Captura qual é o item que irá ser retirada uma determinada quantidade, e exibe o popup
@@ -271,11 +271,11 @@ def add():
         if same == 3:
             contsame += 1
             return u"""
-                <script>
-                    alert("O produto já existe no banco de dados!")
-                    window.location = "/inserir"
-                </script>
-            """
+                        <script>
+                            alert("O produto já existe no banco de dados!")
+                            window.location = "/inserir"
+                        </script>
+                    """
         else:
             same = 0
     
@@ -284,11 +284,11 @@ def add():
         index = len(planilha.get_all_values()) + 1
         planilha.insert_row(row, index)
         return u"""
-                <script>
-                    alert("Novo item adicionado com sucesso!")
-                    window.location = "/inserir"
-                </script>
-            """
+                    <script>
+                        alert("Novo item adicionado com sucesso!")
+                        window.location = "/inserir"
+                    </script>
+                """
 
 @app.route('/estoque')
 def estoque():
@@ -309,7 +309,7 @@ def pesquisa():
                     alert("Não achamos nenhum produto com esse nome!")
                     window.location = "/estoque"
                 </script>
-        """  
+            """  
             
 
 @app.route("/sobre")
