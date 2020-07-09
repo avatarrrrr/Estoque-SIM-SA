@@ -12,12 +12,12 @@ transacoes = conexao.open("transacoes").sheet1
 
 #Aplicação:
 #A variável root_path você deve modificar com o caminho completo da pasta python no seu sistema, serve para o Flask achar a pasta templates corretamente ^^
-#app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
-#app.config['UPLOAD_FOLDER'] = '/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python/static'
+app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
+app.config['UPLOAD_FOLDER'] = '/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python/static'
 #app = Flask("Estoque-SIM-SA",  root_path="/home/rafael/Área de Trabalho/Controle de estoque/estoque-sim-sa/Controle de estoque/python")
-app = Flask("Estoque-SIM-SA",  root_path="H:\\Users\\agata\\Documents\\projeto trainee\\estoque-sim-sa\\Controle de estoque\\python")
+#app = Flask("Estoque-SIM-SA",  root_path="H:\\Users\\agata\\Documents\\projeto trainee\\estoque-sim-sa\\Controle de estoque\\python")
 #app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
-app.config["UPLOAD_FOLDER"] = "C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python\\static"
+#app.config["UPLOAD_FOLDER"] = "C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python\\static"
 
 @app.route("/")
 def main():
@@ -216,11 +216,11 @@ def editar():
             volume = request.form.get(item) + request.form.get('volume')
             planilha.update_cell(linha, pos + 1, volume)
         elif pos == 5:
-            if request.files['arquivo'].filename != '':
-                request.files['arquivo'].save(os.path.join(app.config['UPLOAD_FOLDER'], request.files['arquivo'].filename))
-                planilha.update_cell(linha, pos + 1, request.files['arquivo'].filename)
+            if request.files['imagem'].filename != '':
+                request.files['imagem'].save(os.path.join(app.config['UPLOAD_FOLDER'], request.files['imagem'].filename))
+                planilha.update_cell(linha, pos + 1, request.files['imagem'].filename)
             else:
-                planilha.update_cell(linha, pos + 1, request.form.get('imagem'))
+                pass
         else:
             planilha.update_cell(linha, pos + 1, request.form.get(item))
 
@@ -249,11 +249,11 @@ def add():
         if pos == 3:
             item = request.form.get(n) + request.form.get('volume')
         if pos == 5:
-            if request.files["arquivo"].filename != "":
-                request.files["arquivo"].save(os.path.join(app.config["UPLOAD_FOLDER"], request.files["arquivo"].filename))
-                item = request.files["arquivo"].filename
+            if request.files["imagem"].filename != "":
+                request.files["imagem"].save(os.path.join(app.config["UPLOAD_FOLDER"], request.files["imagem"].filename))
+                item = request.files["imagem"].filename
             else:
-                item = request.form.get('imagem')
+                pass
         row.append(item)
     
     # Laço For para verificar se os dados que o usuários inseriu é compatível com alguma linha dentro da planilha;
