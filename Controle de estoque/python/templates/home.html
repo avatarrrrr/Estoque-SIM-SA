@@ -3,22 +3,22 @@
     <script src="{{ url_for('static', filename='chart.js') }}"></script>
     <!-- Graficos-->
     
-
-
-
-                    <!-- GRÁFICO DANDO ERRO -->
-                    
-    <!-- Mais vendidos do dia -->
-    <canvas  id="myChart1" width="300px" height="100px" ></canvas>
-    <script defer>
-        var maisVendidoDia1 = document.getElementById('myChart1').getContext('2d');
-        var maisVendidodia2 = new Chart(maisVendidoDia1, {
-            //Tornando o gráfico responsivo
-            maintainAspectRatio : false,
-            responsive: true,
-            type: 'doughnut',
-            //Define os dados do chart
-            data: {
+    
+    <div class="container">
+        <div class="box">BOX 1</div>
+        <div class="box">BOX 2</div>
+        <div class="box">BOX 3</div>
+        <!-- Mais vendidos do dia -->
+        <canvas  id="myChart1" width="700px" height="100px" ></canvas>
+        <script defer>
+            var maisVendidoDia1 = document.getElementById('myChart1').getContext('2d');
+            var maisVendidodia2 = new Chart(maisVendidoDia1, {
+                //Tornando o gráfico responsivo
+                maintainAspectRatio : false,
+                responsive: true,
+                type: 'doughnut',
+                //Define os dados do chart
+                data: {
                 labels: [   
                     {% for dado in diaQuantidade %}
                         "{{dado[0]}}",
@@ -111,5 +111,36 @@
             }
         });
     </script>
+    
 
+    <style>
+        #myChart1{
+            border: 2px solid;
+            border-color: #fea900;
+            border-radius: 40px;
+            margin: 0px 100px 0px 0px;
+            width: 50%;
+            list-style-type: none;
+        }
+
+        #myChart2 {
+            border: 2px solid;
+            border-color: #fea900;
+            border-radius: 40px;
+            margin: 0px 100px 0px 0px;
+            width: 50%;
+            list-style-type: none;
+        }
+
+        #myChart3 {
+            border: 2px solid;
+            border-color: #fea900;
+            border-radius: 40px;
+            margin: 0px 100px 0px 0px;
+            width: 50%;
+            list-style-type: none;
+        }
+
+        
+    </style>
 {% endblock %}
