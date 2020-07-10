@@ -6,7 +6,7 @@
     
     
         <!-- Mais vendidos do dia -->
-        <canvas  id="myChart1" width="700px" height="100px" ></canvas>
+        <canvas  id="myChart1"  ></canvas>
         <script defer>
             var maisVendidoDia1 = document.getElementById('myChart1').getContext('2d');
             var maisVendidodia2 = new Chart(maisVendidoDia1, {
@@ -95,7 +95,7 @@
                 ],
             datasets: [{
                     label: 'Produtos mais vendidos do Ano',
-                    backgroundColor: ['#424242', '#402e32', '#5c4217', '#f2a900','#b6a99a','#fff7e8', '#fff'],
+                    backgroundColor: ['#424242', '#402e32', '#5c4217', '#f2a900','#b6a99a','#fff7e8', '#fff','yellow', 'red'],
                     borderColor: 'black', //Define as cores das bordas 
                     data: [
                         {% for dado in anoQuantidade %}
@@ -118,6 +118,8 @@
             border-radius: 40px;
             margin: 10px 0px;
             list-style-type: none;
+            width:700px
+            
         }
     
 
