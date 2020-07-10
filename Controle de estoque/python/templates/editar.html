@@ -2,6 +2,8 @@
 {% block editar %}
 <style>
     #popupEdition {
+        display: flex;
+        flex-direction: column;
         margin: auto;
         position: fixed;
         top: 0; bottom: 0; left: 0; right: 0;
@@ -11,55 +13,39 @@
         background-color: #dfdedeef;
         border: solid thin;
         border-color: #F2A900;
-      }
+    }
 
-      #telaEdition {
+    #telaEdition {
         height: 100%;
         width: 100%;
         margin: auto;
         position: fixed;
         top: 0; bottom: 0; left: 0; right: 0;
         opacity: 1;
-      }
+    }
 
-      h1 {
+    h1 {
         font-size: 1.5em;
         letter-spacing: .2em;
         text-align: center;
         margin-top: 30px;
     }
-      #popupEdition ::placeholder, #popupEdition input[value]{
+
+    #popupEdition ::placeholder, #popupEdition input[value]{
         font-family: "Century Gothic";
         font-weight: bold;
         color: #424242;
       }
-      #formulario{
+    #formulario{
           
           margin: 10px 5px;
       }
-      .item {
+    .item {
           margin: 10px;
+          flex-wrap: 1;
       }
-      #formulario button[type="submit"] {
-      
-        color: #F8F8F8;
-        border-radius: 5px;
-        background-color: #f2a900;
-        outline: none;
-        cursor: pointer;
-        width: 80px;
-        height: 40px;
-        position:absolute;
-        left: 180px;
-        bottom: 10px;
-        
-        
 
-    }
-
-    #formulario button:hover[type="submit"] {
-        background-color: #424242;
-    }
+   
 
     #img_titulo{
 
@@ -78,7 +64,24 @@
         left: 30px;
         bottom: 10px;
     }
-    
+
+    button[type="submit"] {
+        position: absolute;
+        right: 200px;
+        width: 60px;
+        height: 40px;
+        bottom: 10px;
+        color: #F8F8F8;
+        border-radius: 5px;
+        background-color: #f2a900;
+        outline: none;
+        cursor: pointer;
+
+    }
+    button input:hover[type="submit"] {
+        background-color: #424242;
+    }
+
   
 </style>
     <div id="telaEdition">
