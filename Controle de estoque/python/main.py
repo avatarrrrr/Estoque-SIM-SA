@@ -17,8 +17,8 @@ transacoes = conexao.open("transacoes").sheet1
 #app.config['UPLOAD_FOLDER'] = '/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python/static'
 #app = Flask("Estoque-SIM-SA",  root_path="/home/rafael/Área de Trabalho/Controle de estoque/estoque-sim-sa/Controle de estoque/python")
 #app.config["UPLOAD_FOLDER"] = "/home/rafael/Área de Trabalho/Controle de estoque/estoque-sim-sa/Controle de estoque/static"
-app = Flask("Estoque-SIM-SA",  root_path="H:\\Users\\agata\\Documents\\projeto trainee\\estoque-sim-sa\\Controle de estoque\\python")
-#app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
+#app = Flask("Estoque-SIM-SA",  root_path="H:\\Users\\agata\\Documents\\projeto trainee\\estoque-sim-sa\\Controle de estoque\\python")
+app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
 app.config["UPLOAD_FOLDER"] = "C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python\\static"
 
 @app.route("/")
@@ -302,10 +302,12 @@ def transacoess():
 
 @app.route("/pesquisa", methods=['POST'])
 def pesquisa():
+    pesq = []
     for produto in planilha.get_all_values():
-        if unidecode(produto[0]).lower().strip() == unidecode(request.form.get("produto")).lower().strip():
-            return render_template("estoque.html", planilha_completa = [produto])
-
+        if unidecode(request.form.get("produto")).lower().strip() in unidecode(produto[0]).lower().strip():
+            pesq.append(produto)
+    if pesq != []:
+        return render_template("estoque.html", planilha_completa = pesq)
     return u"""
                 <script>
                     alert("Não achamos nenhum produto com esse nome!")
