@@ -1,18 +1,21 @@
 {% extends "base1.html" %}
 {% block conteudo %}
     <script src="{{ url_for('static', filename='chart.js') }}"></script>
+    <div id = "graficos">
     <!-- Graficos-->
-    <!-- Mais vendidos do dia -->
-    <canvas  id="myChart1" width="300px" height="100px" ></canvas>
-    <script defer>
-        var ctx = document.getElementById('myChart1').getContext('2d');
-        var chart = new Chart(ctx, {
-            //Tornando o gráfico responsivo
-            maintainAspectRatio : false,
-            responsive: true,
-            type: 'doughnut',
-            //Define os dados do chart
-            data: {
+    
+    
+        <!-- Mais vendidos do dia -->
+        <canvas  id="myChart1" width="700px" height="100px" ></canvas>
+        <script defer>
+            var maisVendidoDia1 = document.getElementById('myChart1').getContext('2d');
+            var maisVendidodia2 = new Chart(maisVendidoDia1, {
+                //Tornando o gráfico responsivo
+                maintainAspectRatio : false,
+                responsive: true,
+                type: 'doughnut',
+                //Define os dados do chart
+                data: {
                 labels: [   
                     {% for dado in diaQuantidade %}
                         "{{dado[0]}}",
@@ -20,8 +23,8 @@
                 ],
                 datasets: [{
                     label: 'Produtos mais vendidos do dia',
-                    backgroundColor: ['green', 'blue', 'yellow', 'red', 'pink', 'black', 'white'],
-                    borderColor: 'rgb(255, 99, 132)', //Define as cores das bordas 
+                    backgroundColor: ['#424242', '#402e32', '#5c4217', '#f2a900','#b6a99a','#fff7e8', '#fff'],
+                    borderColor: 'black', //Define as cores das bordas 
                     data: [
                         {% for dado in diaQuantidade %}
                             "{{dado[1]}}",
@@ -30,21 +33,20 @@
                 }]
             },
             options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
+                
             }
-        });
+        });    
     </script>
+    
+
+
     <!-- Mais vendidos do mês -->
-    <canvas  id="myChart2" width="300px" height="100px"></canvas>
+    <canvas   id="myChart2" width="700px" height="100px"></canvas>
+    <br>
+    
     <script defer>
-        var nomedaVariavel= document.getElementById('myChart2').getContext('2d');
-        var nomedaVariavel2 = new Chart(nomedaVariavel, {
+        var maisVendidoMesl= document.getElementById('myChart2').getContext('2d');
+        var maisVendidoMes2 = new Chart(maisVendidoMesl, {
             //Tornando o gráfico responsivo
             maintainAspectRatio : false,
             responsive: true,
@@ -58,8 +60,8 @@
                 ],
                 datasets: [{
                     label: 'Produtos mais vendidos do mês',
-                    backgroundColor: ['green', 'blue', 'yellow', 'red', 'pink', 'black', 'white'],
-                    borderColor: 'rgb(255, 99, 132)', //Define as cores das bordas 
+                    backgroundColor: ['#424242', '#402e32', '#5c4217', '#f2a900','#b6a99a','#fff7e8', '#fff'],
+                    borderColor: 'black', //Define as cores das bordas 
                     data: [
                         {% for dado in mesQuantidade %}
                             "{{dado[1]}}",
@@ -68,21 +70,17 @@
                 }]
             },
             options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
+                //Opçoes caso vcs queiram que eu adc algo
             }
         });
+
+        
     </script>
     <!-- Mais vendidos do ano -->
-    <canvas  id="myChart3" width="300px" height="100px"></canvas>
+    <canvas id="myChart3" width="700px" height="100px"></canvas>
     <script defer>
-        var nomedaVariavel3= document.getElementById('myChart3').getContext('2d');
-        var nomedaVariavel4 = new Chart(nomedaVariavel3, {
+        var maisVendidoAno1= document.getElementById('myChart3').getContext('2d');
+        var maisVeniddoANo2= new Chart(maisVendidoAno1, {
         //Tornando o gráfico responsivo
         maintainAspectRatio : false,
         responsive: true,
@@ -96,8 +94,8 @@
                 ],
             datasets: [{
                     label: 'Produtos mais vendidos do Ano',
-                    backgroundColor: ['green', 'blue', 'yellow', 'red', 'pink', 'black', 'white'],
-                    borderColor: 'rgb(255, 99, 132)', //Define as cores das bordas 
+                    backgroundColor: ['#424242', '#402e32', '#5c4217', '#f2a900','#b6a99a','#fff7e8', '#fff'],
+                    borderColor: 'black', //Define as cores das bordas 
                     data: [
                         {% for dado in anoQuantidade %}
                             "{{dado[1]}}",
@@ -106,14 +104,38 @@
                 }]
             },
             options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
+                //Opçoes caso queiramos adicionar 
             }
         });
     </script>
+</div>
+
+    <style>
+        #myChart1{
+            border: 1px solid;
+            border-color: #fea900;
+            border-radius: 40px;
+            margin: 10px 0px;
+            list-style-type: none;
+        }
+    
+
+        #myChart2 {
+            border: 1px solid;
+            border-color: #fea900;
+            border-radius: 40px;
+            margin: 10px 0px;
+            list-style-type: none;
+        }
+
+        #myChart3 {
+            border: 1px solid;
+            border-color: #fea900;
+            border-radius: 40px;
+            margin: 10px 0px;
+            list-style-type: none;
+        }
+
+        
+    </style>
 {% endblock %}

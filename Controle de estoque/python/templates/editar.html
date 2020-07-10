@@ -42,7 +42,7 @@
       }
     .item {
           margin: 10px;
-          flex-wrap: 1;
+          flex-shrink: 1;
       }
 
    
@@ -89,7 +89,7 @@
             <h1> Editar Produto </h1>
             <form id = "formulario" action="/editar" method="POST" enctype="multipart/form-data">
                 <label class = "item" for="">Nome do produto:</label>
-                <input class = "item" type="text" name="nome" value='{{nome}}' required> <br>
+                <input class = "item" type="text" name="nome" value="{{nome}}" required> <br>
 
                 <label class = "item" for="">Quantidade:</label>
                 <input id="quant" class = "item" type="number" name="quantidade" min="1" value="{{quantidade}}" required> <br>
@@ -98,20 +98,20 @@
                 <input id="preco" class = "item" type="text" name="preço" value="{{preço}}" required> <br>
 
                 <label class = "item" for="">Volume em ml ou em gramas?</label>
-                <input class = "item" id='ml' type="radio" name="volume" value="ml" required>ml
-                <input class = "item" id='g' type="radio" name="volume" value="g" required>Gramas <br>
+                <input class = "item" id="ml" type="radio" name="volume" value="ml" required>ml
+                <input class = "item" id="g" type="radio" name="volume" value="g" required>Gramas <br>
 
                 <label class = "item" for="">Volume Unitário:</label>
                 <input id="volume" class = "item" type="text" name="valor" value="{{valor}}" required> <br>
 
                 <label class = "item" for="">Área do Corpo:</label>
-                <input class = "item" id='corporal' type="radio" name="área do corpo" value="corporal" required>Corporal
-                <input class = "item" id='facial' type="radio" name="área do corpo" value="facial" required>Facial <br>
+                <input class = "item" id="corporal" type="radio" name="área do corpo" value="corporal" required>Corporal
+                <input class = "item" id="facial" type="radio" name="área do corpo" value="facial" required>Facial <br>
 
                 <label class = "item" id = "img_titulo" for="">Inserir Imagem</label>
                 <input class = "item" type="file" name="imagem">
 
-                <input id = "voltar" type="image" src="{{url_for('static', filename= 'voltar.png')}}">
+                <a href="/estoque"><img id="voltar" src="{{url_for('static', filename= 'voltar.png')}}"></a>
 
                 <input type="hidden" name="edition" value="{{nome}}">
                 <button type="submit" onclick="return clicar()">Salvar</button>
