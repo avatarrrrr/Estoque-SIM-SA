@@ -17,11 +17,11 @@ transacoes = conexao.open("transacoes").sheet1
 #app.config['UPLOAD_FOLDER'] = '/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python/static'
 #app = Flask("Estoque-SIM-SA", root_path="C:\\Users\\luqui\\OneDrive\\Área de Trabalho\\estoque-sim-sa\\Controle de estoque\\python")
 #app.config['UPLOAD_FOLDER'] = 'C:\\Users\\luqui\\OneDrive\\Área de Trabalho\\estoque-sim-sa\\Controle de estoque\\python\\python'
-app = Flask("Estoque-SIM-SA",  root_path="/home/rafael/Área de Trabalho/Controle de estoque/estoque-sim-sa/Controle de estoque/python")
-app.config["UPLOAD_FOLDER"] = "/home/rafael/Área de Trabalho/Controle de estoque/estoque-sim-sa/Controle de estoque/static"
+#app = Flask("Estoque-SIM-SA",  root_path="/home/rafael/Área de Trabalho/Controle de estoque/estoque-sim-sa/Controle de estoque/python")
+#app.config["UPLOAD_FOLDER"] = "/home/rafael/Área de Trabalho/Controle de estoque/estoque-sim-sa/Controle de estoque/static"
 #app = Flask("Estoque-SIM-SA",  root_path="H:\\Users\\agata\\Documents\\projeto trainee\\estoque-sim-sa\\Controle de estoque\\python")
-#app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
-#app.config["UPLOAD_FOLDER"] = "C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python\\static"
+app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
+app.config["UPLOAD_FOLDER"] = "C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python\\static"
 
 @app.route("/")
 def main():
