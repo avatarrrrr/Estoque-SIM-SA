@@ -1,0 +1,138 @@
+{% extends 'estoque.html' %}
+{% block popup %}
+<style>
+    #tela {
+        height: 100%;
+        width: 100%;
+        margin: auto;
+        position: fixed;
+        top: 0; bottom: 0; left: 0; right: 0;
+        opacity: 1;
+      }
+  
+      #popup {
+        margin: auto;
+        position: fixed;
+        top: 0; bottom: 0; left: 0; right: 0;
+        height: 250px;
+        width: 600px;
+        border-radius: 50px;
+        background-color: #dfdedeef;
+        border: solid thin;
+        border-color:#F2A900;
+      }
+  
+      #popup h2 {
+        position: absolute;
+        top: 20px;
+        left: 200px;
+        color: #424242;
+      }
+      #popup label {
+        position: absolute;
+        bottom: 100px;
+        left:200px;
+        color:#424242;
+      }
+      #popup img {
+        height: 150px;
+        width: 150px;
+        padding: 10px;
+        border-radius: 50%;
+      }
+  
+      
+      #popup input {
+        position:absolute;
+        bottom: 80px;
+        left: 430px;
+        height: 50px;
+        width: 120px;
+        padding: 25px;
+        font-size: 20px;
+        outline: none;
+        border-radius: 30px;
+        border: solid thin;
+        border-color:#F2A900;
+      }
+      #enviar {
+        position: absolute;
+        bottom: 20px;
+        left: 430px;
+        cursor: pointer;
+        height: 30px;
+        width: 120px;
+        border-radius: 10px;
+        border: none;
+        font-weight: bold;
+        font-size: 20px;
+        background-color: #424242;
+        color: #F2A900;
+      }
+  
+      #voltar {
+        position: absolute;
+        bottom: 20px;
+        left: 200px;
+        cursor: pointer;
+        text-align: center;
+        height: 30px;
+        width: 120px;
+        border-radius: 10px;
+        border: none;
+        font-weight: bold;
+        font-size: 20px;
+        background-color: #424242;
+        color: #F2A900;
+      }
+      #popup #enviar:hover {
+        color: #424242;
+        background-color: #F2A900;
+        transition: 300ms;
+      }
+      #popup a#voltar:hover {
+        color: #424242;
+        background-color: #F2A900;
+        transition: 300ms;
+      }
+      #voltar {
+        color: #F2A900;
+        text-decoration: none;
+        outline: none;
+      }
+  
+</style>
+<div id="tela">
+    <div id="popup">
+        <form action="/venda" method="POST" id='form'>
+            <img src="{{ url_for ('static', filename = imagem) }}" alt="item">
+            <h2>{{nome}}</h2>
+            <label>Quantidade a ser retirada: </label>
+            <a id = "voltar" href="/estoque">Voltar</a>
+            <input type="hidden" name="nome" value="{{nome}}">
+            <input type="hidden" name="preço" value="{{preço}}">
+            <input id="quant" type="number" name="quantidade" min="1", max="{{quantidade}}" value="1">
+            <button id="enviar" type="submit" onclick="return clicar()">Retirar</button>
+            <script defer>
+                function clicar() {
+                    let env = document.querySelector('#form')
+                    if (confirm('Clique em OK para confirmar a venda')) {
+                        let quant = document.querySelector('#quant')
+                        if (quant.value != '') {
+                            env.submit()
+                            return true
+                        }
+                        else {
+                            alert('Por favor, preencha o campo abaixo para concluir a venda')
+                            return false
+                        }
+                      }
+                      else {
+                        alert('Venda cancelada!')
+                        return false
+                      }
+                  }
+            </script>
+        </form>
+</div>
+{% endblock %}

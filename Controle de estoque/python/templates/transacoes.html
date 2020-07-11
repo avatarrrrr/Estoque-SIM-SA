@@ -1,4 +1,93 @@
 {% extends "base1.html" %}
 {% block conteudo %}
+    <style>
+        h1{
+            text-align: center;
+            font-family: "Century Gothic";
+            letter-spacing: .5em;
+            color:#fea900; 
+        }
+
+        #historico {
+            border: 2px solid;
+            border-color: #fea900;
+            border-radius: 40px;
+            margin: 50px 20%;
+            width: 60%;
+            list-style-type: none;
+        }
+        #transação{
+            border-radius: 40px;
+            margin: 10px;
+            position: relative;
+            right: 15px;
+            background-color:#dbdbdbd7;
+        }
+
+        #titulo_transação{
+            text-align: center;
+            font-weight: bold;
+            margin: 3px;
+            margin-bottom: 1px;
+        }
+        #data{
+            font-size: 70%;
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+            margin: 2px;
+        }
+        #nome_produto {
+            text-align: center;
+            font-weight: bold;
+            color:#252523;
+            padding: 10px;
+            padding-bottom: 15px;
+    }
+    #quantidade{
+        margin-left: 20px;
+        font-weight: bold;
+        position:absolute;
+        bottom: 15px;
+        left: 110px;
+    }
+        #preço_total{
+            font-weight: bold;
+            position: absolute;
+            bottom: 15px;
+            left: 20px;
+        }
+        input[type="submit"] {
+            position: absolute;
+            right: 20px;
+            bottom: 30px;
+            color: #F8F8F8;
+            border-radius: 5px;
+            background-color: #f2a900;
+            outline: none;
+            cursor: pointer;
+
+        }
+        input:hover[type="submit"] {
+            background-color: #424242;
+        }
     
+
+    </style>
+    <h1> Historico </h1>
+        <ul id = "historico" >
+            {% for transacao in transacoes%}
+                <div id = "transação">
+                    <li id = "titulo_transação"> Venda cadastrada </li>
+                    <li id = "nome_produto" >{{transacao[0]}}</li>
+                    <li id = "quantidade"> {{transacao[1]}} Unidade(s) </li>
+                    <li id = "preço_total" >R$ {{transacao[2]}}</li>
+                    <li id = "data" > {{transacao[3]}}</li>
+                    <form action="/deleteTransacao" method="POST">
+                        <input type="hidden" name="transacao" value="{{transacao[0]}}">
+                        <input type="submit" value="Excluir">
+                    </form>
+                </div>
+            {% endfor %}
+        </ul>
 {% endblock %}

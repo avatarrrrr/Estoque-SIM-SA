@@ -1,0 +1,169 @@
+{% extends 'estoque.html' %}
+{% block editar %}
+<style>
+    #popupEdition {
+        display: flex;
+        flex-direction: column;
+        margin: auto;
+        position: fixed;
+        top: 0; bottom: 0; left: 0; right: 0;
+        height: 450px;
+        width: 450px;
+        border-radius: 50px;
+        background-color: #dfdedeef;
+        border: solid thin;
+        border-color: #F2A900;
+    }
+
+    #telaEdition {
+        height: 100%;
+        width: 100%;
+        margin: auto;
+        position: fixed;
+        top: 0; bottom: 0; left: 0; right: 0;
+        opacity: 1;
+    }
+
+    h1 {
+        font-size: 1.5em;
+        letter-spacing: .2em;
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    #popupEdition ::placeholder, #popupEdition input[value]{
+        font-family: "Century Gothic";
+        font-weight: bold;
+        color: #424242;
+      }
+    #formulario{
+          
+          margin: 10px 5px;
+      }
+    .item {
+          margin: 10px;
+          flex-shrink: 1;
+      }
+
+   
+
+    #img_titulo{
+
+        margin: 10px 150px;
+        font-weight: bold;
+    }
+
+    #facial {
+        margin-bottom: 30px;
+    }
+
+    #voltar {
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        left: 30px;
+        bottom: 10px;
+    }
+
+    button[type="submit"] {
+        position: absolute;
+        right: 200px;
+        width: 60px;
+        height: 40px;
+        bottom: 10px;
+        color: #F8F8F8;
+        border-radius: 5px;
+        background-color: #f2a900;
+        outline: none;
+        cursor: pointer;
+
+    }
+    button input:hover[type="submit"] {
+        background-color: #424242;
+    }
+
+  
+</style>
+    <div id="telaEdition">
+        <div id="popupEdition">
+            <h1> Editar Produto </h1>
+            <form id = "formulario" action="/editar" method="POST" enctype="multipart/form-data">
+                <label class = "item" for="">Nome do produto:</label>
+                <input class = "item" type="text" name="nome" value="{{nome}}" required> <br>
+
+                <label class = "item" for="">Quantidade:</label>
+                <input id="quant" class = "item" type="number" name="quantidade" min="1" value="{{quantidade}}" required> <br>
+
+                <label class = "item" for="">Preço Unitário:</label>
+                <input id="preco" class = "item" type="text" name="preço" value="{{preço}}" required> <br>
+
+                <label class = "item" for="">Volume em ml ou em gramas?</label>
+                <input class = "item" id="ml" type="radio" name="volume" value="ml" required>ml
+                <input class = "item" id="g" type="radio" name="volume" value="g" required>Gramas <br>
+
+                <label class = "item" for="">Volume Unitário:</label>
+                <input id="volume" class = "item" type="text" name="valor" value="{{valor}}" required> <br>
+
+                <label class = "item" for="">Área do Corpo:</label>
+                <input class = "item" id="corporal" type="radio" name="área do corpo" value="corporal" required>Corporal
+                <input class = "item" id="facial" type="radio" name="área do corpo" value="facial" required>Facial <br>
+
+                <label class = "item" id = "img_titulo" for="">Inserir Imagem</label>
+                <input class = "item" type="file" name="imagem">
+
+                <a href="/estoque"><img id="voltar" src="{{url_for('static', filename= 'voltar.png')}}"></a>
+
+                <input type="hidden" name="edition" value="{{nome}}">
+                <button type="submit" onclick="return clicar()">Salvar</button>
+            </form>
+        </div>
+        <script>
+            // informação do volume
+            let vol1 = document.querySelector('#ml')
+            let vol2 = document.querySelector('#g')
+
+            if ("{{volume}}".indexOf(vol1.value) != -1) {
+                vol1.checked = true
+            }
+            else {
+                vol2.checked = true
+            }
+
+            // informação do tipo de sabonete
+            let area1 = document.querySelector('#corporal')
+            let area2 = document.querySelector('#facial')
+
+            if ("{{corpo}}".indexOf(area1.value) != -1) {
+                area1.checked = true
+            }
+            else {
+                area2.checked = true
+            }
+
+            // Validação de dados
+            let form = document.querySelector('#formulario')
+
+            function clicar() {
+                let preco = document.querySelector('#preco')
+                let volume = document.querySelector('#volume')
+
+                if (preco.value != '' && volume.value != '') {
+                    if (isNaN(preco.value)) {
+                        alert('Por favor, insira valores numéricos no campo do preço')
+                        return false
+                    }
+                    else {
+                        if (isNaN(volume.value)) {
+                            alert('Por favor, insira valores numéricos no campo do volume')
+                            return false
+                        }
+                        else {
+                            form.submit()
+                            return true
+                        }
+                    }
+                }
+            }
+        </script>
+    </div>
+{% endblock %}

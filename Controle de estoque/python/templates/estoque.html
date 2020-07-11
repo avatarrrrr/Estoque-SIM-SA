@@ -13,58 +13,109 @@
       .itens{
           padding: 5px 10px;
           font-size: 0.8em;
+          margin-left: 1em;
       }
       #itemzão{
+          position:relative;
+          top: 0;
           display:flex;
           list-style-type: none;
-          border:solid thin;
+          border:solid 3px;
           border-radius: 1em;
-          margin: 10px;
+          margin: 5px;
+          flex: 0 0 500px;
       }  
 
     #imagem_lista {
       width:200px;
       height:200px;
       border-radius: 40%;
+      margin: 0;
+      position:relative;
+      right: 2em;
     }
 
     #lixeira{ 
+      left: 80px;
+      
       width: 30px;
       height: 30px;
-      position:relative;
-      top: 1em;
+      position: absolute;
+      bottom: 10px;
+      left: 350px;
+    }
+    #editar{
+      width: 40px;
+      height: 30px;
+      position: absolute;
+      left: 400px;
+      bottom: 10px;
     }
     #compra{
+      left: 120px;
       width: 30px;
       height:30px;
-      position:relative;
-      top: 1em;
+      position: absolute;
+      bottom: 10px;
+      left: 450px;
     }
     #descrição {
-      align-self: center;
+      font-weight: bold;
+    }
+    #titulo {
+      font-weight: bolder;
+      font-size: 110%;
+      padding: 5px 10px;
+
     }
   </style>
+
   <div id = "listagem">
       {% for produto in planilha_completa %}
-        <ul id = "itemzão"> 
+        <ul id = "itemzão">
             <li>
-            <img id = "imagem_lista" class = "itens" src="{{ url_for('static', filename=produto[5]) }}"> 
+              {% if 'http' in produto[5][:4] %}
+                <img id="imagem_lista" class="itens" src="{{produto[5]}}">
+              {% else %}
+                <img id="imagem_lista" class="itens" src="{{ url_for('static', filename = produto[5]) }}">
+              {% endif %}
             </li>
-            
             <div id = "descrição">
-            <li class = "itens">{{produto[0]}}</li>
+            <li id = "titulo">{{produto[0]}}</li>
             <li class = "itens">Quantidade: {{produto[1]}}</li>
             <li class = "itens">R$: {{produto[2]}}</li>
             <li class = "itens">Volume: {{produto[3]}}</li>
             <li class = "itens">Finalidade: {{produto[4]}}</li>
-            <form action="" method="POST">
-              <input type="hidden" value="{{produto[0]}}" name="nome">
-              <input id = "lixeira" type="image" src="{{url_for('static', filename= 'download.png')}}">
-              <input id = "compra" type="image" src="{{url_for('static', filename= 'compra.png')}}">
-            </form>
-          </div>
-        </ul>
-{% endfor %}
-  </div>
-{% endblock %}      
+              <form action="/remover" method="POST" onsubmit="return confirmacao()">
+                <input name="delete" type="hidden" value="{{produto[0]}}">
+                <input id = "lixeira" type="image" src="{{url_for('static', filename= 'lixeira3.jpg')}}">
+                <script defer>
+                  function confirmacao() {
+                    if (confirm("Essa treta é realmente necessária?"))
+                      return true
+                    else
+                      return false
+                  }
+                </script>
+              </form>
 
+              <form action="/popupEdition" method="POST">
+                <input name="edit" type="hidden" value="{{produto[0]}}">
+                <input id = "editar" type="image" src="{{url_for('static', filename= 'editar1.jpg')}}">
+              </form>
+
+              <form action="/popup" method="POST">
+                <input name="item" type="hidden" value="{{produto[0]}}">
+                <input id="compra" type="image" src="{{url_for('static', filename= 'compra.png')}}">
+              </form>
+            </div>
+        </ul>
+      {% endfor %}
+    </div>
+    
+    {% block popup %} <!-- Aqui ficará o popup --> {% endblock %}
+    {% block editar %} <!-- Aqui será o edição de itens --> {% endblock %}
+
+{% endblock %}
+
+{% block resposta %} <!--Resposta do servidor--> {% endblock %}     
