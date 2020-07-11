@@ -38,6 +38,8 @@ def main():
                 dia[unidecode(transacao[0]).lower()] = int(transacao[1])
     #Ordenando o dicionário pelo produto de maior quantidade:
     dia = sorted(dia.items(), key=lambda transacao: transacao[1], reverse=True)
+    if dia == []:
+        dia.append(["Não houve nenhuma transação hoje", 1])
 
     #Criando uma Dicionário com todas as transações do MÊS e já juntando as que tiverem repetidas em uma só, somando as quantidades
     mes = {}
@@ -49,6 +51,8 @@ def main():
                 mes[unidecode(transacao[0]).lower()] = int(transacao[1])
     #Ordenando o dicionário pelo produto de maior quantidade:
     mes = sorted(mes.items(), key=lambda transacao: transacao[1], reverse=True)
+    if mes == []:
+        mes.append(["Não houve nenhuma transação esse mês", 1])
     
     #Criando uma Dicionário com todas as transações do ANO e já juntando as que tiverem repetidas em uma só, somando as quantidades
     ano = {}
@@ -60,6 +64,8 @@ def main():
                 ano[unidecode(transacao[0]).lower()] = int(transacao[1])
     #Ordenando o dicionário pelo produto de maior quantidade:
     ano = sorted(ano.items(), key=lambda transacao: transacao[1], reverse=True)
+    if ano == []:
+        ano.append(["Não houve nenhuma transação esse ano", 1])
 
     return render_template("home.html", diaQuantidade = dia, mesQuantidade = mes, anoQuantidade = ano)
 
@@ -89,7 +95,8 @@ def deleteProduto():
 @app.route("/deleteTransacao", methods=["POST"])
 def deleteTransacao():
     #Faz a remoção da transação e avalia se a exclusão foi bem sucedida ou não
-    if transacoes.delete_rows(transacoes.find(request.form.get("transacao")).row):
+    rm = transacoes.find(request.form.get("transacao"))
+    if transacoes.delete_rows(rm.row):
         return u"""
                     <script>
                         alert("Feito!")
