@@ -1,4 +1,4 @@
-#Importações Necessárias
+
 from flask import Flask, request, render_template
 from unidecode import unidecode
 import gspread
@@ -12,8 +12,11 @@ transacoes = conexao.open("transacoes").sheet1
 
 #Aplicação:
 #A variável root_path você deve modificar com o caminho completo da pasta python no seu sistema, serve para o Flask achar a pasta templates corretamente ^^
-app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
-app.config['UPLOAD_FOLDER'] = '/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python/static'
+#O app.config define a pasta padrão onde as imagens mandadas no form devem serem salvas!
+#app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
+#app.config['UPLOAD_FOLDER'] = '/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python/static'
+#app = Flask("Estoque-SIM-SA", root_path="C:\\Users\\luqui\\OneDrive\\Área de Trabalho\\estoque-sim-sa\\Controle de estoque\\python")
+#app.config['UPLOAD_FOLDER'] = 'C:\\Users\\luqui\\OneDrive\\Área de Trabalho\\estoque-sim-sa\\Controle de estoque\\python\\python'
 #app = Flask("Estoque-SIM-SA",  root_path="/home/rafael/Área de Trabalho/Controle de estoque/estoque-sim-sa/Controle de estoque/python")
 #app.config["UPLOAD_FOLDER"] = "/home/rafael/Área de Trabalho/Controle de estoque/estoque-sim-sa/Controle de estoque/static"
 #app = Flask("Estoque-SIM-SA",  root_path="H:\\Users\\agata\\Documents\\projeto trainee\\estoque-sim-sa\\Controle de estoque\\python")
@@ -25,73 +28,46 @@ def main():
     #Pegando os toda a planilha de transações
     tudo = transacoes.get_all_values()
 
-    #Criando uma lista com todas as transações do DIA
-    dia = []
+    #Criando uma Dicionário com todas as transações do DIA e já juntando as que tiverem repetidas em uma só, somando as quantidades
+    dia = {}
     for transacao in tudo:
         if int(transacao[5]) == datetime.datetime.today().day:
-            dia.append([transacao[0], transacao[1], transacao[2]])
-    #Juntando transacoes repetidas em uma só, somando a quantidade e o preço total
-    dia = sorted(dia, key=lambda transacao: int(transacao[1]), reverse=True)
-    for transacao in dia:
-        for transacao2 in dia:
-            if transacao[0] == transacao2[0] and transacao is not transacao2:
-                transacao[1] = int(transacao[1]) + int(transacao2[1])
-                transacao[2] = round(float(transacao[2]) + float(transacao2[2]), 1)
-                dia.remove(transacao2)
-    for transacao in dia:
-        for transacao2 in dia:
-            if transacao[0] == transacao2[0] and transacao is not transacao2:
-                transacao[1] = int(transacao[1]) + int(transacao2[1])
-                transacao[2] = round(float(transacao[2]) + float(transacao2[2]), 1)
-                dia.remove(transacao2)
-    #Ordenando a lista pelo produto de maior quantidade:
-    diaQuantidade = sorted(dia, key=lambda transacao: int(transacao[1]), reverse=True)
+            try:
+                dia[unidecode(transacao[0]).lower()] += int(transacao[1])
+            except:
+                dia[unidecode(transacao[0]).lower()] = int(transacao[1])
+    #Ordenando o dicionário pelo produto de maior quantidade:
+    dia = sorted(dia.items(), key=lambda transacao: transacao[1], reverse=True)
+    if dia == []:
+        dia.append(["Não houve nenhuma transação hoje", 1])
 
-    #Criando uma lista com todas as transações do MÊS
-    mes = []
+    #Criando uma Dicionário com todas as transações do MÊS e já juntando as que tiverem repetidas em uma só, somando as quantidades
+    mes = {}
     for transacao in tudo:
         if int(transacao[6]) == datetime.datetime.today().month:
-            mes.append([transacao[0], transacao[1], transacao[2]])
-    #Juntando transacoes repetidas em uma só, somando a quantidade e o preço total
-    mes = sorted(mes, key=lambda transacao: int(transacao[1]), reverse=True)
-    for transacao in mes:
-        for transacao2 in mes:
-            if transacao[0] == transacao2[0] and transacao is not transacao2:
-                transacao[1] = int(transacao[1]) + int(transacao2[1])
-                transacao[2] = round(float(transacao[2]) + float(transacao2[2]), 1)
-                mes.remove(transacao2)
-    for transacao in mes:
-        for transacao2 in mes:
-            if transacao[0] == transacao2[0] and transacao is not transacao2:
-                transacao[1] = int(transacao[1]) + int(transacao2[1])
-                transacao[2] = round(float(transacao[2]) + float(transacao2[2]), 1)
-                mes.remove(transacao2)
-    #Ordenando a lista pelo produto de maior quantidade:
-    mesQuantidade = sorted(mes, key=lambda transacao: int(transacao[1]), reverse=True)
-
-    #Criando uma lista com todas as transações do ANO
-    ano = []
+            try:
+                mes[unidecode(transacao[0]).lower()] += int(transacao[1])
+            except:
+                mes[unidecode(transacao[0]).lower()] = int(transacao[1])
+    #Ordenando o dicionário pelo produto de maior quantidade:
+    mes = sorted(mes.items(), key=lambda transacao: transacao[1], reverse=True)
+    if mes == []:
+        mes.append(["Não houve nenhuma transação esse mês", 1])
+    
+    #Criando uma Dicionário com todas as transações do ANO e já juntando as que tiverem repetidas em uma só, somando as quantidades
+    ano = {}
     for transacao in tudo:
         if int(transacao[7]) == datetime.datetime.today().year:
-            ano.append([transacao[0], transacao[1], transacao[2]])
-    #Juntando transacoes repetidas em uma só, somando a quantidade e o preço total
-    ano = sorted(ano, key=lambda transacao: int(transacao[1]), reverse=True)
-    for transacao in ano:
-        for transacao2 in ano:
-            if transacao[0] == transacao2[0] and transacao is not transacao2:
-                transacao[1] = int(transacao[1]) + int(transacao2[1])
-                transacao[2] = round(float(transacao[2]) + float(transacao2[2]), 1)
-                ano.remove(transacao2)
-    for transacao in ano:
-        for transacao2 in ano:
-            if transacao[0] == transacao2[0] and transacao is not transacao2:
-                transacao[1] = int(transacao[1]) + int(transacao2[1])
-                transacao[2] = round(float(transacao[2]) + float(transacao2[2]), 1)
-                ano.remove(transacao2)
-    #Ordenando a lista pelo produto de maior quantidade:
-    anoQuantidade = sorted(ano, key=lambda transacao: int(transacao[1]), reverse=True)
+            try:
+                ano[unidecode(transacao[0]).lower()] += int(transacao[1])
+            except:
+                ano[unidecode(transacao[0]).lower()] = int(transacao[1])
+    #Ordenando o dicionário pelo produto de maior quantidade:
+    ano = sorted(ano.items(), key=lambda transacao: transacao[1], reverse=True)
+    if ano == []:
+        ano.append(["Não houve nenhuma transação esse ano", 1])
 
-    return render_template("home.html", diaQuantidade = diaQuantidade, mesQuantidade = mesQuantidade, anoQuantidade = anoQuantidade)
+    return render_template("home.html", diaQuantidade = dia, mesQuantidade = mes, anoQuantidade = ano)
 
 #Roteamento para remover um produto
 @app.route("/remover", methods=["POST"])
@@ -118,11 +94,9 @@ def deleteProduto():
 #Roteamento para remover uma transação
 @app.route("/deleteTransacao", methods=["POST"])
 def deleteTransacao():
-    #Pesquisa o nome enviado na planilha
-    remover = transacoes.find(request.form.get("transacao"))
-
     #Faz a remoção da transação e avalia se a exclusão foi bem sucedida ou não
-    if transacoes.delete_rows(remover.row):
+    rm = transacoes.find(request.form.get("transacao"))
+    if transacoes.delete_rows(rm.row):
         return u"""
                     <script>
                         alert("Feito!")
@@ -301,10 +275,12 @@ def transacoess():
 
 @app.route("/pesquisa", methods=['POST'])
 def pesquisa():
+    pesq = []
     for produto in planilha.get_all_values():
-        if unidecode(produto[0]).lower().strip() == unidecode(request.form.get("produto")).lower().strip():
-            return render_template("estoque.html", planilha_completa = [produto])
-
+        if unidecode(request.form.get("produto")).lower().strip() in unidecode(produto[0]).lower().strip():
+            pesq.append(produto)
+    if pesq != []:
+        return render_template("estoque.html", planilha_completa = pesq)
     return u"""
                 <script>
                     alert("Não achamos nenhum produto com esse nome!")
