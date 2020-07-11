@@ -26,73 +26,40 @@ def main():
     #Pegando os toda a planilha de transações
     tudo = transacoes.get_all_values()
 
-    #Criando uma lista com todas as transações do DIA
-    dia = []
+    #Criando uma Dicionário com todas as transações do DIA e já juntando as que tiverem repetidas em uma só, somando as quantidades
+    dia = {}
     for transacao in tudo:
         if int(transacao[5]) == datetime.datetime.today().day:
-            dia.append([transacao[0], transacao[1], transacao[2]])
-    #Juntando transacoes repetidas em uma só, somando a quantidade e o preço total
-    dia = sorted(dia, key=lambda transacao: int(transacao[1]), reverse=True)
-    for transacao in dia:
-        for transacao2 in dia:
-            if transacao[0] == transacao2[0] and transacao is not transacao2:
-                transacao[1] = int(transacao[1]) + int(transacao2[1])
-                transacao[2] = round(float(transacao[2]) + float(transacao2[2]), 1)
-                dia.remove(transacao2)
-    for transacao in dia:
-        for transacao2 in dia:
-            if transacao[0] == transacao2[0] and transacao is not transacao2:
-                transacao[1] = int(transacao[1]) + int(transacao2[1])
-                transacao[2] = round(float(transacao[2]) + float(transacao2[2]), 1)
-                dia.remove(transacao2)
-    #Ordenando a lista pelo produto de maior quantidade:
-    diaQuantidade = sorted(dia, key=lambda transacao: int(transacao[1]), reverse=True)
+            try:
+                dia[unidecode(transacao[0]).lower()] += int(transacao[1])
+            except:
+                dia[unidecode(transacao[0]).lower()] = int(transacao[1])
+    #Ordenando o dicionário pelo produto de maior quantidade:
+    dia = sorted(dia.items(), key=lambda transacao: transacao[1], reverse=True)
 
-    #Criando uma lista com todas as transações do MÊS
-    mes = []
+    #Criando uma Dicionário com todas as transações do MÊS e já juntando as que tiverem repetidas em uma só, somando as quantidades
+    mes = {}
     for transacao in tudo:
         if int(transacao[6]) == datetime.datetime.today().month:
-            mes.append([transacao[0], transacao[1], transacao[2]])
-    #Juntando transacoes repetidas em uma só, somando a quantidade e o preço total
-    mes = sorted(mes, key=lambda transacao: int(transacao[1]), reverse=True)
-    for transacao in mes:
-        for transacao2 in mes:
-            if transacao[0] == transacao2[0] and transacao is not transacao2:
-                transacao[1] = int(transacao[1]) + int(transacao2[1])
-                transacao[2] = round(float(transacao[2]) + float(transacao2[2]), 1)
-                mes.remove(transacao2)
-    for transacao in mes:
-        for transacao2 in mes:
-            if transacao[0] == transacao2[0] and transacao is not transacao2:
-                transacao[1] = int(transacao[1]) + int(transacao2[1])
-                transacao[2] = round(float(transacao[2]) + float(transacao2[2]), 1)
-                mes.remove(transacao2)
-    #Ordenando a lista pelo produto de maior quantidade:
-    mesQuantidade = sorted(mes, key=lambda transacao: int(transacao[1]), reverse=True)
-
-    #Criando uma lista com todas as transações do ANO
-    ano = []
+            try:
+                mes[unidecode(transacao[0]).lower()] += int(transacao[1])
+            except:
+                mes[unidecode(transacao[0]).lower()] = int(transacao[1])
+    #Ordenando o dicionário pelo produto de maior quantidade:
+    mes = sorted(mes.items(), key=lambda transacao: transacao[1], reverse=True)
+    
+    #Criando uma Dicionário com todas as transações do ANO e já juntando as que tiverem repetidas em uma só, somando as quantidades
+    ano = {}
     for transacao in tudo:
         if int(transacao[7]) == datetime.datetime.today().year:
-            ano.append([transacao[0], transacao[1], transacao[2]])
-    #Juntando transacoes repetidas em uma só, somando a quantidade e o preço total
-    ano = sorted(ano, key=lambda transacao: int(transacao[1]), reverse=True)
-    for transacao in ano:
-        for transacao2 in ano:
-            if transacao[0] == transacao2[0] and transacao is not transacao2:
-                transacao[1] = int(transacao[1]) + int(transacao2[1])
-                transacao[2] = round(float(transacao[2]) + float(transacao2[2]), 1)
-                ano.remove(transacao2)
-    for transacao in ano:
-        for transacao2 in ano:
-            if transacao[0] == transacao2[0] and transacao is not transacao2:
-                transacao[1] = int(transacao[1]) + int(transacao2[1])
-                transacao[2] = round(float(transacao[2]) + float(transacao2[2]), 1)
-                ano.remove(transacao2)
-    #Ordenando a lista pelo produto de maior quantidade:
-    anoQuantidade = sorted(ano, key=lambda transacao: int(transacao[1]), reverse=True)
+            try:
+                ano[unidecode(transacao[0]).lower()] += int(transacao[1])
+            except:
+                ano[unidecode(transacao[0]).lower()] = int(transacao[1])
+    #Ordenando o dicionário pelo produto de maior quantidade:
+    ano = sorted(ano.items(), key=lambda transacao: transacao[1], reverse=True)
 
-    return render_template("home.html", diaQuantidade = diaQuantidade, mesQuantidade = mesQuantidade, anoQuantidade = anoQuantidade)
+    return render_template("home.html", diaQuantidade = dia, mesQuantidade = mes, anoQuantidade = ano)
 
 #Roteamento para remover um produto
 @app.route("/remover", methods=["POST"])
