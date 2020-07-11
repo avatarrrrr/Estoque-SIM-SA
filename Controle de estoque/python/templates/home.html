@@ -2,11 +2,15 @@
 {% block conteudo %}
     <script src="{{ url_for('static', filename='chart.js') }}"></script>
     <div id = "graficos">
+
+
     <!-- Graficos-->
-    
-    
+    <div class="container">
+        <div class="box1"> 
+
+        <h3 class="descricao"> Produtos mais vendidos no dia</h3>
         <!-- Mais vendidos do dia -->
-        <canvas  id="myChart1"  ></canvas>
+        <canvas  id="myChart1" width="100px" height="100px" ></canvas>
         <script defer>
             var maisVendidoDia1 = document.getElementById('myChart1').getContext('2d');
             var maisVendidodia2 = new Chart(maisVendidoDia1, {
@@ -37,11 +41,15 @@
             }
         });    
     </script>
-    
+    </div>
 
+    <div class="box2">
+
+
+        <h3 class="descricao"> Produtos mais vendidos no mês</h3>
 
     <!-- Mais vendidos do mês -->
-    <canvas   id="myChart2" width="700px" height="100px"></canvas>
+    <canvas   id="myChart2" width="100px" height="100px"></canvas>
     <br>
     
     <script defer>
@@ -73,12 +81,17 @@
             options: {
                 //Opçoes caso vcs queiram que eu adc algo
             }
-        });
-
-        
+        });   
     </script>
+    </div>
+
+
+    <div class="box3">
+        
+        <h3 class="descricao">Produtos mais vendidos no ano</h3>
+        
     <!-- Mais vendidos do ano -->
-    <canvas id="myChart3" width="700px" height="100px"></canvas>
+    <canvas id="myChart3" width="100px" height="100px"></canvas>
     <script defer>
         var maisVendidoAno1= document.getElementById('myChart3').getContext('2d');
         var maisVeniddoANo2= new Chart(maisVendidoAno1, {
@@ -109,36 +122,68 @@
             }
         });
     </script>
-</div>
+    </div>
+
+
+
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        </div>
+    </div>
 
     <style>
-        #myChart1{
+        .container {
+            width: 100vw;          
+            height: 100vh;  
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center
+        }
+
+
+        .box1{
+            width: 50%;
             border: 1px solid;
             border-color: #fea900;
             border-radius: 40px;
-            margin: 10px 0px;
+            margin: 10px 20px;
             list-style-type: none;
-            width:700px
+
+             }
+        .box2{
+            width: 50%;
+            border: 1px solid;
+            border-color: #fea900;
+            border-radius: 40px;
+            margin: 10px 20px;
+            
+            list-style-type: none;
             
         }
-    
 
-        #myChart2 {
+        .box3 {
+            width: 50%;
+            top: 150%;
             border: 1px solid;
             border-color: #fea900;
             border-radius: 40px;
-            margin: 10px 0px;
+            margin: 10px 20px;
             list-style-type: none;
+            
         }
 
-        #myChart3 {
-            border: 1px solid;
-            border-color: #fea900;
-            border-radius: 40px;
-            margin: 10px 0px;
-            list-style-type: none;
+        .descricao{
+            text-align: center;
+            color:#F2A900
         }
-
         
     </style>
 {% endblock %}
