@@ -1,5 +1,6 @@
 
 from flask import Flask, request, render_template
+from flaskext.mysql import MySQL
 from unidecode import unidecode
 import gspread
 import datetime
@@ -22,6 +23,15 @@ transacoes = conexao.open("transacoes").sheet1
 #app = Flask("Estoque-SIM-SA",  root_path="H:\\Users\\agata\\Documents\\projeto trainee\\estoque-sim-sa\\Controle de estoque\\python")
 app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
 app.config["UPLOAD_FOLDER"] = "C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python\\static"
+#Configuração do banco de dados mysql, troque a senha conforme a senha do user root no seu mysql server
+mysql = MySQL()
+app.config["MYSQL_DATABASE_USER"] = "root"
+app.config["MYSQL_DATABASE_PASSWORD"] = "estoquesimsa"
+app.config["MYSQL_DATABASE_DB"] = "estoque"
+app.config["MYSQL_DATABASE_Host"] = "localhost"
+mysql.init_app(app)
+#Variável principal onde devem serem feitas as operações
+estoque = mysql.connect().cursor()
 
 @app.route("/")
 def main():
@@ -266,7 +276,7 @@ def add():
                 """
 
 @app.route('/estoque')
-def estoque():
+def produtos():
     return render_template('estoque.html', planilha_completa = planilha.get_all_values())
 
 @app.route('/transacoes')
