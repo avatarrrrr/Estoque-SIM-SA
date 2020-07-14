@@ -236,7 +236,7 @@ def add():
             item = request.form.get(n) + request.form.get('volume')
         if pos == 5:
             if request.files["imagem"].filename != "":
-                request.files["imagem"].save(os.path.join("C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python\\img", request.files["imagem"].filename))
+                request.files["imagem"].save(os.path.join("C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python\\static", request.files["imagem"].filename))
                 item = request.files["imagem"].filename
         row.append(item)
     
@@ -265,7 +265,8 @@ def add():
     
     # contsame == 0 significa que não há nenhum item na planilha igual ao inserido pelo usuário, logo, será um novo item
     if contsame == 0:
-        estoque.execute("INSERT INTO produtos (nome, quantidade, valor, peso, finalidade, imagem) VALUES ('{}', {}, {}, '{}', '{}', '{}')".format(row[0], row[1], row[2], row[3], row[4], row[5]))
+        #Insere os dados no banco de dados a partir dos dados passados na request
+        estoque.execute("INSERT INTO produtos (nome, quantidade, valor, peso, finalidade, imagem) VALUES ('{}', {}, {}, '{}', '{}', '{}')".format(request.form.get("nome"), request.form.get("quantidade"), request.form.get("preço"), request.form.get("valor") + request.form.get("volume"), request.form.get("área do corpo"), request.files["imagem"].filename))
         db.commit()
         return u""" 
                     <script>
