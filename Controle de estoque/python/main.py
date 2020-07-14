@@ -5,6 +5,7 @@ from unidecode import unidecode
 import gspread
 import datetime
 import os
+import base64
 
 #Conexão com a Planilha
 conexao = gspread.service_account()
@@ -22,7 +23,6 @@ transacoes = conexao.open("transacoes").sheet1
 #app.config["UPLOAD_FOLDER"] = "/home/rafael/Área de Trabalho/Controle de estoque/estoque-sim-sa/Controle de estoque/static"
 #app = Flask("Estoque-SIM-SA",  root_path="H:\\Users\\agata\\Documents\\projeto trainee\\estoque-sim-sa\\Controle de estoque\\python")
 app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
-app.config["UPLOAD_FOLDER"] = "C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python\\static"
 #Configuração do banco de dados mysql, troque a senha conforme a senha do user root no seu mysql server
 mysql = MySQL()
 app.config["MYSQL_DATABASE_USER"] = "root"
@@ -31,7 +31,8 @@ app.config["MYSQL_DATABASE_DB"] = "estoque"
 app.config["MYSQL_DATABASE_Host"] = "localhost"
 mysql.init_app(app)
 #Variável principal onde devem serem feitas as operações
-estoque = mysql.connect().cursor()
+db = mysql.connect()
+estoque = db.cursor()
 
 @app.route("/")
 def main():
@@ -235,16 +236,14 @@ def add():
             item = request.form.get(n) + request.form.get('volume')
         if pos == 5:
             if request.files["imagem"].filename != "":
-                request.files["imagem"].save(os.path.join(app.config["UPLOAD_FOLDER"], request.files["imagem"].filename))
+                request.files["imagem"].save(os.path.join("C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python\\img", request.files["imagem"].filename))
                 item = request.files["imagem"].filename
-            else:
-                pass
         row.append(item)
     
     # Laço For para verificar se os dados que o usuários inseriu é compatível com alguma linha dentro da planilha;
     # Caso seja compatível, ele apenas irá alterar a quantidade adicionada.
     same = contsame = 0
-    for pos, linha in enumerate(planilha.get_all_values()):
+    '''for pos, linha in enumerate(planilha.get_all_values()):
         for cell in range(0, 6):
             if linha[cell] == linha[1] or linha[cell] == linha[2] or linha[cell] == linha[5]:
                 continue
@@ -262,13 +261,13 @@ def add():
                         </script>
                     """
         else:
-            same = 0
+            same = 0'''
     
     # contsame == 0 significa que não há nenhum item na planilha igual ao inserido pelo usuário, logo, será um novo item
     if contsame == 0:
-        index = len(planilha.get_all_values()) + 1
-        planilha.insert_row(row, index)
-        return u"""
+        estoque.execute("INSERT INTO produtos (nome, quantidade, valor, peso, finalidade, imagem) VALUES ('{}', {}, {}, '{}', '{}', '{}')".format(row[0], row[1], row[2], row[3], row[4], row[5]))
+        db.commit()
+        return u""" 
                     <script>
                         alert("Novo item adicionado com sucesso!")
                         window.location = "/inserir"
@@ -277,7 +276,9 @@ def add():
 
 @app.route('/estoque')
 def produtos():
-    return render_template('estoque.html', planilha_completa = planilha.get_all_values())
+    estoque.execute("SELECT * FROM produtos")
+    data = estoque.fetchall()
+    return render_template('estoque.html', planilha_completa = data)
 
 @app.route('/transacoes')
 def transacoess():
@@ -298,10 +299,8 @@ def pesquisa():
                 </script>
             """  
             
-
 @app.route("/sobre")
 def sobre():
     return render_template("sobre.html")
         
-
 app.run(debug=True, use_reloader=True)
