@@ -83,24 +83,17 @@ def main():
 #Roteamento para remover um produto
 @app.route("/remover", methods=["POST"])
 def deleteProduto():
-    #Pesquisa o nome enviado na planilha
-    remover = planilha.find(request.form.get("delete"))
-
-    #Faz a remoção do produto e avalia se a exclusão foi bem sucedida ou não
-    if planilha.delete_rows(remover.row):
-        return u"""
-                    <script>
-                        alert("Feito!")
-                        window.location = "/estoque"
-                    </script>
-                """
-    else:
-        return u"""
-                    <script>
-                        alert("Houve um Erro ao deletar o produto!")
-                        window.location = "/estoque"
-                    </script>
-                """
+    #Faz a deleção no banco de dados
+    estoque.execute("DELETE FROM produtos WHERE nome='{}'".format(request.form.get("delete")))
+    #Grava a alteração no banco de dados
+    db.commit()
+    #Retorna a mensagem de sucesso
+    return u"""
+                <script>
+                    alert("Feito!")
+                    window.location = "/estoque"
+                </script>
+            """
 
 #Roteamento para remover uma transação
 @app.route("/deleteTransacao", methods=["POST"])
