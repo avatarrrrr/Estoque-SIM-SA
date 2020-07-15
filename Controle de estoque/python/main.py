@@ -12,6 +12,7 @@ conexao = gspread.service_account()
 planilha = conexao.open("Nature Saboaria").sheet1
 transacoes = conexao.open("transacoes").sheet1
 
+
 #Aplicação:
 #A variável root_path você deve modificar com o caminho completo da pasta python no seu sistema, serve para o Flask achar a pasta templates corretamente ^^
 #O app.config define a pasta padrão onde as imagens mandadas no form devem serem salvas!
@@ -130,26 +131,20 @@ def popup():
     )
 
 # Roteamento para remover uma quantidade de um produto, caso a quantidade do produto fique abaixo do limite, ele dispara um alerta
+limite = 5
 @app.route("/venda", methods=["POST"])
 def venda():
-    # Procura o Produto
-    rm = planilha.find(request.form.get('nome'))
-
-    if request.form.get('quantidade') != '':
-
-        dateToday = datetime.datetime.today()
-        #Registra uma transação na planilha transações com o valor do produto, a quantidade, o preço, data e o horário
-        transacoes.append_row([request.form.get("nome"), request.form.get("quantidade"), str(float(request.form.get("preço")) * int(request.form.get("quantidade"))), str(dateToday.day) + "/" + str(dateToday.month) + "/" + str(dateToday.year), str(dateToday.hour) + ":" + str(dateToday.minute) + ":" + str(dateToday.second), str(dateToday.day), str(dateToday.month), str(dateToday.year)])
-
-        #Atualiza a célula com o valor da subtração do valor que já tem na célula com o valor que o usuário quer retirar
-        planilha.update_cell(rm.row, 2, int(planilha.cell(rm.row, 2).value) - int(request.form.get("quantidade")))
-
-        # Verifica se a quantidade atual está abaixo do valor limite definido pelo usuário (por enquanto o limite é fixo kkkkk)
-        if int(planilha.cell(rm.row, 2).value) < 5:
-            return render_template("respostaEstoque.html", retorno = "Operação concluida, o total da venda foi de R$: " + str(round(int(request.form.get("quantidade")) * float(request.form.get("preço")), 1)) + "! Atenção! O produto está abaixo do limite especificado")
-
-        else:
-            return render_template("respostaEstoque.html", retorno = "Operação concluida, o total da venda foi de R$: " + str(round(int(request.form.get("quantidade")) * float(request.form.get("preço")), 1)) + "!")
+    #Procura o produto no banco de dados
+    estoque.execute("SELECT quantidade, valor FROM produtos WHERE nome='{}'".format(request.form.get("nome")))
+    #Atualiza a quantidade do produto com a subtração do valor que tem nele com a quantidade vendidaa
+    estoque.execute("UPDATE produtos SET quantidade='{}' WHERE nome='{}'".format(estoque.fetchone()[0] - int(request.form.get("quantidade")), request.form.get("nome")))
+    #Grava as alterações no banco de dados
+    db.commit()
+    #Verifica se o resultado da subtração ficou menor que o limite e retorna uma mensagem correspondente
+    if estoque.fetchone()[0] - int(request.form.get("quantidade")) < limite:
+        render_template("respostaEstoque.html", retorno = "Operação Concluída, o total da venda foi R$ " + str(round(estoque.fetchone()[1] * int(request.form.gset("quantidade"))), 1) + "! Este produto está abaixo do limite!")
+    else:
+        render_template("respostaEstoque.html", retorno = "Operação Concluída, o total da venda foi R$ " + str(round(estoque.fetchone()[1] * int(request.form.get("quantidade"))), 1) + "! Este produto está abaixo do limite!")
 
 # Rotas para editar dados da planilha
 @app.route('/popupEdition', methods=['POST'])
