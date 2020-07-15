@@ -217,57 +217,32 @@ def editar():
 def inserir():
     return render_template("incluirProduto.html")
 
-# Rota de Captura das Informações para adicionar na planilha
+# Rota de Captura das Informações para adicionar no banco de dados
 @app.route('/recebendo_dados', methods=['POST'])
 def add():
-    arr = [
-        'nome', 
-        'quantidade', 
-        'preço',
-        'valor',
-        'área do corpo',
-        'imagem'
-    ]
-    # Laço For para adicionar os dados dentro da minha lista row.
-    row = []
-    for pos, n in enumerate(arr):
-        item = request.form.get(n)
-        if pos == 3:
-            item = request.form.get(n) + request.form.get('volume')
-        if pos == 5:
-            if request.files["imagem"].filename != "":
-                request.files["imagem"].save(os.path.join("C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python\\static", request.files["imagem"].filename))
-                item = request.files["imagem"].filename
-        row.append(item)
-    
-    # Laço For para verificar se os dados que o usuários inseriu é compatível com alguma linha dentro da planilha;
-    # Caso seja compatível, ele apenas irá alterar a quantidade adicionada.
-    same = contsame = 0
-    '''for pos, linha in enumerate(planilha.get_all_values()):
-        for cell in range(0, 6):
-            if linha[cell] == linha[1] or linha[cell] == linha[2] or linha[cell] == linha[5]:
-                continue
-            elif unidecode(linha[cell]).lower().strip() == unidecode(row[cell]).lower().strip():
-                same += 1
-        
-        # Caso seja igual a 4, significa dizer que as 4 colunas de uma linha eram iguais aos dados que o usuário inseriu;
-        # Então quer dizer que a linha já existe na planilha, portanto, o produto não será adicionado.
-        if same == 3:
-            contsame += 1
-            return u"""
-                        <script>
-                            alert("O produto já existe no banco de dados!")
-                            window.location = "/inserir"
-                        </script>
-                    """
-        else:
-            same = 0'''
-    
-    # contsame == 0 significa que não há nenhum item na planilha igual ao inserido pelo usuário, logo, será um novo item
-    if contsame == 0:
-        #Insere os dados no banco de dados a partir dos dados passados na request
-        estoque.execute("INSERT INTO produtos (nome, quantidade, valor, peso, finalidade, imagem) VALUES ('{}', {}, {}, '{}', '{}', '{}')".format(request.form.get("nome"), request.form.get("quantidade"), request.form.get("preço"), request.form.get("valor") + request.form.get("volume"), request.form.get("área do corpo"), request.files["imagem"].filename))
+    #Procurando no banco de dados se já existe um produto com as mesma características
+    estoque.execute("SELECT * FROM produtos WHERE nome='{}' AND peso='{}' AND finalidade='{}'".format(request.form.get("nome"), request.form.get("valor") + request.form.get("volume"), request.form.get("área do corpo")))
+    #Aqui ele verifica se o comando acima retornou algo, se sim, quer dizer que já tem um produto com essas características, então ele faz um update na tabela
+    if estoque.fetchone():
+        estoque.execute("UPDATE produtos SET quantidade={} WHERE nome='{}'".format(int(request.form.get("quantidade")) + estoque.fetchone()[1], request.form.get("nome")))
+        #Grava os dados da requisição
         db.commit()
+        #Retorna mensagem
+        return u""" 
+                    <script>
+                        alert("O item que você tentou adicionar já existe, então nós somamos a quantidade do que você tentou adicionar com o já existente :)")
+                        window.location = "/inserir"
+                    </script>
+                """
+    #Caso contrário, insere uma nova linha no banco de dados com os dados da requisição:
+    else:
+        #Salva a imagem na pasta static
+        request.files["imagem"].save(os.path.join("C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python\\static", request.files["imagem"].filename))
+        #Faz o comando SQL
+        estoque.execute("INSERT INTO produtos (nome, quantidade, valor, peso, finalidade, imagem) VALUES ('{}', {}, {}, '{}', '{}', '{}')".format(request.form.get("nome"), request.form.get("quantidade"), request.form.get("preço"), request.form.get("valor") + request.form.get("volume"), request.form.get("área do corpo"), request.files["imagem"].filename))
+        #Grava as alterações no banco de dados
+        db.commit()
+        #Retorna mensagem
         return u""" 
                     <script>
                         alert("Novo item adicionado com sucesso!")
