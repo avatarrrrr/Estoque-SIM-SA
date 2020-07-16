@@ -146,7 +146,7 @@ def venda():
     else:
         return render_template("respostaEstoque.html", retorno = "Operação Concluída, o total da venda foi R$ " + str(round(preço * int(request.form.get("quantidade")), 1)) + "!")
 
-# Rotas para editar dados da planilha
+#Pop-up de edição de planilha
 @app.route('/popupEdition', methods=['POST'])
 def popupEdition():
     #Pesquisa o produto no banco de dados
@@ -165,9 +165,14 @@ def popupEdition():
     #Retornando a página com os valores
     return render_template('editar.html', planilha_completa = estoque.fetchall(), nome = produto[0], quantidade = produto[1], preço = produto[2], volume = string, valor = number, corpo = produto[4], imagem = produto[5])
 
-# Nessa rota ocorrerá a edição dos itens
+#Edição de produtos
 @app.route('/editar', methods=['POST'])
 def editar():
+    #Ver se o usário inseriu uma imagem, se sim, ele salva a imagem e o insere junto com os outros dados no banco de dados, se não, atualiza o banco de dados com os dados menos a imagem
+    if request.files['imagem'].filename != '':
+        request.files['imagem'].save(os.path.join(app.config['UPLOAD_FOLDER'], request.files['imagem'].filename))
+    else:
+        pass
     conteudo = [
         'nome',
         'quantidade',
@@ -176,24 +181,6 @@ def editar():
         'área do corpo',
         'imagem'
     ]
-
-    # Capturando a linha certa pelo nome do item
-    linha = planilha.find(request.form.get('edition')).row
-
-    # Atualizando a planilha com os novos valores
-    for pos, item in enumerate(conteudo):
-        if pos == 3:
-            volume = request.form.get(item) + request.form.get('volume')
-            planilha.update_cell(linha, pos + 1, volume)
-        elif pos == 5:
-            if request.files['imagem'].filename != '':
-                request.files['imagem'].save(os.path.join(app.config['UPLOAD_FOLDER'], request.files['imagem'].filename))
-                planilha.update_cell(linha, pos + 1, request.files['imagem'].filename)
-            else:
-                pass
-        else:
-            planilha.update_cell(linha, pos + 1, request.form.get(item))
-
     return render_template('respostaEstoque.html', retorno = 'Item salvo com sucesso!')
 
 # Rotas para Inserir Produto
