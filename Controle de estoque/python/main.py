@@ -149,25 +149,21 @@ def venda():
 # Rotas para editar dados da planilha
 @app.route('/popupEdition', methods=['POST'])
 def popupEdition():
-    item = planilha.find(request.form.get('edit'))
-    volume = planilha.cell(item.row, 4).value
-
-    # Utilizando o laço for para capturar apenas o valor do volume
-    valor = ''
-    for num in volume:
-        if num.isnumeric() == True:
-            valor += num
-
-    return render_template('editar.html',
-    planilha_completa = planilha.get_all_values(),
-    nome = item.value,
-    quantidade = planilha.cell(item.row, 2).value,
-    preço = planilha.cell(item.row, 3).value,
-    volume = volume,
-    valor = valor,
-    corpo = planilha.cell(item.row, 5).value,
-    imagem = planilha.cell(item.row, 6).value
-    )
+    #Pesquisa o produto no banco de dados
+    estoque.execute("SELECT * FROM produtos WHERE nome='{}'".format(request.form.get("edit")))
+    produto = estoque.fetchone()
+    #Pega todos os produtos do banco de dados
+    estoque.execute("SELECT * FROM produtos")
+    #Separando string de inteiro do volume
+    string = ''
+    number = ''
+    for s in produto[3]:
+        if s.isdigit():
+            number += s
+        else:
+            string += s
+    #Retornando a página com os valores
+    return render_template('editar.html', planilha_completa = estoque.fetchall(), nome = produto[0], quantidade = produto[1], preço = produto[2], volume = string, valor = number, corpo = produto[4], imagem = produto[5])
 
 # Nessa rota ocorrerá a edição dos itens
 @app.route('/editar', methods=['POST'])
