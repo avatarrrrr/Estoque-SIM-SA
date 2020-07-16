@@ -116,35 +116,35 @@ def deleteTransacao():
                     </script>
                 """
 
-
-# Captura qual é o item que irá ser retirada uma determinada quantidade, e exibe o popup
+#Roteamento para o pop up de venda de um produto
 @app.route('/popup', methods=['POST'])
 def popup():
-    item = planilha.find(request.form.get('item'))
-    img = planilha.cell(item.row, 6)
-    return render_template('popup.html',
-    planilha_completa = planilha.get_all_values(),
-    nome = item.value,
-    imagem = img.value,
-    quantidade = planilha.cell(item.row, 2).value,
-    preço = planilha.cell(item.row, 3).value
-    )
+    #Procura pelo produto escolhido no banco de dados
+    estoque.execute("SELECT * FROM produtos WHERE nome='{}'".format(request.form.get("item")))
+    produto = estoque.fetchone()
+    #Pega agora todos os produtos no banco de dados
+    estoque.execute("SELECT * FROM produtos")
+    #Retorna a página com os dados requisitados
+    return render_template('popup.html', planilha_completa = estoque.fetchall(), nome = produto[0], imagem = produto[5], quantidade = produto[1], preço = produto[2])
 
-# Roteamento para remover uma quantidade de um produto, caso a quantidade do produto fique abaixo do limite, ele dispara um alerta
+# Roteamento para fazer uma venda, caso a quantidade do produto fique abaixo do limite, ele dispara um alerta
 limite = 5
 @app.route("/venda", methods=["POST"])
 def venda():
     #Procura o produto no banco de dados
     estoque.execute("SELECT quantidade, valor FROM produtos WHERE nome='{}'".format(request.form.get("nome")))
-    #Atualiza a quantidade do produto com a subtração do valor que tem nele com a quantidade vendidaa
-    estoque.execute("UPDATE produtos SET quantidade='{}' WHERE nome='{}'".format(estoque.fetchone()[0] - int(request.form.get("quantidade")), request.form.get("nome")))
+    produto = estoque.fetchone()
+    quantidade = produto[0]
+    preço = produto[1]
+    #Atualiza a quantidade do produto com a subtração do valor que tem nele com a quantidade vendida
+    estoque.execute("UPDATE produtos SET quantidade='{}' WHERE nome='{}'".format(quantidade - int(request.form.get("quantidade")), request.form.get("nome")))
     #Grava as alterações no banco de dados
     db.commit()
     #Verifica se o resultado da subtração ficou menor que o limite e retorna uma mensagem correspondente
-    if estoque.fetchone()[0] - int(request.form.get("quantidade")) < limite:
-        render_template("respostaEstoque.html", retorno = "Operação Concluída, o total da venda foi R$ " + str(round(estoque.fetchone()[1] * int(request.form.gset("quantidade"))), 1) + "! Este produto está abaixo do limite!")
+    if quantidade - int(request.form.get("quantidade")) < limite:
+        return render_template("respostaEstoque.html", retorno = "Operação Concluída, o total da venda foi R$ " + str(round(preço * int(request.form.get("quantidade")), 1)) + "! Este produto está abaixo do limite!")
     else:
-        render_template("respostaEstoque.html", retorno = "Operação Concluída, o total da venda foi R$ " + str(round(estoque.fetchone()[1] * int(request.form.get("quantidade"))), 1) + "! Este produto está abaixo do limite!")
+        return render_template("respostaEstoque.html", retorno = "Operação Concluída, o total da venda foi R$ " + str(round(preço * int(request.form.get("quantidade")), 1)) + "!")
 
 # Rotas para editar dados da planilha
 @app.route('/popupEdition', methods=['POST'])
