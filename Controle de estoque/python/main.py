@@ -131,7 +131,7 @@ def venda():
     # Procura o Produto
     rm = planilha.find(request.form.get('nome'))
 
-    if(int(request.form.get("quantidade")) < 0 or request.form.get("quantidade") > int(planilha.cell(rm.row, 2).value) or request.form.get('quantidade') == ''):
+    if(int(request.form.get("quantidade")) < 0 or int(request.form.get("quantidade")) > int(planilha.cell(rm.row, 2).value) or request.form.get('quantidade') == ''):
         return u'''
                 <script>
                     alert("Você colocou um valor inválido!")
