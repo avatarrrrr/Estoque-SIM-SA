@@ -199,7 +199,12 @@ def editar():
         else:
             planilha.update_cell(linha, pos + 1, request.form.get(item))
 
-    return render_template('respostaEstoque.html', retorno = 'Item salvo com sucesso!')
+    return u'''
+                <script>
+                    alert("Item salvo com sucesso!")
+                    window.location = "/estoque"
+                </script>
+            '''
 
 # Rotas para Inserir Produto
 @app.route('/inserir')
