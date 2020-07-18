@@ -239,7 +239,7 @@ def add():
     # Laço For para verificar se os dados que o usuários inseriu é compatível com alguma linha dentro da planilha;
     # Caso seja compatível, ele apenas irá alterar a quantidade adicionada.
     same = contsame = 0
-    for pos, linha in enumerate(planilha.get_all_values()):
+    for pos, linha in enumerate(planilha.get_all_values()): # Array de linhas
         for cell in range(0, 6):
             if linha[cell] == linha[1] or linha[cell] == linha[2] or linha[cell] == linha[5]:
                 continue
