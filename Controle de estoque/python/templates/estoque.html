@@ -82,19 +82,27 @@
             <li class = "itens">R$: {{produto[2]}}</li>
             <li class = "itens">Volume: {{produto[3]}}</li>
             <li class = "itens">Finalidade: {{produto[4]}}</li>
-              <form action="/remover" method="POST" onsubmit="return confirmacao()">
-                <input name="delete" type="hidden" value="{{produto[0]}}">
-                <input id = "lixeira" type="image" src="{{url_for('static', filename= 'lixeira3.jpg')}}">
-                <script defer>
-                  function confirmacao() {
-                    if (confirm("Essa treta é realmente necessária?"))
-                      return true
-                    else
-                      return false
+            <input id = "lixeira" type="image" src="{{url_for('static', filename= 'lixeira3.jpg')}}" onclick="return erase()">
+            <script defer>
+              function erase() {
+                if (confirm("Essa treta é realmente necessária?"))
+                  var request
+                  if(XMLHttpRequest){
+                    request = new XMLHttpRequest()
+                    request.onreadystatechange = function(){
+                      if(request.readyState === 4){
+                        if(request.status === 200){
+                          alert("Oi! Eu sou o AJAX, gostaria de dizer que a deleção deu certo! :)")
+                        }
+                      }
+                    }
+                    request.open("DELETE", "/delete", true)
+                    request.send("delete={{produto[0]}}")
                   }
-                </script>
-              </form>
-
+                else
+                  return false
+              }
+            </script>
               <form action="/popupEdition" method="POST">
                 <input name="edit" type="hidden" value="{{produto[0]}}">
                 <input id = "editar" type="image" src="{{url_for('static', filename= 'editar1.jpg')}}">

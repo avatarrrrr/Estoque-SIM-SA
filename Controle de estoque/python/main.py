@@ -82,19 +82,14 @@ def main():
     return render_template("home.html", diaQuantidade = dia, mesQuantidade = mes, anoQuantidade = ano)
 
 #Roteamento para remover um produto
-@app.route("/remover", methods=["POST"])
+@app.route("/delete", methods=["DELETE"])
 def deleteProduto():
     #Faz a deleção no banco de dados
-    estoque.execute("DELETE FROM produtos WHERE nome='{}'".format(request.form.get("delete")))
+    estoque.execute("DELETE FROM produtos WHERE nome='{}'".format(request.args.get("delete")))
     #Grava a alteração no banco de dados
     db.commit()
-    #Retorna a mensagem de sucesso
-    return u"""
-                <script>
-                    alert("Feito!")
-                    window.location = "/estoque"
-                </script>
-            """
+    #Retorna código de sucesso
+    return 200
 
 #Roteamento para remover uma transação
 @app.route("/deleteTransacao", methods=["POST"])
