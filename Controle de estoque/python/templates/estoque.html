@@ -85,7 +85,7 @@
             <input id = "lixeira" type="image" src="{{url_for('static', filename= 'lixeira3.jpg')}}" onclick="erase()">
             <script defer>
               function erase() {
-                if (confirm("Essa treta é realmente necessária?"))
+                if(confirm("Essa treta é realmente necessária?")){
                   var request
                   if(XMLHttpRequest){
                     request = new XMLHttpRequest()
@@ -99,6 +99,7 @@
                     request.open("DELETE", "/delete", true)
                     request.send("{{produto[0]}}")
                   }
+                }
               }
             </script>
               <form action="/popupEdition" method="POST">

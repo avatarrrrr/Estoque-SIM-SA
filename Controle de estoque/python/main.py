@@ -81,7 +81,7 @@ def main():
 
     return render_template("home.html", diaQuantidade = dia, mesQuantidade = mes, anoQuantidade = ano)
 
-#Roteamento para remover um produto
+#Roteamento para remover um produto ou uma transação
 @app.route("/delete", methods=["DELETE"])
 def deleteProduto():
     #Faz a deleção no banco de dados
@@ -90,26 +90,6 @@ def deleteProduto():
     db.commit()
     #Retorna código de sucesso
     return "OK", 200
-
-#Roteamento para remover uma transação
-@app.route("/deleteTransacao", methods=["POST"])
-def deleteTransacao():
-    #Faz a remoção da transação e avalia se a exclusão foi bem sucedida ou não
-    rm = transacoes.find(request.form.get("transacao"))
-    if transacoes.delete_rows(rm.row):
-        return u"""
-                    <script>
-                        alert("Feito!")
-                        window.location = "/transacoes"
-                    </script>
-                """
-    else:
-        return u"""
-                    <script>
-                        alert("Houve um Erro ao deletar a transacao!")
-                        window.location = "/transacoes"
-                    </script>
-                """
 
 #Roteamento para o pop up de venda de um produto
 @app.route('/popup', methods=['POST'])
@@ -224,7 +204,9 @@ def produtos():
 
 @app.route('/transacoes')
 def transacoess():
-    return render_template("transacoes.html", transacoes = reversed(transacoes.get_all_values()))
+    estoque.execute("SELECT * FROM transações")
+    data = estoque.fetchall()
+    return render_template("transacoes.html", transacoes = reversed(data))
 
 @app.route("/pesquisa", methods=['POST'])
 def pesquisa():
