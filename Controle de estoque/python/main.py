@@ -85,11 +85,11 @@ def main():
 @app.route("/delete", methods=["DELETE"])
 def deleteProduto():
     #Faz a deleção no banco de dados
-    estoque.execute("DELETE FROM produtos WHERE nome='{}'".format(request.args.get("delete")))
+    estoque.execute("DELETE FROM produtos WHERE nome='{}'".format(request.get_data().decode("utf-8")))
     #Grava a alteração no banco de dados
     db.commit()
     #Retorna código de sucesso
-    return 200
+    return "OK", 200
 
 #Roteamento para remover uma transação
 @app.route("/deleteTransacao", methods=["POST"])
