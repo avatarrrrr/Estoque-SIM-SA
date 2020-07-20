@@ -74,15 +74,15 @@
       {% for produto in planilha_completa %}
         <ul id = "itemzão">
             <li>
-                <img id="imagem_lista" class="itens" src="{{url_for('static', filename= produto[5])}}">
+                <img id="imagem_lista" class="itens" src="{{url_for('static', filename= produto[6])}}">
             </li>
             <div id = "descrição">
-            <li id = "titulo">{{produto[0]}}</li>
-            <li class = "itens">Quantidade: {{produto[1]}}</li>
-            <li class = "itens">R$: {{produto[2]}}</li>
-            <li class = "itens">Volume: {{produto[3]}}</li>
-            <li class = "itens">Finalidade: {{produto[4]}}</li>
-            <input id = "lixeira" type="image" src="{{url_for('static', filename= 'lixeira3.jpg')}}" onclick="return erase()">
+            <li id = "titulo">{{produto[1]}}</li>
+            <li class = "itens">Quantidade: {{produto[2]}}</li>
+            <li class = "itens">R$: {{produto[3]}}</li>
+            <li class = "itens">Volume: {{produto[4]}}</li>
+            <li class = "itens">Finalidade: {{produto[5]}}</li>
+            <input id = "lixeira" type="image" src="{{url_for('static', filename= 'lixeira3.jpg')}}" onclick="erase()">
             <script defer>
               function erase() {
                 if (confirm("Essa treta é realmente necessária?"))
@@ -92,15 +92,13 @@
                     request.onreadystatechange = function(){
                       if(request.readyState === 4){
                         if(request.status === 200){
-                          alert("Oi! Eu sou o AJAX, gostaria de dizer que a deleção deu certo! :)")
+                          location = "/estoque"
                         }
                       }
                     }
                     request.open("DELETE", "/delete", true)
                     request.send("{{produto[0]}}")
                   }
-                else
-                  return false
               }
             </script>
               <form action="/popupEdition" method="POST">
