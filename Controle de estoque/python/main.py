@@ -95,12 +95,12 @@ def deleteProduto():
 @app.route('/popup', methods=['POST'])
 def popup():
     #Procura pelo produto escolhido no banco de dados
-    estoque.execute("SELECT * FROM produtos WHERE nome='{}'".format(request.form.get("item")))
+    estoque.execute("SELECT * FROM produtos WHERE id={}".format(request.form.get("item")))
     produto = estoque.fetchone()
     #Pega agora todos os produtos no banco de dados
     estoque.execute("SELECT * FROM produtos")
     #Retorna a página com os dados requisitados
-    return render_template('popup.html', planilha_completa = estoque.fetchall(), nome = produto[0], imagem = produto[5], quantidade = produto[1], preço = produto[2])
+    return render_template('popup.html', planilha_completa = estoque.fetchall(), nome = produto[1], imagem = produto[6], quantidade = produto[2], preço = produto[3])
 
 # Roteamento para fazer uma venda, caso a quantidade do produto fique abaixo do limite, ele dispara um alerta
 limite = 5
@@ -113,6 +113,8 @@ def venda():
     preço = produto[1]
     #Atualiza a quantidade do produto com a subtração do valor que tem nele com a quantidade vendida
     estoque.execute("UPDATE produtos SET quantidade='{}' WHERE nome='{}'".format(quantidade - int(request.form.get("quantidade")), request.form.get("nome")))
+    #Registrando nova transação
+    estoque.execute("INSERT INTO transações (nome, quantidade, preço, data) VALUES ('{}', {}, {},  CURRENT_DATE)".format(request.form.get("nome"), request.form.get("quantidade"), round(preço * float(request.form.get("quantidade")), 1)))
     #Grava as alterações no banco de dados
     db.commit()
     #Verifica se o resultado da subtração ficou menor que o limite e retorna uma mensagem correspondente
@@ -221,7 +223,7 @@ def pesquisa():
                     alert("Não achamos nenhum produto com esse nome!")
                     window.location = "/estoque"
                 </script>
-            """  
+            """
             
 @app.route("/sobre")
 def sobre():
