@@ -1,85 +1,100 @@
-
 from flask import Flask, request, render_template
 from flaskext.mysql import MySQL
 from unidecode import unidecode
 import gspread
 import datetime
 import os
-import base64
 
 #Conexão com a Planilha
 conexao = gspread.service_account()
 planilha = conexao.open("Nature Saboaria").sheet1
 transacoes = conexao.open("transacoes").sheet1
 
-
 #Aplicação:
-#A variável root_path você deve modificar com o caminho completo da pasta python no seu sistema, serve para o Flask achar a pasta templates corretamente ^^
-#O app.config define a pasta padrão onde as imagens mandadas no form devem serem salvas!
-#app = Flask("Estoque-SIM-SA", root_path="/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python")
-#app.config['UPLOAD_FOLDER'] = '/home/lucas/Desktop/estoque-sim-sa/Controle de estoque/python/static'
-#app = Flask("Estoque-SIM-SA", root_path="C:\\Users\\luqui\\OneDrive\\Área de Trabalho\\estoque-sim-sa\\Controle de estoque\\python")
-#app.config['UPLOAD_FOLDER'] = 'C:\\Users\\luqui\\OneDrive\\Área de Trabalho\\estoque-sim-sa\\Controle de estoque\\python\\python'
-#app = Flask("Estoque-SIM-SA",  root_path="/home/rafael/Área de Trabalho/Controle de estoque/estoque-sim-sa/Controle de estoque/python")
-#app.config["UPLOAD_FOLDER"] = "/home/rafael/Área de Trabalho/Controle de estoque/estoque-sim-sa/Controle de estoque/static"
-#app = Flask("Estoque-SIM-SA",  root_path="H:\\Users\\agata\\Documents\\projeto trainee\\estoque-sim-sa\\Controle de estoque\\python")
-app = Flask("Estoque-SIM-SA",  root_path="C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python")
+#O app.config["UPLOAD_FOLDER"] define a pasta padrão onde as imagens mandadas no form devem serem salvas!
+app = Flask("Estoque-SIM-SA")
+app.config["UPLOAD_FOLDER"] = "C:\\Users\\tanko\\Projects\\Estoque-SIM-SA\\static"
 #Configuração do banco de dados mysql, troque a senha conforme a senha do user root no seu mysql server
-mysql = MySQL()
 app.config["MYSQL_DATABASE_USER"] = "root"
 app.config["MYSQL_DATABASE_PASSWORD"] = "estoquesimsa"
 app.config["MYSQL_DATABASE_DB"] = "estoque"
 app.config["MYSQL_DATABASE_Host"] = "localhost"
+#Inicialização do MySQl
+mysql = MySQL()
 mysql.init_app(app)
-#Variável principal onde devem serem feitas as operações
 db = mysql.connect()
 estoque = db.cursor()
 
+#Rotas do Front:
+
 @app.route("/")
 def main():
-    #Pegando os toda a planilha de transações
-    tudo = transacoes.get_all_values()
 
     #Criando uma Dicionário com todas as transações do DIA e já juntando as que tiverem repetidas em uma só, somando as quantidades
+    estoque.execute("SELECT * FROM transações WHERE data=CURRENT_DATE()")
     dia = {}
-    for transacao in tudo:
-        if int(transacao[5]) == datetime.datetime.today().day:
-            try:
-                dia[unidecode(transacao[0]).lower()] += int(transacao[1])
-            except:
-                dia[unidecode(transacao[0]).lower()] = int(transacao[1])
+    for transacao in estoque.fetchall():
+        try:
+            dia[unidecode(transacao[0]).lower()] += int(transacao[1])
+        except:
+            dia[unidecode(transacao[0]).lower()] = int(transacao[1])
+
     #Ordenando o dicionário pelo produto de maior quantidade:
     dia = sorted(dia.items(), key=lambda transacao: transacao[1], reverse=True)
     if dia == []:
         dia.append(["Não houve nenhuma transação hoje", 1])
 
     #Criando uma Dicionário com todas as transações do MÊS e já juntando as que tiverem repetidas em uma só, somando as quantidades
+    estoque.execute("SELECT * FROM transações WHERE MONTH(data) = MONTH(CURRENT_DATE())")
     mes = {}
-    for transacao in tudo:
-        if int(transacao[6]) == datetime.datetime.today().month:
-            try:
-                mes[unidecode(transacao[0]).lower()] += int(transacao[1])
-            except:
-                mes[unidecode(transacao[0]).lower()] = int(transacao[1])
+    for transacao in estoque.fetchall():
+        try:
+            mes[unidecode(transacao[0]).lower()] += int(transacao[1])
+        except:
+            mes[unidecode(transacao[0]).lower()] = int(transacao[1])
+    
     #Ordenando o dicionário pelo produto de maior quantidade:
     mes = sorted(mes.items(), key=lambda transacao: transacao[1], reverse=True)
     if mes == []:
         mes.append(["Não houve nenhuma transação esse mês", 1])
     
     #Criando uma Dicionário com todas as transações do ANO e já juntando as que tiverem repetidas em uma só, somando as quantidades
+    estoque.execute("SELECT * FROM transações WHERE YEAR(data) = YEAR(CURRENT_DATE())")
     ano = {}
-    for transacao in tudo:
-        if int(transacao[7]) == datetime.datetime.today().year:
-            try:
-                ano[unidecode(transacao[0]).lower()] += int(transacao[1])
-            except:
-                ano[unidecode(transacao[0]).lower()] = int(transacao[1])
+    for transacao in estoque.fetchall():
+        try:
+            ano[unidecode(transacao[0]).lower()] += int(transacao[1])
+        except:
+            ano[unidecode(transacao[0]).lower()] = int(transacao[1])
+
     #Ordenando o dicionário pelo produto de maior quantidade:
     ano = sorted(ano.items(), key=lambda transacao: transacao[1], reverse=True)
     if ano == []:
         ano.append(["Não houve nenhuma transação esse ano", 1])
 
     return render_template("home.html", diaQuantidade = dia, mesQuantidade = mes, anoQuantidade = ano)
+
+@app.route('/inserir')
+def inserir():
+    return render_template("incluirProduto.html")
+
+@app.route('/estoque')
+def produtos():
+    estoque.execute("SELECT * FROM produtos")
+    data = estoque.fetchall()
+    return render_template('estoque.html', planilha_completa = data)
+
+@app.route('/transacoes')
+def transacoess():
+    estoque.execute("SELECT * FROM transações")
+    data = estoque.fetchall()
+    return render_template("transacoes.html", transacoes = reversed(data))
+
+@app.route("/sobre")
+def sobre():
+    return render_template("sobre.html")
+
+#Rotas do Back:
 
 #Roteamento para remover um produto ou uma transação
 @app.route("/delete", methods=["DELETE"])
@@ -111,12 +126,16 @@ def venda():
     produto = estoque.fetchone()
     quantidade = produto[0]
     preço = produto[1]
+
     #Atualiza a quantidade do produto com a subtração do valor que tem nele com a quantidade vendida
     estoque.execute("UPDATE produtos SET quantidade='{}' WHERE nome='{}'".format(quantidade - int(request.form.get("quantidade")), request.form.get("nome")))
+
     #Registrando nova transação
     estoque.execute("INSERT INTO transações (nome, quantidade, preço, data) VALUES ('{}', {}, {},  CURRENT_DATE)".format(request.form.get("nome"), request.form.get("quantidade"), round(preço * float(request.form.get("quantidade")), 1)))
+
     #Grava as alterações no banco de dados
     db.commit()
+
     #Verifica se o resultado da subtração ficou menor que o limite e retorna uma mensagem correspondente
     if quantidade - int(request.form.get("quantidade")) < limite:
         return render_template("respostaEstoque.html", retorno = "Operação Concluída, o total da venda foi R$ " + str(round(preço * int(request.form.get("quantidade")), 1)) + "! Este produto está abaixo do limite!")
@@ -160,11 +179,6 @@ def editar():
     ]
     return render_template('respostaEstoque.html', retorno = 'Item salvo com sucesso!')
 
-# Rotas para Inserir Produto
-@app.route('/inserir')
-def inserir():
-    return render_template("incluirProduto.html")
-
 # Rota de Captura das Informações para adicionar no banco de dados
 @app.route('/recebendo_dados', methods=['POST'])
 def add():
@@ -198,18 +212,6 @@ def add():
                     </script>
                 """
 
-@app.route('/estoque')
-def produtos():
-    estoque.execute("SELECT * FROM produtos")
-    data = estoque.fetchall()
-    return render_template('estoque.html', planilha_completa = data)
-
-@app.route('/transacoes')
-def transacoess():
-    estoque.execute("SELECT * FROM transações")
-    data = estoque.fetchall()
-    return render_template("transacoes.html", transacoes = reversed(data))
-
 @app.route("/pesquisa", methods=['POST'])
 def pesquisa():
     pesq = []
@@ -224,9 +226,5 @@ def pesquisa():
                     window.location = "/estoque"
                 </script>
             """
-            
-@app.route("/sobre")
-def sobre():
-    return render_template("sobre.html")
         
 app.run(debug=True, use_reloader=True)
