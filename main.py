@@ -1,7 +1,6 @@
 from flask import Flask, request, render_template
 from flaskext.mysql import MySQL
 from unidecode import unidecode
-import datetime
 import os
 
 #Aplicação:
