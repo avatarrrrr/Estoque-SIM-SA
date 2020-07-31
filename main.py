@@ -13,7 +13,7 @@ transacoes = conexao.open("transacoes").sheet1
 #Aplicação:
 #O app.config["UPLOAD_FOLDER"] define a pasta padrão onde as imagens mandadas no form devem serem salvas!
 app = Flask("Estoque-SIM-SA")
-app.config["UPLOAD_FOLDER"] = "C:\\Users\\tanko\\Projects\\Estoque-SIM-SA\\static"
+app.config["UPLOAD_FOLDER"] = "C:\\Users\\tanko\\Projects\\Estoque-SIM-SA\\static\\img"
 #Configuração do banco de dados mysql, troque a senha conforme a senha do user root no seu mysql server
 app.config["MYSQL_DATABASE_USER"] = "root"
 app.config["MYSQL_DATABASE_PASSWORD"] = "estoquesimsa"
@@ -94,6 +94,36 @@ def transacoess():
 def sobre():
     return render_template("sobre.html")
 
+#Pop up de venda
+@app.route('/popup', methods=['POST'])
+def popup():
+    #Procura pelo produto escolhido no banco de dados
+    estoque.execute("SELECT * FROM produtos WHERE id={}".format(request.form.get("item")))
+    produto = estoque.fetchone()
+    #Pega agora todos os produtos no banco de dados
+    estoque.execute("SELECT * FROM produtos")
+    #Retorna a página com os dados requisitados
+    return render_template('popup.html', planilha_completa = estoque.fetchall(), nome = produto[1], imagem = produto[6], quantidade = produto[2], preço = produto[3])
+
+#Pop-up de edição de planilha
+@app.route('/popupEdition', methods=['POST'])
+def popupEdition():
+    #Pesquisa o produto no banco de dados
+    estoque.execute("SELECT * FROM produtos WHERE id={}".format(request.form.get("id")))
+    produto = estoque.fetchone()
+    #Pega todos os produtos do banco de dados
+    estoque.execute("SELECT * FROM produtos")
+    #Separando string de inteiro do volume
+    string = ''
+    number = ''
+    for s in produto[4]:
+        if s.isdigit():
+            number += s
+        else:
+            string += s
+    #Retornando a página com os valores
+    return render_template('editar.html', planilha_completa = estoque.fetchall(), id = produto[0], nome = produto[1], quantidade = produto[2], preço = produto[3], volume = string, valor = number, corpo = produto[5], imagem = produto[6])
+
 #Rotas do Back:
 
 #Roteamento para remover um produto ou uma transação
@@ -106,18 +136,7 @@ def deleteProduto():
     #Retorna código de sucesso
     return "OK", 200
 
-#Roteamento para o pop up de venda de um produto
-@app.route('/popup', methods=['POST'])
-def popup():
-    #Procura pelo produto escolhido no banco de dados
-    estoque.execute("SELECT * FROM produtos WHERE id={}".format(request.form.get("item")))
-    produto = estoque.fetchone()
-    #Pega agora todos os produtos no banco de dados
-    estoque.execute("SELECT * FROM produtos")
-    #Retorna a página com os dados requisitados
-    return render_template('popup.html', planilha_completa = estoque.fetchall(), nome = produto[1], imagem = produto[6], quantidade = produto[2], preço = produto[3])
-
-# Roteamento para fazer uma venda, caso a quantidade do produto fique abaixo do limite, ele dispara um alerta
+#Roteamento para fazer uma venda, caso a quantidade do produto fique abaixo do limite, ele dispara um alerta
 limite = 5
 @app.route("/venda", methods=["POST"])
 def venda():
@@ -142,44 +161,7 @@ def venda():
     else:
         return render_template("respostaEstoque.html", retorno = "Operação Concluída, o total da venda foi R$ " + str(round(preço * int(request.form.get("quantidade")), 1)) + "!")
 
-#Pop-up de edição de planilha
-@app.route('/popupEdition', methods=['POST'])
-def popupEdition():
-    #Pesquisa o produto no banco de dados
-    estoque.execute("SELECT * FROM produtos WHERE nome='{}'".format(request.form.get("edit")))
-    produto = estoque.fetchone()
-    #Pega todos os produtos do banco de dados
-    estoque.execute("SELECT * FROM produtos")
-    #Separando string de inteiro do volume
-    string = ''
-    number = ''
-    for s in produto[3]:
-        if s.isdigit():
-            number += s
-        else:
-            string += s
-    #Retornando a página com os valores
-    return render_template('editar.html', planilha_completa = estoque.fetchall(), nome = produto[0], quantidade = produto[1], preço = produto[2], volume = string, valor = number, corpo = produto[4], imagem = produto[5])
-
-#Edição de produtos
-@app.route('/editar', methods=['POST'])
-def editar():
-    #Ver se o usário inseriu uma imagem, se sim, ele salva a imagem e o insere junto com os outros dados no banco de dados, se não, atualiza o banco de dados com os dados menos a imagem
-    if request.files['imagem'].filename != '':
-        request.files['imagem'].save(os.path.join(app.config['UPLOAD_FOLDER'], request.files['imagem'].filename))
-    else:
-        pass
-    conteudo = [
-        'nome',
-        'quantidade',
-        'preço',
-        'valor',
-        'área do corpo',
-        'imagem'
-    ]
-    return render_template('respostaEstoque.html', retorno = 'Item salvo com sucesso!')
-
-# Rota de Captura das Informações para adicionar no banco de dados
+#Inserção de produtos
 @app.route('/recebendo_dados', methods=['POST'])
 def add():
     #Procurando no banco de dados se já existe um produto com as mesma características
@@ -199,7 +181,7 @@ def add():
     #Caso contrário, insere uma nova linha no banco de dados com os dados da requisição:
     else:
         #Salva a imagem na pasta static
-        request.files["imagem"].save(os.path.join("C:\\Users\\tanko\\estoque-sim-sa\\Controle de estoque\\python\\static", request.files["imagem"].filename))
+        request.files["imagem"].save(os.path.join(app.config["UPLOAD_FOLDER"], request.files["imagem"].filename))
         #Faz o comando SQL
         estoque.execute("INSERT INTO produtos (nome, quantidade, valor, peso, finalidade, imagem) VALUES ('{}', {}, {}, '{}', '{}', '{}')".format(request.form.get("nome"), request.form.get("quantidade"), request.form.get("preço"), request.form.get("valor") + request.form.get("volume"), request.form.get("área do corpo"), request.files["imagem"].filename))
         #Grava as alterações no banco de dados
@@ -211,6 +193,20 @@ def add():
                         window.location = "/inserir"
                     </script>
                 """
+
+#Edição de produtos
+@app.route('/editar', methods=['POST'])
+def editar():
+    #Ver se o usário inseriu uma imagem, se sim, ele salva a imagem e o insere junto com os outros dados no banco de dados, se não, atualiza o banco de dados com os dados menos a imagem
+    if request.files['imagem'].filename != '':
+        request.files['imagem'].save(os.path.join(app.config['UPLOAD_FOLDER'], request.files['imagem'].filename))
+        estoque.execute("UPDATE produtos SET nome='{}', quantidade={}, valor={}, peso='{}', finalidade='{}', imagem='{}' WHERE id={}".format(request.form.get("nome"), request.form.get("quantidade"), request.form.get("preço"), request.form.get("valor") + request.form.get("volume"), request.form.get("área do corpo"), request.files['imagem'].filename, request.form.get("id")))
+        db.commit()
+    else:
+        estoque.execute("UPDATE produtos SET nome='{}', quantidade={}, valor={}, peso='{}', finalidade='{}' WHERE id={}".format(request.form.get("nome"), request.form.get("quantidade"), request.form.get("preço"), request.form.get("valor") + request.form.get("volume"), request.form.get("área do corpo"), request.form.get("id")))
+        db.commit()
+    return render_template('respostaEstoque.html', retorno = 'Item salvo com sucesso!')
+
 
 @app.route("/pesquisa", methods=['POST'])
 def pesquisa():

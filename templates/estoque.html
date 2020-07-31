@@ -74,7 +74,7 @@
       {% for produto in planilha_completa %}
         <ul id = "itemzão">
             <li>
-                <img id="imagem_lista" class="itens" src="{{url_for('static', filename= produto[6])}}">
+                <img id="imagem_lista" class="itens" src="{{url_for('static', filename='img/' + produto[6])}}">
             </li>
             <div id = "descrição">
             <li id = "titulo">{{produto[1]}}</li>
@@ -103,7 +103,7 @@
               }
             </script>
               <form action="/popupEdition" method="POST">
-                <input name="edit" type="hidden" value="{{produto[0]}}">
+                <input name="id" type="hidden" value="{{produto[0]}}">
                 <input id = "editar" type="image" src="{{url_for('static', filename= 'editar1.jpg')}}">
               </form>
 
