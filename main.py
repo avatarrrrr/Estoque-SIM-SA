@@ -1,14 +1,8 @@
 from flask import Flask, request, render_template
 from flaskext.mysql import MySQL
 from unidecode import unidecode
-import gspread
 import datetime
 import os
-
-#Conexão com a Planilha
-conexao = gspread.service_account()
-planilha = conexao.open("Nature Saboaria").sheet1
-transacoes = conexao.open("transacoes").sheet1
 
 #Aplicação:
 #O app.config["UPLOAD_FOLDER"] define a pasta padrão onde as imagens mandadas no form devem serem salvas!
@@ -210,9 +204,10 @@ def editar():
 
 @app.route("/pesquisa", methods=['POST'])
 def pesquisa():
+    estoque.execute("SELECT * FROM produtos")
     pesq = []
-    for produto in planilha.get_all_values():
-        if unidecode(request.form.get("produto")).lower().strip() in unidecode(produto[0]).lower().strip():
+    for produto in estoque.fetchall():
+        if unidecode(request.form.get("produto")).lower().strip() in unidecode(produto[1]).lower().strip():
             pesq.append(produto)
     if pesq != []:
         return render_template("estoque.html", planilha_completa = pesq)
