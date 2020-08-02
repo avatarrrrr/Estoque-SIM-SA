@@ -3,14 +3,16 @@
 Bem vindo ao projeto final do grupo 4 do processo trainee da TITAN! Abaixo algums passos para você conseguir rodar o projeto na sua máquina
 
 ## Bibliotecas e arquivos necessários
-Primeiramente vamos assumir que você já tem o Python e o gerenciador de pacotes pip lindamente instalados na sua máquina, vamos lá:
+Primeiramente vamos assumir que você já tem o MySQL Server, o Python e o gerenciador de pacotes pip lindamente instalados na sua máquina, vamos lá:
 
 * Instale o flask com _pip install Flask_
 
-* Instale o gspread com _pip install gspread_
+* Instale a extensão para mysql do flask com _pip install flask-mysql_
 
-sugerimos o uso de um ambiente isolado ao utilizar bibliotecas, o criado por nós está na pasta venv.
+(_Sugerimos fortemente que faça essas instalações em um abiente isolado com o venv_)
 
-Siga o seguinte [guia](https://gspread.readthedocs.io/en/latest/oauth2.html#for-bots-using-service-account) para a configuração do gspread, o arquivo de conexão ao servidor está no diretório root do projeto se chama _service_account.json_
+Instale o banco de dados que está dentro da pasta static no servidor mysql da sua máquina (você pode fazer com o workbench, ou com o terminal mesmo)
 
-Se você fez tudo certinho, consguirá rodar o projeto ao executar o arquivo _main.py_(ou _index.py_) na pasta python :D
+Altere o seu nome de usuário e a senha para acesso ao mysql server no ínicio do arquivo _main.py_ e altere o path da pasta img (está dentro da pasta static) para conforme a localização na sua máquina
+
+Se você fez tudo certinho, consguirá rodar o projeto ao executar o arquivo _main.py_ :D

@@ -1,3 +1,4 @@
 *.pyc
-back_*.py
 .vscode
+static/img/*
+!static/img/.gitkeep
