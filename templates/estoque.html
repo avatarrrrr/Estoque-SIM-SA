@@ -1,123 +1,36 @@
 {% extends "base1.html" %}
+
 {% block conteudo %}
-  <style>
-    /*listagem styles*/
-    #listagem {
-      display: flex;
-      flex-wrap: wrap;
-      list-style-type: none;
-      justify-content: center;
-      align-content: center;
-      }
-      
-      .itens{
-          padding: 5px 10px;
-          font-size: 0.8em;
-          margin-left: 1em;
-      }
-      #itemzão{
-          position:relative;
-          top: 0;
-          display:flex;
-          list-style-type: none;
-          border:solid 3px;
-          border-radius: 1em;
-          margin: 5px;
-          flex: 0 0 500px;
-      }  
-
-    #imagem_lista {
-      width:200px;
-      height:200px;
-      border-radius: 40%;
-      margin: 0;
-      position:relative;
-      right: 2em;
-    }
-
-    #lixeira{ 
-      left: 80px;
-      
-      width: 30px;
-      height: 30px;
-      position: absolute;
-      bottom: 10px;
-      left: 350px;
-    }
-    #editar{
-      width: 40px;
-      height: 30px;
-      position: absolute;
-      left: 400px;
-      bottom: 10px;
-    }
-    #compra{
-      left: 120px;
-      width: 30px;
-      height:30px;
-      position: absolute;
-      bottom: 10px;
-      left: 450px;
-    }
-    #descrição {
-      font-weight: bold;
-    }
-    #titulo {
-      font-weight: bolder;
-      font-size: 110%;
-      padding: 5px 10px;
-
-    }
-  </style>
-
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/estoque.css')}}">
+  <script defer type="text/javascript" src="{{url_for('static', filename='js/estoque.js')}}"></script>
   <div id = "listagem">
-      {% for produto in planilha_completa %}
-        <ul id = "itemzão">
-            <li>
-                <img id="imagem_lista" class="itens" src="{{url_for('static', filename='img/' + produto[6])}}">
-            </li>
-            <div id = "descrição">
-            <li id = "titulo">{{produto[1]}}</li>
-            <li class = "itens">Quantidade: {{produto[2]}}</li>
-            <li class = "itens">R$: {{produto[3]}}</li>
-            <li class = "itens">Volume: {{produto[4]}}</li>
-            <li class = "itens">Finalidade: {{produto[5]}}</li>
-            <input id = "lixeira" type="image" src="{{url_for('static', filename= 'lixeira3.jpg')}}" onclick="erase()">
-            <script defer>
-              function erase() {
-                if(confirm("Essa treta é realmente necessária?")){
-                  var request
-                  if(XMLHttpRequest){
-                    request = new XMLHttpRequest()
-                    request.onreadystatechange = function(){
-                      if(request.readyState === 4){
-                        if(request.status === 200){
-                          location = "/estoque"
-                        }
-                      }
-                    }
-                    request.open("DELETE", "/delete", true)
-                    request.send("{{produto[0]}}")
-                  }
-                }
-              }
-            </script>
-              <form action="/popupEdition" method="POST">
-                <input name="id" type="hidden" value="{{produto[0]}}">
-                <input id = "editar" type="image" src="{{url_for('static', filename= 'editar1.jpg')}}">
-              </form>
-
-              <form action="/popup" method="POST">
-                <input name="item" type="hidden" value="{{produto[0]}}">
-                <input id="compra" type="image" src="{{url_for('static', filename= 'compra.png')}}">
-              </form>
-            </div>
-        </ul>
-      {% endfor %}
-    </div>
+    {% for produto in planilha_completa %}
+      <ul id = "itemzão">
+        <li>
+            <img id="imagem_lista" class="itens" src="{{url_for('static', filename='img/' + produto[6])}}">
+        </li>
+        <div id = "descrição">
+          <li id = "titulo">{{produto[1]}}</li>
+          <li class = "itens">Quantidade: {{produto[2]}}</li>
+          <li class = "itens">R$: {{produto[3]}}</li>
+          <li class = "itens">Volume: {{produto[4]}}</li>
+          <li class = "itens">Finalidade: {{produto[5]}}</li>
+          <input id = "lixeira" type="image" src="{{url_for('static', filename= 'lixeira3.jpg')}}" onclick="erase()">
+          <form action="/popupEdition" method="POST">
+            <input name="id" type="hidden" value="{{produto[0]}}">
+            <input id = "editar" type="image" src="{{url_for('static', filename= 'editar1.jpg')}}">
+          </form>
+          <form action="/popup" method="POST">
+            <input name="item" type="hidden" value="{{produto[0]}}">
+            <input id="compra" type="image" src="{{url_for('static', filename= 'compra.png')}}">
+          </form>
+        </div>
+      </ul>
+    {% endfor %}
+  </div>
     
-    {% block popup %} <!-- Aqui ficará o popup --> {% endblock %}
-    {% block editar %} <!-- Aqui será o edição de itens --> {% endblock %}
+  {% block popup %} <!-- Aqui ficará o popup --> {% endblock %}
+  {% block editar %} <!-- Aqui será o edição de itens --> {% endblock %}
 
 {% endblock %}
 
